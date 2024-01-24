@@ -28,7 +28,8 @@ import {
   BiStar,
   BiPhone,
   BiNews,
-  BiWorld
+  BiWorld,
+  BiMessage
 } from 'react-icons/bi';
 import { useLocalStorage } from 'usehooks-ts';
 import Logo from '@assets/logo/logo.png';
@@ -67,32 +68,39 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       url: '/home'
     },
     {
-      id: 'element-10',
+      id: 'element-102',
       title: 'Haqqımızda',
       isCollapsable: false,
       icon: BiBookContent,
       url: '/about'
     },
     {
-      id: 'element-10',
+      id: 'element-103',
       title: 'Əlaqə',
       isCollapsable: false,
       icon: BiPhone,
       url: '/contact'
     },
     {
-      id: 'element-10',
+      id: 'element-104',
       title: 'Bloq',
       isCollapsable: false,
       icon: BiNews,
       url: '/blog'
     },
     {
-      id: 'element-10',
+      id: 'element-105',
       title: 'Ölkələr',
       isCollapsable: false,
       icon: BiWorld,
       url: '/country'
+    },
+    {
+      id: 'element-106',
+      title: 'Müraciətlər',
+      isCollapsable: false,
+      icon: BiMessage,
+      url: '/appeal'
     }
     // {
     //   id: 'element-1',

@@ -57,9 +57,9 @@ import { convertFormDataToQueryParams } from '@/utils/functions/functions';
 import Can from '@/components/permission/Can';
 import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { AxiosError } from 'axios';
-import CategoryEditModal from '../modals/category-edit-modal';
 import { IBlogFilter, IBlogItem, IBlogListResponse } from '../models';
 import BlogAddModal from '../modals/blog-add-modal';
+import BlogEditModal from '../modals/blog-edit-modal';
 
 function Blog() {
   const [page, setCurrentPage] = useState<number>(1);
@@ -448,7 +448,7 @@ function Blog() {
         onClose={editModal.onClose}
       >
         <ModalOverlay />
-        <CategoryEditModal
+        <BlogEditModal
           selectedItem={selectedItem}
           setRefreshComponent={setRefreshComponent}
           onClose={editModal.onClose}

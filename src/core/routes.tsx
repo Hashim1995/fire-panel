@@ -19,6 +19,7 @@ import SettingsPage from '@/views/settings/pages';
 import AboutPage from '@/views/about/pages';
 import BlogPage from '@/views/blog/pages';
 import ContactPage from '@/views/contact/pages';
+import AppealPage from '@/views/appeal/pages';
 import CountryPage from '@/views/country/pages';
 import Login from './login/login';
 import ChichkenLoader from './suspense/chicken-loader';
@@ -204,6 +205,17 @@ const routes = [
           <Navigate to="/no-permission" />
         ),
         permission: ['country']
+      },
+      {
+        path: 'appeal',
+        element: checkPermission(['appealRoute']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <AppealPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['appeal']
       },
       {
         path: 'web/eleven-ingredient',

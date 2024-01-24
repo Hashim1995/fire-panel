@@ -3,7 +3,6 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 import { IGlobalResponse } from '@/models/common';
-import { IContactUpsert } from '@/views/contact/models';
 import { ICountryListResponse } from '@/views/country/models';
 import { ErrorCallBack, HttpUtil, IHTTPSParams, } from '../config';
 
@@ -50,9 +49,11 @@ export class CountryServices {
         return res;
     }
 
-
-    public async upsert(body: IContactUpsert, onError?: ErrorCallBack): Promise<IGlobalResponse> {
-        const res = await HttpUtil.post('/admin/settings/contact-details', body, onError);
+    public async update(body: FormData, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/country', body, onError);
         return res;
     }
+
+
+
 }

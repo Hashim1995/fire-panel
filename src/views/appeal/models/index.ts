@@ -1,26 +1,23 @@
 import { IGlobalResponse } from "@/models/common"
 
-export interface ICountryItem {
-    id: number,
-    title: string,
+export interface IAppealItem {
     createdAt: string,
-    createdBy: string,
-    updatedAt: string | null,
     description: string,
-    language: any,
-    isActive: true,
-    coverUrl: any,
-    flagUrl: any,
+    email: string,
+    fullname: string,
+    id: 1,
+    phoneNumber: string,
+    title: string,
 }
 
-export interface ICountryListResponse extends IGlobalResponse {
+export interface IAppealListResponse extends IGlobalResponse {
     data: {
-        data: ICountryItem[]
+        data: IAppealItem[]
         totalDataCount: number
     }
 }
 
-export interface ICountryCreate {
+export interface IAppealCreate {
     Title: string,
     Description: string,
     CoverPhoto: any,
@@ -28,7 +25,7 @@ export interface ICountryCreate {
     Language: any,
 }
 
-export interface ICountryUpdate {
+export interface IAppealUpdate {
     Title: string,
     Description: string,
     Id: string,
@@ -38,10 +35,11 @@ export interface ICountryUpdate {
 }
 
 
-export interface ICountryFilter {
-    title: string,
-    Language: any
-    status: any
+export interface IAppealFilter {
+    email: string,
+    phoneNumber: string,
+    title: string
+    author: string
 }
 
 // export interface IBlogSelectedItem {

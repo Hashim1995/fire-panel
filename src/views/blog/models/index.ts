@@ -1,11 +1,15 @@
 import { IGlobalResponse } from "@/models/common"
 
 export interface IBlogItem {
+    tags: string[],
     id: number,
     title: string,
     author: string,
     createdAt: string,
     updatedAt: string | Date,
+    imageUrl: any,
+    description: string,
+    dateOfPublish: any,
     language: number,
     isActive: boolean
 }
@@ -25,7 +29,15 @@ export interface IBlogCreate {
     Language: any,
     Tags: string,
 }
-
+export interface IBlogUpdate {
+    Title: string,
+    id: number,
+    Description: string,
+    Photo: any,
+    DateOfPublish: any,
+    Language: any,
+    Tags: string,
+}
 export interface IBlogFilter {
     title: string,
     Language: any

@@ -3,28 +3,28 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 import { IGlobalResponse } from '@/models/common';
-import { IBlogListResponse } from '@/views/blog/models';
+import { IAppealListResponse } from '@/views/appeal/models';
 import { IContactUpsert } from '@/views/contact/models';
 import { ErrorCallBack, HttpUtil, IHTTPSParams, } from '../config';
 
 
-export class BlogServices {
-    private static instance: BlogServices | null;
+export class AppealServices {
+    private static instance: AppealServices | null;
 
     private constructor() { }
 
-    public static getInstance(): BlogServices {
+    public static getInstance(): AppealServices {
         if (!this.instance) {
-            BlogServices.instance = new BlogServices();
+            AppealServices.instance = new AppealServices();
         }
-        return BlogServices.instance!;
+        return AppealServices.instance!;
     }
 
     public async get(
         params: IHTTPSParams[],
         onError?: ErrorCallBack
-    ): Promise<IBlogListResponse> {
-        const res = await HttpUtil.get('/admin/blog', params, false, onError);
+    ): Promise<IAppealListResponse> {
+        const res = await HttpUtil.get('/admin/appeal', params, false, onError);
         return res;
     }
 

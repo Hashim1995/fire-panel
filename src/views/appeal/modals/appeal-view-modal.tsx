@@ -32,18 +32,18 @@ function AppealViewModal({ onClose, selectedId }: IAppealViewModal) {
             <Stack p={3} bg="gray.100" spacing={2}>
               <Text fontSize="sm">AD: </Text>
               <Text fontSize="sm">BAŞLIQ: </Text>
-              <Text fontSize="sm">AÇIQLAMA: </Text>
               <Text fontSize="sm">EMAİL: </Text>
               <Text fontSize="sm">TELEFON: </Text>
               <Text fontSize="sm">TARIX: </Text>
+              <Text fontSize="sm">AÇIQLAMA: </Text>
             </Stack>
             <Stack ml={8} p={3} spacing={2}>
               <Text fontSize="sm">{selectedId?.fullname ?? noText}</Text>
               <Text fontSize="sm"> {selectedId?.title ?? noText}</Text>
-              <Text fontSize="sm"> {selectedId?.description ?? noText}</Text>
               <Text fontSize="sm"> {selectedId?.email ?? noText}</Text>
               <Text fontSize="sm"> {selectedId?.phoneNumber ?? noText}</Text>
               <Text fontSize="sm"> {selectedId?.createdAt ?? noText}</Text>
+              <Text fontSize="sm"> {selectedId?.description ?? noText}</Text>
             </Stack>
           </Flex>
         ) : (

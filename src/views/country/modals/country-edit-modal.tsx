@@ -281,7 +281,7 @@ function CountryEditModal({
         <Button
           form="category-add-modal-submit-btn"
           type="submit"
-          isDisabled={!isDirty || !isValid}
+          isDisabled={Object.keys(errors).length > 0}
           isLoading={isSubmitting}
         >
           {editBtn}

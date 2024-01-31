@@ -12,7 +12,6 @@ import UsersPage from '@/views/users/pages';
 import ProductPage from '@/views/product/pages';
 import Category from '@/views/blog/components/blog';
 import PopularPages from '@/views/popular/pages';
-import MessagesPages from '@/views/messages/pages';
 import CarrerPage from '@/views/career/pages';
 import ApplicationsPage from '@/views/applications/pages';
 import SettingsPage from '@/views/settings/pages';
@@ -20,6 +19,7 @@ import AboutPage from '@/views/about/pages';
 import BlogPage from '@/views/blog/pages';
 import ContactPage from '@/views/contact/pages';
 import AppealPage from '@/views/appeal/pages';
+import VisaPage from '@/views/visa/pages';
 import CountryPage from '@/views/country/pages';
 import Login from './login/login';
 import ChichkenLoader from './suspense/chicken-loader';
@@ -95,17 +95,7 @@ const routes = [
         ),
         permission: ['usersRoute']
       },
-      {
-        path: 'messages',
-        element: checkPermission(['messagesRoute']) ? (
-          <Suspense fallback={<ChichkenLoader />}>
-            <MessagesPages />
-          </Suspense>
-        ) : (
-          <Navigate to="/no-permission" />
-        ),
-        permission: ['messagesRoute']
-      },
+
       {
         path: 'career',
         element: checkPermission(['careerRoute']) ? (
@@ -217,6 +207,18 @@ const routes = [
         ),
         permission: ['appeal']
       },
+      {
+        path: 'visa',
+        element: checkPermission(['visaRoute']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <VisaPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['visa']
+      },
+
       {
         path: 'web/eleven-ingredient',
         element: checkPermission(['ingridientsRoute']) ? (

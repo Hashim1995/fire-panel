@@ -122,7 +122,7 @@ function Appeal() {
 
               <BreadcrumbSeparator />
               <BreadcrumbLink isCurrentPage href="/country">
-                Müraciətlər
+                Mesajlar
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -202,7 +202,7 @@ function Appeal() {
                   render={({ field: { onChange, value } }) => (
                     <FormControl id="author">
                       <FormLabel fontSize="sm" mb={1}>
-                        Müraciətçi
+                        Ad
                       </FormLabel>
                       <Input
                         onChange={onChange}

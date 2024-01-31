@@ -29,7 +29,8 @@ import {
   BiPhone,
   BiNews,
   BiWorld,
-  BiMessage
+  BiMessage,
+  BiGitPullRequest
 } from 'react-icons/bi';
 import { useLocalStorage } from 'usehooks-ts';
 import Logo from '@assets/logo/logo.png';
@@ -97,10 +98,17 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
     },
     {
       id: 'element-106',
-      title: 'Müraciətlər',
+      title: 'Mesajlar',
       isCollapsable: false,
       icon: BiMessage,
       url: '/appeal'
+    },
+    {
+      id: 'element-106',
+      title: 'Müraciətlər',
+      isCollapsable: false,
+      icon: BiGitPullRequest,
+      url: '/visa'
     }
     // {
     //   id: 'element-1',
@@ -155,7 +163,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
     // },
     // {
     //   id: 'element-8',
-    //   title: 'Müraciətlər',
+    //   title: 'Mesajlar',
     //   isCollapsable: false,
     //   icon: BiBookContent,
     //   url: '/applications'

@@ -90,7 +90,7 @@ function Applications() {
           toast({
             title: 'Xəta baş verdi',
             description:
-              'Müraciətlər məlumatlarının gətirilməsi zamanı xəta baş verdi',
+              'Mesajlar məlumatlarının gətirilməsi zamanı xəta baş verdi',
             status: 'error',
             position: 'top-right',
             duration: 3000,
@@ -152,8 +152,7 @@ function Applications() {
         } else {
           toast({
             title: 'Xəta baş verdi',
-            description:
-              'Müraciətlər sənədinin gətirilməsi zamanı xəta baş verdi',
+            description: 'Mesajlar sənədinin gətirilməsi zamanı xəta baş verdi',
             status: 'error',
             position: 'top-right',
             duration: 3000,
@@ -187,7 +186,7 @@ function Applications() {
               <BreadcrumbSeparator />
 
               <BreadcrumbLink isCurrentPage as={NavLink} to="/applications">
-                Müraciətlər
+                Mesajlar
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>

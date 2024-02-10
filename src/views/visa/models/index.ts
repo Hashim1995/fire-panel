@@ -101,9 +101,9 @@ export interface ICountryUpdate {
 
 
 export interface IVisaFilter {
-    title: string,
-    Language: any
-    status: any
+    applicantName: string,
+    visaTypes: any
+    visaStatuses: any
 }
 
 

@@ -76,7 +76,7 @@ import {
 } from '../models';
 
 import VisaViewModal from '../modals/visa-view-modal';
-import { getEnumLabel, VisaLevels, VisaStatuses } from '../options';
+import { getEnumLabel, VisaLevels, VisaStatuses, VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
@@ -129,16 +129,16 @@ function Visa() {
   const { handleSubmit, setValue, control } = useForm<IVisaFilter>({
     mode: 'onChange',
     defaultValues: {
-      status: null,
-      Language: null,
-      title: ''
+      visaStatuses: null,
+      visaTypes: null,
+      applicantName: ''
     }
   });
 
   const resetForm = (): void => {
-    setValue('status', null);
-    setValue('Language', null);
-    setValue('title', '');
+    setValue('visaStatuses', null);
+    setValue('visaTypes', null);
+    setValue('applicantName', '');
 
     setCurrentPage(1);
     setQueryParams([]);
@@ -353,44 +353,20 @@ function Visa() {
               <GridItem width={'80%'}>
                 <Controller
                   control={control}
-                  name="Language"
+                  name="visaTypes"
                   rules={{ required: false }}
                   render={({ field: { onChange, value } }) => (
-                    <FormControl id="Language">
+                    <FormControl id="visaTypes">
                       <FormLabel fontSize="sm" mb={1}>
-                        Dil
+                        Viza növü
                       </FormLabel>
                       <Select
                         onChange={onChange}
                         value={value}
-                        options={languageOptions}
-                        placeholder={
-                          <div className="custom-select-placeholder">Dil</div>
-                        }
-                        isClearable
-                      />
-                    </FormControl>
-                  )}
-                />
-              </GridItem>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="status"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="status">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Status
-                      </FormLabel>
-                      <Select
-                        className="chakra-select"
-                        onChange={onChange}
-                        value={value}
-                        options={statusOptions}
+                        options={VisaTypes}
                         placeholder={
                           <div className="custom-select-placeholder">
-                            Status
+                            Viza növü
                           </div>
                         }
                         isClearable
@@ -402,17 +378,43 @@ function Visa() {
               <GridItem width={'80%'}>
                 <Controller
                   control={control}
-                  name="title"
+                  name="visaStatuses"
                   rules={{ required: false }}
                   render={({ field: { onChange, value } }) => (
-                    <FormControl id="title">
+                    <FormControl id="visaStatuses">
                       <FormLabel fontSize="sm" mb={1}>
-                        Başlıq
+                        Viza statusu
+                      </FormLabel>
+                      <Select
+                        className="chakra-select"
+                        onChange={onChange}
+                        value={value}
+                        options={VisaStatuses}
+                        placeholder={
+                          <div className="custom-select-placeholder">
+                            Viza statusu
+                          </div>
+                        }
+                        isClearable
+                      />
+                    </FormControl>
+                  )}
+                />
+              </GridItem>
+              <GridItem width={'80%'}>
+                <Controller
+                  control={control}
+                  name="applicantName"
+                  rules={{ required: false }}
+                  render={({ field: { onChange, value } }) => (
+                    <FormControl id="applicantName">
+                      <FormLabel fontSize="sm" mb={1}>
+                        Müraciətçi
                       </FormLabel>
                       <Input
                         onChange={onChange}
                         value={value}
-                        placeholder={'Başlıq'}
+                        placeholder={'Müraciətçi'}
                       />
                     </FormControl>
                   )}

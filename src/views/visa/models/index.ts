@@ -47,7 +47,11 @@ export interface IVisaApplicant {
     otherCountryResidenceInformation: string;
     representative?: IRepresentative;
     europeanFamilyMember: IEuropeanFamilyMember;
-    visaDocuments?: any; // or specify a more detailed type if structure is known
+    visaDocuments?: {
+        id: number,
+        uri: string,
+        documentType: number
+    }[];
 }
 
 export interface IVisaApplicationItem {

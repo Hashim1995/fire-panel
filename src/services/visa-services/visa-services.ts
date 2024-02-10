@@ -40,7 +40,7 @@ export class VisaServices {
     }
 
     public async deleteItem(id: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
-        const res = await HttpUtil.delete(`/admin/country/${id}`, null, onError);
+        const res = await HttpUtil.delete(`/admin/visa/required-documents/delete/${id}`, null, onError);
         return res;
     }
 
@@ -49,10 +49,22 @@ export class VisaServices {
         return res;
     }
 
+    public async download(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.post('/admin/visa/required-documents/download', body, onError);
+        return res;
+    }
+
     public async update(body: FormData, onError?: ErrorCallBack): Promise<IGlobalResponse> {
         const res = await HttpUtil.put('/admin/country', body, onError);
         return res;
     }
+
+    public async confirm(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/required-documents/confirm', body, onError);
+        return res;
+    }
+
+
 
     public async takeDocument(onError?: ErrorCallBack): Promise<IGlobalResponse> {
         const res = await HttpUtil.put('/admin/visa/appointment/take', null, onError);

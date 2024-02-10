@@ -40,7 +40,16 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Input
+  Input,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverCloseButton,
+  PopoverArrow,
+  PopoverFooter,
+  ButtonGroup,
+  PopoverHeader,
+  PopoverBody
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -59,6 +68,7 @@ import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { CountryServices } from '@/services/country-services/country-services';
 import { AxiosError } from 'axios';
 import { VisaServices } from '@/services/visa-services/visa-services';
+import ApproveModal from '@/components/display/approve-modal/approve-modal';
 import {
   IVisaApplicationItem,
   IVisaApplicationListResponse,
@@ -68,6 +78,7 @@ import {
 import VisaViewModal from '../modals/visa-view-modal';
 import { getEnumLabel, VisaLevels, VisaStatuses } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
+import VisaReviewModal from '../modals/visa-review-modal';
 
 function Visa() {
   const [page, setCurrentPage] = useState<number>(1);
@@ -83,10 +94,14 @@ function Visa() {
   const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
+  const [approveModalButtonLoading, setApproveModalButtonLoading] =
+    useState<boolean>(false);
   const editModal = useDisclosure();
   const askModal = useDisclosure();
+  const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
+  const approveModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaList = async () => {
@@ -181,6 +196,53 @@ function Visa() {
       setRefreshComponent((prev: boolean) => !prev);
     } catch (error: unknown) {
       setDeleteModalButtonLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
+    }
+  };
+
+  const approveItem = async () => {
+    setApproveModalButtonLoading(true);
+    try {
+      const res = await VisaServices.getInstance().confirm({
+        appointmentId: selectedItem?.id
+      });
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+      }
+
+      setApproveModalButtonLoading(false);
+      deleteModal.onClose();
+      setRefreshComponent((prev: boolean) => !prev);
+    } catch (error: unknown) {
+      setApproveModalButtonLoading(false);
       if (error instanceof AxiosError) {
         if (error?.response?.data?.messages?.length) {
           error.response.data.messages?.map((z: string) =>
@@ -431,10 +493,26 @@ function Visa() {
                                 <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
+                                    reviewModal.onOpen();
+                                  }}
+                                >
+                                  Sənədlərə bax və geri dönüş et
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
                                     viewModal.onOpen();
                                   }}
                                 >
-                                  Detallı baxış
+                                  Ümumumi məlumata baxış
+                                </MenuItem>
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    approveModal.onOpen();
+                                  }}
+                                >
+                                  Təsdiqlə
                                 </MenuItem>
                                 <MenuItem
                                   onClick={() => {
@@ -493,7 +571,21 @@ function Visa() {
           </Stack>
         )}
       </Box>
-
+      <Modal
+        scrollBehavior="inside"
+        isOpen={reviewModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={reviewModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaReviewModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={reviewModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
       <Modal
         scrollBehavior="inside"
         isOpen={askModal.isOpen}
@@ -532,6 +624,22 @@ function Visa() {
           deleteModalButtonLoading={deleteModalButtonLoading}
           event={deleteItem}
           onClose={deleteModal.onClose}
+        />
+      </Modal>
+
+      <Modal
+        scrollBehavior="inside"
+        isOpen={approveModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={approveModal.onClose}
+      >
+        <ModalOverlay />
+        <ApproveModal
+          approveModalButtonLoading={approveModalButtonLoading}
+          event={approveItem}
+          onClose={approveModal.onClose}
         />
       </Modal>
     </>

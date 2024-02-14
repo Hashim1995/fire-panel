@@ -39,8 +39,8 @@ export class VisaServices {
         return res;
     }
 
-    public async deleteItem(id: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
-        const res = await HttpUtil.delete(`/admin/visa/required-documents/delete/${id}`, null, onError);
+    public async cancelApply(visaAppointmendId: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put(`/admin/visa/cancel/${visaAppointmendId}`, null, onError);
         return res;
     }
 
@@ -49,8 +49,13 @@ export class VisaServices {
         return res;
     }
 
-    public async download(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
-        const res = await HttpUtil.post('/admin/visa/required-documents/download', body, onError);
+    public async reviewDocumentS(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/required-documents/return', body, onError);
+        return res;
+    }
+
+    public async download(url: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.get(`/admin/visa/required-documents/download/${url}`, null, false, onError);
         return res;
     }
 

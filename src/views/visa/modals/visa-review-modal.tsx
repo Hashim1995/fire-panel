@@ -84,7 +84,7 @@ function VisaReviewModal({
         selectedId?.visaApplicants.map((applicant: any) => ({
           id: applicant.id,
           documents: applicant.visaDocuments.reduce((acc: any, doc: any) => {
-            acc[doc.id] = '1';
+            acc[doc.id] = { status: '1' };
             return acc;
           }, {})
         })) ?? []
@@ -96,33 +96,32 @@ function VisaReviewModal({
   });
   const toast = useToast();
 
-  const createPayload = (formData: any) => {
-    const requiredDocuments = formData?.applicants.map((applicant: any) => {
-      const documentTypes = applicant.documents
-        .filter((document: any) => document.status === 'yes')
-        .map((document: any) => document.type);
-
-      return {
-        visaApplicantId: applicant.id,
-        documentTypes
-      };
-    });
-    const meetingDates = formData?.applicants.map((applicant: any) => ({
-      visaApplicantId: applicant.id,
-      meetingDate: applicant.date
+  function transformDocuments(
+    documents: Record<
+      string,
+      {
+        status: string;
+      }
+    >
+  ) {
+    return Object.entries(documents).map(([documentId, { status }]) => ({
+      documentId: parseInt(documentId),
+      isConfirmed: status !== '2'
     }));
-
-    return {
-      requiredDocuments,
-      meetingDates
-    };
-  };
-
+  }
   const onSubmit: SubmitHandler<any> = async (data: any): Promise<void> => {
-    const payload = createPayload(data);
+    const payload = {
+      documents: data.applicants.flatMap((applicant: any) =>
+        transformDocuments(applicant.documents)
+      ),
+      visaAppointmentId: selectedId?.id,
+      note: data.note
+    };
+
+    console.log(payload, 'akif');
 
     try {
-      const res = await VisaServices.getInstance().askDocument(payload);
+      const res = await VisaServices.getInstance().reviewDocumentS(payload);
       if (res.succeeded) {
         toast({
           title: 'Əməliyyat uğurla icra olundu',
@@ -163,9 +162,7 @@ function VisaReviewModal({
 
   const downloadFile = async (url: string) => {
     try {
-      const res = await VisaServices.getInstance().download({
-        documentUri: url
-      });
+      const res = await VisaServices.getInstance().download(url);
       if (res.succeeded) {
         console.log(res);
       }

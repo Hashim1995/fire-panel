@@ -178,7 +178,7 @@ function Visa() {
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
     try {
-      const res = await CountryServices.getInstance().deleteItem(
+      const res = await VisaServices.getInstance().cancelApply(
         selectedItem?.id || 0
       );
       if (res.succeeded) {
@@ -484,22 +484,26 @@ function Visa() {
                                 variant="outline"
                               />
                               <MenuList>
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    askModal.onOpen();
-                                  }}
-                                >
-                                  Sənəd tələb et
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    reviewModal.onOpen();
-                                  }}
-                                >
-                                  Sənədlərə bax və geri dönüş et
-                                </MenuItem>
+                                {z?.visaLevel === 2 && (
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      askModal.onOpen();
+                                    }}
+                                  >
+                                    Sənəd tələb et
+                                  </MenuItem>
+                                )}
+                                {z?.visaLevel === 4 && (
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      reviewModal.onOpen();
+                                    }}
+                                  >
+                                    Sənədlərə bax və geri dönüş et
+                                  </MenuItem>
+                                )}
                                 <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -522,7 +526,7 @@ function Visa() {
                                     deleteModal.onOpen();
                                   }}
                                 >
-                                  Sil
+                                  Ləğv et
                                 </MenuItem>
                               </MenuList>
                             </Menu>
@@ -625,6 +629,8 @@ function Visa() {
         <DeleteModal
           deleteModalButtonLoading={deleteModalButtonLoading}
           event={deleteItem}
+          header="Müraciət ləğv ediləcək, davam etmək istədiyinizə əminsinizmi?"
+          eventText="Ləğv et"
           onClose={deleteModal.onClose}
         />
       </Modal>

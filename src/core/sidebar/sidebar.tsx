@@ -30,7 +30,8 @@ import {
   BiNews,
   BiWorld,
   BiMessage,
-  BiGitPullRequest
+  BiGitPullRequest,
+  BiCog
 } from 'react-icons/bi';
 import { useLocalStorage } from 'usehooks-ts';
 import Logo from '@assets/logo/logo.png';
@@ -96,6 +97,14 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiNews,
       url: '/blog',
+      canShow: 'Admin'
+    },
+    {
+      id: 'element-104',
+      title: 'Tənzimləmə',
+      isCollapsable: false,
+      icon: BiCog,
+      url: '/settings',
       canShow: 'Admin'
     },
     {

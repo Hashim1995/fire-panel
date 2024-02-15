@@ -64,7 +64,7 @@ export class VisaServices {
     }
 
     public async download(url: any, onError?: ErrorCallBack): Promise<any> {
-        const res = await HttpUtil.get(`/admin/visa/required-documents/download/${url}`, null, false, onError);
+        const res = await HttpUtil.get(`/admin/visa/required-documents/download/${url}`, null, true, onError);
         return res;
     }
 

@@ -4,16 +4,38 @@
 /* eslint-disable class-methods-use-this */
 import { IGlobalResponse } from '@/models/common';
 import { ILanguageItem } from '@/models/settings';
-import { ErrorCallBack, HttpUtil, IHTTPSParams } from '../config';
+import { ErrorCallBack, HttpUtil } from '../config';
 
 export interface IGetLanguagesResponse extends IGlobalResponse {
   datas: ILanguageItem[];
 }
 
+export interface IChangePrice {
+  complexAmount: number,
+  simpleAmount: number,
+}
+
+export interface IGetCurrentPrice extends IGlobalResponse {
+  data:
+  [
+    {
+      id: number,
+      paymentType: number,
+      amount: number
+    },
+    {
+      id: 2,
+      paymentType: number,
+      amount: number
+    }
+  ]
+
+}
+
 export class SettingsService {
   private static instance: SettingsService | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): SettingsService {
     if (!this.instance) {
@@ -22,19 +44,14 @@ export class SettingsService {
     return SettingsService.instance!;
   }
 
-  public async getLanguages(
-    params?: IHTTPSParams[],
-    onError?: ErrorCallBack
-  ): Promise<IGetLanguagesResponse> {
-    const res = await HttpUtil.get('/language', params || null, false, onError);
+  public async getCurrentPrices(onError?: ErrorCallBack): Promise<IGetCurrentPrice> {
+    const res = await HttpUtil.get(`/admin/settings/payment-type`, null, false, onError);
     return res;
   }
 
-  public async changeLanguageItemStatus(
-    id: number,
-    onError?: ErrorCallBack
-  ): Promise<IGlobalResponse> {
-    const res = await HttpUtil.put(`/language/activation/${id}`, null, onError);
+  public async changePrice(body: IChangePrice, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+    const res = await HttpUtil.put('/admin/settings/payment-type', body, onError);
     return res;
   }
+
 }

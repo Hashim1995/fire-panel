@@ -40,6 +40,8 @@ import { IconType } from 'react-icons/lib';
 import { MdFastfood } from 'react-icons/md';
 import { useState } from 'react';
 import { IoBriefcaseOutline } from 'react-icons/io5';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 import SidebarMenuItem from './sidebar-item/sidebar-item';
 
 interface SidebarProps extends BoxProps {
@@ -57,223 +59,84 @@ export interface ISidebarMenuElements {
   isCollapsable?: boolean;
   modules?: ISidebarMenuElements[];
   isChild?: boolean;
+  canShow: string;
 }
 
 function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
+  const { role } = useSelector((state: RootState) => state?.user?.user);
+
   const sidebarMenuElements = [
     {
       id: 'element-0',
       title: 'Ana səhifə',
       isCollapsable: false,
       icon: BiHomeAlt,
-      url: '/home'
+      url: '/home',
+      canShow: 'all'
     },
     {
       id: 'element-102',
       title: 'Haqqımızda',
       isCollapsable: false,
       icon: BiBookContent,
-      url: '/about'
+      url: '/about',
+      canShow: 'Admin'
     },
     {
       id: 'element-103',
       title: 'Əlaqə',
       isCollapsable: false,
       icon: BiPhone,
-      url: '/contact'
+      url: '/contact',
+      canShow: 'Admin'
     },
     {
       id: 'element-104',
       title: 'Bloq',
       isCollapsable: false,
       icon: BiNews,
-      url: '/blog'
+      url: '/blog',
+      canShow: 'Admin'
     },
     {
       id: 'element-105',
       title: 'Ölkələr',
       isCollapsable: false,
       icon: BiWorld,
-      url: '/country'
+      url: '/country',
+      canShow: 'Admin'
     },
     {
       id: 'element-106',
       title: 'Mesajlar',
       isCollapsable: false,
       icon: BiMessage,
-      url: '/appeal'
+      url: '/appeal',
+      canShow: 'Admin'
     },
     {
       id: 'element-106',
       title: 'Müraciətlər',
       isCollapsable: false,
       icon: BiGitPullRequest,
-      url: '/visa'
+      url: '/visa',
+      canShow: 'Operator'
     },
     {
       id: 'element-106',
       title: 'Müraciətlər',
       isCollapsable: false,
       icon: BiGitPullRequest,
-      url: '/visa-admin'
+      url: '/visa-admin',
+      canShow: 'admin'
     }
-    // {
-    //   id: 'element-1',
-    //   title: 'Sifarişlər',
-    //   isCollapsable: false,
-    //   icon: BiBasket,
-    //   url: '/orders'
-    // },
-    // {
-    //   id: 'element-2',
-    //   title: 'Menular',
-    //   isCollapsable: false,
-    //   icon: BiFoodMenu,
-    //   url: '/menus'
-    // },
-    // {
-    //   id: 'element-2',
-    //   title: 'Filiallar',
-    //   isCollapsable: false,
-    //   icon: BiStore,
-    //   url: '/branches'
-    // },
-
-    // {
-    //   id: 'element-3',
-    //   title: 'Müştərilər',
-    //   isCollapsable: false,
-    //   icon: FiUsers,
-    //   url: '/clients'
-    // },
-    // {
-    //   id: 'element-4',
-    //   title: 'İstifadəçilər',
-    //   isCollapsable: false,
-    //   icon: BiUser,
-    //   url: '/users'
-    // },
-    // {
-    //   id: 'element-7',
-    //   title: 'Mesajlar',
-    //   isCollapsable: false,
-    //   icon: BiMessageDetail,
-    //   url: '/messages'
-    // },
-
-    // {
-    //   id: 'element-8',
-    //   title: 'Karyera',
-    //   isCollapsable: false,
-    //   icon: IoBriefcaseOutline,
-    //   url: '/career'
-    // },
-    // {
-    //   id: 'element-8',
-    //   title: 'Mesajlar',
-    //   isCollapsable: false,
-    //   icon: BiBookContent,
-    //   url: '/applications'
-    // },
-
-    // {
-    //   id: 'element-2.1',
-    //   title: 'Slayder',
-    //   isCollapsable: false,
-    //   icon: BiCarousel,
-    //   url: '/web/slider'
-    // },
-    // {
-    //   id: 'element-2.2',
-    //   title: 'Haqqımızda',
-    //   isCollapsable: false,
-    //   icon: FiInfo,
-    //   url: '/web/about'
-    // },
-    // {
-    //   id: 'element-2.3',
-    //   title: '11 İnqridient',
-    //   isCollapsable: false,
-    //   icon: BiFoodMenu,
-    //   url: '/web/eleven-ingredient'
-    // },
-    // {
-    //   id: 'element-2.4',
-    //   title: 'Kateqoriya',
-    //   isCollapsable: false,
-    //   icon: BiCategory,
-    //   url: '/category'
-    // },
-    // {
-    //   id: 'element-2.5',
-    //   title: 'Məhsul',
-    //   isCollapsable: false,
-    //   icon: MdFastfood,
-    //   url: '/product'
-    // },
-    // {
-    //   id: 'element-2.6',
-    //   title: 'Tənzimləmə',
-    //   isCollapsable: false,
-    //   icon: FiSettings,
-    //   url: '/settings'
-    // },
-    // {
-    //   id: 'element-2.7',
-    //   title: 'Populyar',
-    //   isCollapsable: false,
-    //   icon: BiStar,
-    //   url: '/popular'
-    // }
-
-    // {
-    //   id: 'element-4',
-    //   title: 'Hesabatlar',
-    //   isCollapsable: false,
-    //   icon: BiFile,
-    //   url: '/reports'
-    // },
-    // {
-    //   id: 'element-6',
-    //   title: 'Veb səhifə',
-    //   isCollapsable: true,
-    //   icon: BiWorld,
-    //   url: '/web',
-    //   modules: [
-    //     {
-    //       id: 'element-2.1',
-    //       title: 'Slayder',
-    //       isCollapsable: false,
-    //       icon: BiCarousel,
-    //       isChild: true,
-    //       url: '/web/slider'
-    //     },
-    //     {
-    //       id: 'element-2.2',
-    //       title: 'Haqqımızda',
-    //       isCollapsable: false,
-    //       icon: FiInfo,
-    //       isChild: true,
-    //       url: '/web/about'
-    //     },
-    //     {
-    //       id: 'element-2.3',
-    //       title: '11 İnqridient',
-    //       isCollapsable: false,
-    //       icon: BiFoodMenu,
-    //       isChild: true,
-    //       url: '/web/eleven-ingredient'
-    //     }
-    //   ]
-    // },
-    // {
-    //   id: 'element-5',
-    //   title: 'Tənzimləmələr',
-    //   isCollapsable: false,
-    //   icon: FiSettings,
-    //   url: '/settings'
-    // }
   ];
+
+  const filteredMenuElements = sidebarMenuElements?.filter(
+    element =>
+      element.canShow === 'all' ||
+      element.canShow.toLowerCase() === role.toLowerCase()
+  );
 
   const [isMenuCollapsed, setIsMenuCollapsed] = useLocalStorage(
     'menuCollapsed',
@@ -334,7 +197,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
         pl={2}
         flexDirection="column"
       >
-        {sidebarMenuElements.map((group: ISidebarMenuElements) => (
+        {filteredMenuElements?.map((group: ISidebarMenuElements) => (
           <SidebarMenuItem
             setIsOpen={setCollapseIsOpen}
             isOpen={collapseIsOpen}

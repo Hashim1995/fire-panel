@@ -74,6 +74,8 @@ function VisaReviewModal({
   setRefreshComponent,
   selectedId
 }: IVisaReviewModal) {
+  const [approveModalButtonLoading, setApproveModalButtonLoading] =
+    useState<boolean>(false);
   const {
     control,
     handleSubmit,
@@ -182,6 +184,53 @@ function VisaReviewModal({
         } else {
           toast({
             title: 'Xəta baş verdi',
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
+    }
+  };
+
+  const approveItem = async () => {
+    setApproveModalButtonLoading(true);
+    try {
+      const res = await VisaServices.getInstance().confirm({
+        appointmentId: selectedId?.id
+      });
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+      }
+
+      setApproveModalButtonLoading(false);
+      onClose && onClose();
+      setRefreshComponent && setRefreshComponent((prev: boolean) => !prev);
+    } catch (error: unknown) {
+      setApproveModalButtonLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
             status: 'error',
             position: 'top-right',
             duration: 3000,
@@ -314,12 +363,20 @@ function VisaReviewModal({
           {closeBtn}
         </Button>
         <Button
+          mr={3}
+          type="button"
+          onClick={approveItem}
+          isLoading={approveModalButtonLoading}
+        >
+          Təsdiqlə
+        </Button>
+        <Button
           form="category-add-modal-submit-btn"
           type="submit"
           isDisabled={!isDirty || !isValid}
           isLoading={isSubmitting}
         >
-          Göndər
+          Geri qaytar
         </Button>
       </ModalFooter>
     </ModalContent>

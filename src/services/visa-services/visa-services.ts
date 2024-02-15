@@ -23,7 +23,7 @@ export class VisaServices {
         params: IHTTPSParams[],
         onError?: ErrorCallBack
     ): Promise<IVisaApplicationListResponse> {
-        const res = await HttpUtil.get('/admin/Visa', params, false, onError);
+        const res = await HttpUtil.get('/admin/Visa/operator', params, false, onError);
         return res;
     }
 
@@ -54,7 +54,7 @@ export class VisaServices {
         return res;
     }
 
-    public async download(url: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+    public async download(url: any, onError?: ErrorCallBack): Promise<any> {
         const res = await HttpUtil.get(`/admin/visa/required-documents/download/${url}`, null, false, onError);
         return res;
     }

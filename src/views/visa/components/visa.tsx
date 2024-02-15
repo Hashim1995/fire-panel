@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-restricted-syntax */
 import { IHTTPSParams } from '@/services/config';
-import {
-  CategoryService,
-  IGetCategoryResponse
-} from '@/services/category-services/category-services';
+
 import Pagination from '@/components/display/pagination/pagination';
 import {
   Flex,
@@ -15,7 +11,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Heading,
-  Switch,
   Grid,
   GridItem,
   FormControl,
@@ -40,16 +35,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Input,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverCloseButton,
-  PopoverArrow,
-  PopoverFooter,
-  ButtonGroup,
-  PopoverHeader,
-  PopoverBody
+  Input
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -57,18 +43,10 @@ import { Select } from 'chakra-react-select';
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
-import { ICategoryItem } from '@/models/category';
-import { selectOption } from '@/models/common';
-import { addBtn, selectPlaceholderText } from '@/utils/constants/texts';
-import { languageOptions, statusOptions } from '@/utils/constants/options';
-import { BlogServices } from '@/services/blog-services/blog-service';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
-import Can from '@/components/permission/Can';
 import DeleteModal from '@/components/display/delete-modal/delete-modal';
-import { CountryServices } from '@/services/country-services/country-services';
 import { AxiosError } from 'axios';
 import { VisaServices } from '@/services/visa-services/visa-services';
-import ApproveModal from '@/components/display/approve-modal/approve-modal';
 import {
   IVisaApplicationItem,
   IVisaApplicationListResponse,
@@ -76,7 +54,7 @@ import {
 } from '../models';
 
 import VisaViewModal from '../modals/visa-view-modal';
-import { getEnumLabel, VisaLevels, VisaStatuses, VisaTypes } from '../options';
+import { getEnumLabel, VisaLevels, VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
@@ -91,17 +69,13 @@ function Visa() {
   const [queryParams, setQueryParams] = useState<IHTTPSParams[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedItem, setSelectedItem] = useState<IVisaApplicationItem>();
-  const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
-  const [approveModalButtonLoading, setApproveModalButtonLoading] =
-    useState<boolean>(false);
-  const editModal = useDisclosure();
+
   const askModal = useDisclosure();
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
-  const approveModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaList = async () => {
@@ -129,46 +103,20 @@ function Visa() {
   const { handleSubmit, setValue, control } = useForm<IVisaFilter>({
     mode: 'onChange',
     defaultValues: {
-      visaStatuses: null,
+      visaLevels: null,
       visaTypes: null,
       applicantName: ''
     }
   });
 
   const resetForm = (): void => {
-    setValue('visaStatuses', null);
+    setValue('visaLevels', null);
     setValue('visaTypes', null);
     setValue('applicantName', '');
 
     setCurrentPage(1);
     setQueryParams([]);
     setRefreshComponent(r => !r);
-  };
-
-  const changeCategoryItemStatus = async (id: number) => {
-    setDisableSwitch(true);
-    try {
-      const res = await CountryServices.getInstance().changeItemStatus(id);
-      if (res?.succeeded) {
-        setRefreshComponent(z => !z);
-        // const obj: any = {
-        //   ...blogData,
-        //   datas: {
-        //     ...blogData?.datas,
-        //     datas: blogData?.datas?.map(item => {
-        //       if (item?.id === id) {
-        //         return { ...item, isActive: !item.isActive };
-        //       }
-        //       return item;
-        //     })
-        //   }
-        // };
-        // setBlogData(obj);
-      }
-      setDisableSwitch(false);
-    } catch {
-      setDisableSwitch(false);
-    }
   };
 
   useEffect(() => {
@@ -196,53 +144,6 @@ function Visa() {
       setRefreshComponent((prev: boolean) => !prev);
     } catch (error: unknown) {
       setDeleteModalButtonLoading(false);
-      if (error instanceof AxiosError) {
-        if (error?.response?.data?.messages?.length) {
-          error.response.data.messages?.map((z: string) =>
-            toast({
-              title: 'Xəta baş verdi',
-              description: z,
-              status: 'error',
-              position: 'top-right',
-              duration: 3000,
-              isClosable: true
-            })
-          );
-        } else {
-          toast({
-            title: 'Xəta baş verdi',
-
-            status: 'error',
-            position: 'top-right',
-            duration: 3000,
-            isClosable: true
-          });
-        }
-      }
-    }
-  };
-
-  const approveItem = async () => {
-    setApproveModalButtonLoading(true);
-    try {
-      const res = await VisaServices.getInstance().confirm({
-        appointmentId: selectedItem?.id
-      });
-      if (res.succeeded) {
-        toast({
-          title: 'Əməliyyat uğurla icra olundu',
-          status: 'success',
-          position: 'top-right',
-          duration: 3000,
-          isClosable: true
-        });
-      }
-
-      setApproveModalButtonLoading(false);
-      deleteModal.onClose();
-      setRefreshComponent((prev: boolean) => !prev);
-    } catch (error: unknown) {
-      setApproveModalButtonLoading(false);
       if (error instanceof AxiosError) {
         if (error?.response?.data?.messages?.length) {
           error.response.data.messages?.map((z: string) =>
@@ -378,21 +279,21 @@ function Visa() {
               <GridItem width={'80%'}>
                 <Controller
                   control={control}
-                  name="visaStatuses"
+                  name="visaLevels"
                   rules={{ required: false }}
                   render={({ field: { onChange, value } }) => (
-                    <FormControl id="visaStatuses">
+                    <FormControl id="visaLevels">
                       <FormLabel fontSize="sm" mb={1}>
-                        Viza statusu
+                        Mərhələ statusu
                       </FormLabel>
                       <Select
                         className="chakra-select"
                         onChange={onChange}
                         value={value}
-                        options={VisaStatuses}
+                        options={VisaLevels}
                         placeholder={
                           <div className="custom-select-placeholder">
-                            Viza statusu
+                            Mərhələ statusu
                           </div>
                         }
                         isClearable
@@ -450,90 +351,83 @@ function Visa() {
                     <Th textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
                     <Th textTransform="initial">GEDİŞ TARİXİ</Th>
                     <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
-                    <Th textTransform="initial">VİZA STATUSU</Th>
                     <Th textTransform="initial">MƏRHƏLƏ STATUSU</Th>
                     <Th />
                   </Tr>
                 </Thead>
                 {visaData?.data && visaData?.data?.length > 0 ? (
                   <Tbody textAlign="left">
-                    {visaData?.data?.map(
-                      (z: IVisaApplicationItem, index: number) => (
-                        <Tr key={z?.id} textAlign="left">
-                          <Td>
-                            {z?.customer?.firstname
-                              ? `${z?.customer?.firstname} ${z?.customer?.lastname}`
-                              : '-'}
-                          </Td>
+                    {visaData?.data?.map((z: IVisaApplicationItem) => (
+                      <Tr key={z?.id} textAlign="left">
+                        <Td>
+                          {z?.customer?.firstname
+                            ? `${z?.customer?.firstname} ${z?.customer?.lastname}`
+                            : '-'}
+                        </Td>
 
-                          <Td>{z?.country?.title || '-'}</Td>
-                          <Td>{z?.departureDate || '-'}</Td>
-                          <Td>{z?.returnDate || '-'}</Td>
-                          <Td>
-                            {getEnumLabel(VisaStatuses, z?.visaStatus) || '-'}
-                          </Td>
-                          <Td>
-                            {getEnumLabel(VisaLevels, z?.visaLevel) || '-'}
-                          </Td>
-                          <Td textAlign="right">
-                            <Menu>
-                              <MenuButton
-                                as={IconButton}
-                                aria-label="Options"
-                                icon={<BiDotsVertical />}
-                                variant="outline"
-                              />
-                              <MenuList>
-                                {z?.visaLevel === 2 && (
-                                  <MenuItem
-                                    onClick={() => {
-                                      setSelectedItem(z);
-                                      askModal.onOpen();
-                                    }}
-                                  >
-                                    Sənəd tələb et
-                                  </MenuItem>
-                                )}
-                                {z?.visaLevel === 4 && (
-                                  <MenuItem
-                                    onClick={() => {
-                                      setSelectedItem(z);
-                                      reviewModal.onOpen();
-                                    }}
-                                  >
-                                    Sənədlərə bax və geri dönüş et
-                                  </MenuItem>
-                                )}
+                        <Td>{z?.country?.title || '-'}</Td>
+                        <Td>{z?.departureDate || '-'}</Td>
+                        <Td>{z?.returnDate || '-'}</Td>
+
+                        <Td>{getEnumLabel(VisaLevels, z?.visaLevel) || '-'}</Td>
+                        <Td textAlign="right">
+                          <Menu>
+                            <MenuButton
+                              as={IconButton}
+                              aria-label="Options"
+                              icon={<BiDotsVertical />}
+                              variant="outline"
+                            />
+                            <MenuList>
+                              {z?.visaLevel === 2 && (
                                 <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
-                                    viewModal.onOpen();
+                                    askModal.onOpen();
                                   }}
                                 >
-                                  Ümumumi məlumata baxış
+                                  Sənəd tələb et
                                 </MenuItem>
+                              )}
+                              {z?.visaLevel === 4 && (
                                 <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    reviewModal.onOpen();
+                                  }}
+                                >
+                                  Sənədlərə bax və geri dönüş et
+                                </MenuItem>
+                              )}
+                              <MenuItem
+                                onClick={() => {
+                                  setSelectedItem(z);
+                                  viewModal.onOpen();
+                                }}
+                              >
+                                Ümumumi məlumata baxış
+                              </MenuItem>
+                              {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
                                     approveModal.onOpen();
                                   }}
                                 >
                                   Təsdiqlə
-                                </MenuItem>
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    deleteModal.onOpen();
-                                  }}
-                                >
-                                  Ləğv et
-                                </MenuItem>
-                              </MenuList>
-                            </Menu>
-                          </Td>
-                        </Tr>
-                      )
-                    )}
+                                </MenuItem> */}
+                              <MenuItem
+                                onClick={() => {
+                                  setSelectedItem(z);
+                                  deleteModal.onOpen();
+                                }}
+                              >
+                                Ləğv et
+                              </MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Td>
+                      </Tr>
+                    ))}
                   </Tbody>
                 ) : (
                   <Tbody>
@@ -632,22 +526,6 @@ function Visa() {
           header="Müraciət ləğv ediləcək, davam etmək istədiyinizə əminsinizmi?"
           eventText="Ləğv et"
           onClose={deleteModal.onClose}
-        />
-      </Modal>
-
-      <Modal
-        scrollBehavior="inside"
-        isOpen={approveModal.isOpen}
-        size="xl"
-        variant="big"
-        isCentered
-        onClose={approveModal.onClose}
-      >
-        <ModalOverlay />
-        <ApproveModal
-          approveModalButtonLoading={approveModalButtonLoading}
-          event={approveItem}
-          onClose={approveModal.onClose}
         />
       </Modal>
     </>

@@ -23,12 +23,14 @@ export const VisaCategories = [
 ];
 
 export const VisaLevels = [
-    { value: 1, label: 'Yeni' },
-    { value: 2, label: 'Davam Edən' },
-    { value: 3, label: 'Sənəd Gözləyən' },
-    { value: 4, label: 'Yoxlama Prosesində' },
-    { value: 5, label: 'Sənədlər Təsdiqlənmiş' },
-    { value: 6, label: 'Ləğv Edilmiş' }
+    { value: 1, label: "Yeni" },
+    { value: 2, label: "Davam Edən" },
+    { value: 3, label: "Sənəd Gözləyən" },
+    { value: 4, label: "Yoxlama Prosesində" },
+    { value: 5, label: "Sənədlər Təsdiqlənmiş" },
+    { value: 6, label: "Ləğv Edilmiş" },
+    { value: 7, label: "Sənəd düzəlişi tələb olunur" },
+    { value: 8, label: "Ödəniş gözlənilir" },
 ];
 
 export const VisaStatuses = [

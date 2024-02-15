@@ -21,21 +21,28 @@ import {
   Tr,
   Thead,
   Tbody,
-  Heading
+  Heading,
+  Modal,
+  ModalOverlay,
+  useDisclosure
 } from '@chakra-ui/react';
-import { IVisaApplicationItem } from '../models';
+import { useState } from 'react';
+import { IVisaApplicationItem, IVisaApplicant } from '../models';
 import {
   countriesStatic,
   getEnumLabel,
   VisaCategories,
-  VisaLevels,
-  VisaStatuses
+  VisaLevels
 } from '../options';
+import VisaDetailedViewModal from './visa-detailed-view-modal';
 
 interface IVisaViewModal extends modalClose {
   selectedId: IVisaApplicationItem;
 }
 function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
+  const detailedViewModal = useDisclosure();
+  const [selectedPerson, setSelectedPerson] = useState<IVisaApplicant>();
+
   return (
     <ModalContent>
       <ModalHeader>MƏLUMATA BAXIŞ</ModalHeader>
@@ -48,7 +55,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box bg={'Highlight'} borderRadius={'base'} p={2}>
                 <Text fontWeight="italic">Viza kateqoriyası</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {getEnumLabel(VisaCategories, 3) || noText}
                 </Text>
@@ -58,7 +65,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Giriş ediləcək ölkə</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {getEnumLabel(countriesStatic, selectedId?.entryCountry) ||
                     noText}
@@ -69,7 +76,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Gediləcək ölkə</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {selectedId?.country?.title || noText}
                 </Text>
@@ -79,7 +86,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Gediş tarixi</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {selectedId?.departureDate || noText}
                 </Text>
@@ -89,7 +96,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Gediş tarixi</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {selectedId?.returnDate || noText}
                 </Text>
@@ -99,19 +106,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Viza mərhələ statusu</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {getEnumLabel(VisaLevels, selectedId?.visaLevel) || noText}
-                </Text>
-              </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Viza statusu</Text>
-              </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
-                <Text fontWeight="medium">
-                  {getEnumLabel(VisaStatuses, selectedId?.visaStatus) || noText}
                 </Text>
               </Box>
             </SimpleGrid>
@@ -120,7 +117,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Müraciət edən şəxs</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {selectedId?.customer?.firstname
                     ? `${selectedId?.customer?.firstname} ${selectedId?.customer?.lastname}`
@@ -132,7 +129,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
                 <Text fontWeight="italic">Müraciət edən şəxs email</Text>
               </Box>
-              <Box bg={'Highlight'} borderRadius={'base'} textAlign="end" p={2}>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
                   {selectedId?.customer?.email || noText}
                 </Text>
@@ -142,53 +139,42 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             {selectedId?.visaApplicants?.length ? (
               <>
                 <Heading as="h4" pb={2} size="md">
-                  Müraciətçilər - {selectedId?.visaApplicants?.length}
+                  Müraciətçilər - ({selectedId?.visaApplicants?.length})
                 </Heading>
                 <TableContainer>
-                  <Table size="md" variant="striped">
+                  <Table size="sm" variant="simple">
                     <Thead>
                       <Tr>
-                        <Th>ID</Th>
                         <Th>Adı</Th>
                         <Th>Soyadı</Th>
                         <Th>Email</Th>
                         <Th>Telefon Nömrəsi</Th>
-                        <Th>Ölkə Kodu</Th>
-                        <Th>Milliyyəti</Th>
-                        <Th>Doğum Tarixi</Th>
-                        <Th>Şəxsi Nömrə</Th>
-                        <Th>Cinsi</Th>
                         <Th>Pasport Nömrəsi</Th>
-                        <Th>Pasportun Verilmə Tarixi</Th>
-                        <Th>Pasportun Bitmə Tarixi</Th>
-                        <Th>Yetkinlik Statusu</Th>
-                        <Th>Avropa Ailə Üzvü</Th>
-                        <Th>Qeydiyyat Məlumatı</Th>
-                        {/* Add headers for representative and europeanFamilyMember */}
-                        <Th>Himayədar Adı</Th>
-                        <Th>Himayədar Soyadı</Th>
-                        <Th>Himayədar Email</Th>
-                        <Th>Himayədar Telefon Nömrəsi</Th>
-                        <Th>Himayədar Ünvanı</Th>
-                        <Th>Avropa Ailə Üzvü Adı</Th>
-                        <Th>Avropa Ailə Üzvü Soyadı</Th>
-                        <Th>Avropa Ailə Üzvü Pasport URL</Th>
+                        <Th>FİN KOD</Th>
+                        <Th>Doğum Tarixi</Th>
                       </Tr>
                     </Thead>
                     <Tbody>
                       {selectedId?.visaApplicants?.map(item => (
-                        <Tr key={item.id}>
-                          <Td>{item.id}</Td>
+                        <Tr
+                          onClick={() => {
+                            setSelectedPerson(item);
+                            detailedViewModal.onOpen();
+                          }}
+                          cursor="pointer"
+                          key={item.id}
+                        >
                           <Td>{item.firstname}</Td>
                           <Td>{item.lastname}</Td>
                           <Td>{item.email}</Td>
                           <Td>{item.phoneNumber}</Td>
+                          <Td>{item.passportNo}</Td>
+                          <Td>{item.personalNo}</Td>
+                          <Td>{item.dateOfBirth}</Td>
+                          {/* 
                           <Td>{item.countryCode}</Td>
                           <Td>{item.nationality}</Td>
-                          <Td>{item.dateOfBirth}</Td>
-                          <Td>{item.personalNo}</Td>
                           <Td>{item.gender === 1 ? 'Kişi' : 'Qadın'}</Td>
-                          <Td>{item.passportNo}</Td>
                           <Td>{item.passportDateOfIssue}</Td>
                           <Td>{item.passportDateOfExpiry}</Td>
                           <Td>{item.isAdult ? 'Bəli' : 'Xeyr'}</Td>
@@ -196,13 +182,11 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                             {item.hasEuropeanFamilyMember ? 'Bəli' : 'Xeyr'}
                           </Td>
                           <Td>{item.otherCountryResidenceInformation}</Td>
-                          {/* Add columns for representative */}
                           <Td>{item.representative?.firstname || '-'}</Td>
                           <Td>{item.representative?.lastname || '-'}</Td>
                           <Td>{item.representative?.email || '-'}</Td>
                           <Td>{item.representative?.phoneNumber || '-'}</Td>
                           <Td>{item.representative?.address || '-'}</Td>
-                          {/* Add columns for europeanFamilyMember */}
                           <Td>{item.europeanFamilyMember?.firstname || '-'}</Td>
                           <Td>{item.europeanFamilyMember?.lastname || '-'}</Td>
                           <Td>
@@ -217,7 +201,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                             ) : (
                               '-'
                             )}
-                          </Td>
+                          </Td> */}
                         </Tr>
                       ))}
                     </Tbody>
@@ -236,6 +220,20 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
           {closeBtn}
         </Button>
       </ModalFooter>
+
+      <Modal
+        scrollBehavior="inside"
+        isOpen={detailedViewModal.isOpen}
+        size="6xl"
+        isCentered
+        onClose={detailedViewModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaDetailedViewModal
+          onClose={detailedViewModal.onClose}
+          selectedId={selectedPerson!}
+        />
+      </Modal>
     </ModalContent>
   );
 }

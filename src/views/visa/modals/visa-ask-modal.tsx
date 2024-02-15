@@ -231,15 +231,15 @@ function VisaAskModal({
                         <Thead>
                           <Tr>
                             <Th>Sənəd Tipi</Th>
-                            <Th isNumeric>Lazımdı</Th>
-                            <Th isNumeric>Lazım deyil</Th>
+                            <Th textAlign="center">Lazımdı</Th>
+                            {/* <Th isNumeric>Lazım deyil</Th> */}
                           </Tr>
                         </Thead>
                         <Tbody>
                           {DocumentTypes.map((docType, docIndex) => (
                             <Tr key={docType.value}>
                               <Td>{docType.label}</Td>
-                              <Td>
+                              <Td textAlign="center">
                                 <Controller
                                   name={`applicants.${index}.documents.${docIndex}.status`}
                                   control={control}
@@ -255,7 +255,7 @@ function VisaAskModal({
                                   )}
                                 />
                               </Td>
-                              <Td>
+                              {/* <Td>
                                 <Controller
                                   name={`applicants.${index}.documents.${docIndex}.status`}
                                   control={control}
@@ -270,7 +270,7 @@ function VisaAskModal({
                                     />
                                   )}
                                 />
-                              </Td>
+                              </Td> */}
                             </Tr>
                           ))}
                         </Tbody>

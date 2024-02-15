@@ -50,7 +50,8 @@ export interface IVisaApplicant {
     visaDocuments?: {
         id: number,
         uri: string,
-        documentType: number
+        documentType: number,
+        isConfirmed?: boolean
     }[];
 }
 
@@ -103,7 +104,7 @@ export interface ICountryUpdate {
 export interface IVisaFilter {
     applicantName: string,
     visaTypes: any
-    visaStatuses: any
+    visaLevels: any
 }
 
 

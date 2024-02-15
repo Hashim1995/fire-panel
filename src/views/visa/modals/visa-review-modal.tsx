@@ -166,7 +166,18 @@ function VisaReviewModal({
     try {
       const res = await VisaServices.getInstance().download(url);
       if (res.succeeded) {
-        console.log(res);
+        if (res.succeeded) {
+          // Since response.data is already a blob, you don't need to convert it
+          const url = URL.createObjectURL(res.data);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = url; // Specify the filename here
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          URL.revokeObjectURL(url);
+          document.body.removeChild(a);
+        }
       }
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

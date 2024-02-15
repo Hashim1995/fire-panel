@@ -1,47 +1,48 @@
 import { noText } from "@/utils/constants/texts";
 
 export const DocumentTypes = [
-    { value: 1, label: 'İşəgötürmə Təsdiqi' },
-    { value: 2, label: 'Vergi İdentifikasiya Nömrəsi' },
-    { value: 3, label: 'Tələbə Statusunun Təsdiqi' },
-    { value: 4, label: 'Pensiyaçı Statusunun Təsdiqi' },
-    { value: 5, label: 'Bank Hesabı Və Çıxarış Məlumatları' },
-    { value: 6, label: 'Nikah Şəhadətnaməsi' },
-    { value: 7, label: 'Boşanma Şəhadətnaməsi' },
-    { value: 8, label: 'Uşaqlar Üçün Doğum Şəhadətnaməsi' },
-    { value: 9, label: 'Himayəçilik Müraciəti' },
-    { value: 10, label: 'Əmlak və ya Nəqliyyat Vasitəsinin Sənədləri' },
-    { value: 11, label: 'Şengen Viza Stikeri' },
-    { value: 12, label: 'Valideynlərdən Səyahət İcazəsi' },
-    { value: 13, label: 'Pasport' }
+    { value: 1, label: "Əvvəlki Şengen vizalarının və ölkəyə giriş/çıxış möhürləri" },
+    { value: 2, label: "Şəxsiyyət vəsiqəsinin əsli və surəti" },
+    { value: 3, label: "İş yerindən arayış (imzalı və möhürlü)" },
+    { value: 4, label: "E-govdan arayış (ingiliscə və notarial təsdiqli)" },
+    { value: 5, label: "Adınız mülk varsa onun təsdiqi (notarial təsdiqli və ingilis dilində" },
+    { value: 6, label: "Maaş kart hesabında çıxarış" },
+    { value: 7, label: "Bank hesabından arayış və çıxarış (1 gün x150 evro olmaqla" },
+    { value: 8, label: "Tibbi sığorta" },
+    { value: 9, label: "Hotel bronu" },
+    { value: 10, label: "Transfer Bronu" },
+    { value: 11, label: "Aviabilet bronu" },
+    { value: 12, label: "Evlisinizsə Nigah haqqında şəhadətnamə, ayrılmısınızsa nigahın pozulması haqqında şəhadətnamə" },
+    { value: 13, label: "Sponsorluq ərizəsi (ingilis dilində və notarial təsdiqli)" },
 ];
 
 export const VisaCategories = [
-    { value: 1, label: 'Turist' },
-    { value: 2, label: 'Biznes' },
-    { value: 3, label: 'Akademik' }
+    { value: 1, label: "Turist vizası" },
+    { value: 2, label: "Biznes vizası" },
+    { value: 3, label: "Təhsil vizası" },
 ];
 
 export const VisaLevels = [
     { value: 1, label: "Yeni" },
-    { value: 2, label: "Davam Edən" },
-    { value: 3, label: "Sənəd Gözləyən" },
-    { value: 4, label: "Yoxlama Prosesində" },
-    { value: 5, label: "Sənədlər Təsdiqlənmiş" },
+    { value: 2, label: "İcrada" },
+    { value: 3, label: "Sənədlərin yüklənməsi" },
+    { value: 4, label: "Yoxlama prosesində" },
+    { value: 5, label: "Təsdiqlənmiş" },
     { value: 6, label: "Ləğv Edilmiş" },
-    { value: 7, label: "Sənəd düzəlişi tələb olunur" },
-    { value: 8, label: "Ödəniş gözlənilir" },
+    { value: 7, label: "Düzəliş gözləyən" },
+    { value: 8, label: "Ödəniş gözləyən" },
 ];
 
 export const VisaStatuses = [
-    { value: 1, label: 'Gözləmədə' },
-    { value: 2, label: 'Təsdiqlənmiş' },
-    { value: 3, label: 'Rədd Edilmiş' }
+    { value: 1, label: "Gözləmədə" },
+    { value: 2, label: "Təsdiqlənmiş" },
+    { value: 3, label: "Rədd Edilmiş" },
 ];
 
+
 export const VisaTypes = [
-    { value: 1, label: 'Tək' },
-    { value: 2, label: 'Çox' }
+    { value: 1, label: "Təkli viza" },
+    { value: 2, label: "Çoxlu viza" },
 ];
 export const countriesStatic = [
     { value: 1, label: 'Albaniya' },

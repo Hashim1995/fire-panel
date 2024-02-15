@@ -42,9 +42,8 @@ function VisaDetailedViewModal({
     try {
       const res = await VisaServices.getInstance().download(param);
       if (res.succeeded) {
-        const data = new Uint8Array([res?.data]);
-        const blob = new Blob([data]);
-        const url = URL.createObjectURL(blob);
+        // Since response.data is already a blob, you don't need to convert it
+        const url = URL.createObjectURL(res.data);
         const a = document.createElement('a');
         a.href = url;
         a.download = param; // Specify the filename here

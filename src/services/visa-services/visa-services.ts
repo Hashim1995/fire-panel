@@ -27,6 +27,15 @@ export class VisaServices {
         return res;
     }
 
+    public async getAdmin(
+        params: IHTTPSParams[],
+        onError?: ErrorCallBack
+    ): Promise<IVisaApplicationListResponse> {
+        const res = await HttpUtil.get('/admin/Visa', params, false, onError);
+        return res;
+    }
+
+
     public async changeItemStatus(
         id: number,
         onError?: ErrorCallBack

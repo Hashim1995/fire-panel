@@ -109,6 +109,13 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiGitPullRequest,
       url: '/visa'
+    },
+    {
+      id: 'element-106',
+      title: 'Müraciətlər',
+      isCollapsable: false,
+      icon: BiGitPullRequest,
+      url: '/visa-admin'
     }
     // {
     //   id: 'element-1',

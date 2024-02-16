@@ -9,6 +9,7 @@ import ContactPage from '@/views/contact/pages';
 import AppealPage from '@/views/appeal/pages';
 import VisaPage from '@/views/visa/pages';
 import CountryPage from '@/views/country/pages';
+import UsersPage from '@/views/users/pages';
 import VisaAdmin from '@/views/visaAdmin/components/visa';
 import Login from './login/login';
 import ChichkenLoader from './suspense/chicken-loader';
@@ -127,7 +128,17 @@ const routes = [
         ),
         permission: ['settingsRoute']
       },
-
+      {
+        path: 'users',
+        element: checkPermission(['usersRoute']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <UsersPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['usersRoute']
+      },
       {
         path: 'info',
         element: checkPermission(['view_services_page']) ? (

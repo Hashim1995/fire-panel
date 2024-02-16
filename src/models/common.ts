@@ -14,7 +14,7 @@ type modalClose = {
 };
 
 type selectOption = {
-  readonly value: string;
+  readonly value: string | number;
   readonly label: string;
 };
 

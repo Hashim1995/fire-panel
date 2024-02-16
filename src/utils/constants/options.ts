@@ -60,21 +60,18 @@ const isBlockedOptions: selectOption[] = [
 
 const roleOptions: selectOption[] = [
   {
-    value: '1',
+    value: 1,
     label: 'Admin'
   },
   {
-    value: '2',
-    label: 'Filial meneceri'
+    value: 2,
+    label: 'Operator'
   },
   {
-    value: '3',
-    label: 'İstifadəçi'
+    value: 3,
+    label: 'Copywriter'
   },
-  {
-    value: '4',
-    label: 'Məzmun meneceri'
-  }
+
 ];
 
 const genderOptions: selectOption[] = [

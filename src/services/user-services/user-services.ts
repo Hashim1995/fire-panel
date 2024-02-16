@@ -1,13 +1,13 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
-import { IBranches, IUserItem, IUserPayload } from '@/models/users';
+import { IBranches, IUserItem, } from '@/models/users';
 import { IGlobalResponse } from '@/models/common';
 import { ErrorCallBack, HttpUtil, IHTTPSParams } from '../config';
 
 export interface IGetUsersResponse extends IGlobalResponse {
-  datas: {
-    datas: IUserItem[];
+  data: {
+    data: IUserItem[];
     totalDataCount: number;
   };
 }
@@ -20,7 +20,7 @@ export class UsersServies {
   // eslint-disable-next-line no-use-before-define
   private static instance: UsersServies | null;
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): UsersServies {
     if (!this.instance) {
@@ -41,7 +41,7 @@ export class UsersServies {
     params: IHTTPSParams[],
     onError?: ErrorCallBack
   ): Promise<IGetUsersResponse> {
-    const res = await HttpUtil.get('/User/users', params, false, onError);
+    const res = await HttpUtil.get('/admin/user/users', params, false, onError);
     return res;
   }
 
@@ -58,10 +58,20 @@ export class UsersServies {
   }
 
   public async createUser(
-    payload: IUserPayload,
+    payload: IUserItem,
     onError?: ErrorCallBack
   ): Promise<IGlobalResponse> {
-    const res = await HttpUtil.post('/User', payload, onError);
+    const res = await HttpUtil.post('/admin/user', payload, onError);
     return res;
   }
+
+  public async updateUser(
+    payload: IUserItem,
+    onError?: ErrorCallBack
+  ): Promise<IGlobalResponse> {
+    const res = await HttpUtil.put('/admin/user', payload, onError);
+    return res;
+  }
+
+
 }

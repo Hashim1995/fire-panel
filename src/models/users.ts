@@ -1,16 +1,13 @@
-import { selectOption } from './common';
 
 interface IUserItem {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  phoneNumber: string;
-  genderId: selectOption | null;
-  apiLogin: string;
-  birthday: string | Date | null;
-  roleId: selectOption | null;
-  branchId: selectOption | null;
+  email: string,
+  firstname: string,
+  lastname: string,
+  phoneNumber: string,
+  role: any,
+  password?: string,
+  userId?: string
+
 }
 
 interface IUserPayload {

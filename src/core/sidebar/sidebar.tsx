@@ -138,6 +138,14 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       icon: BiGitPullRequest,
       url: '/visa-admin',
       canShow: 'admin'
+    },
+    {
+      id: 'element-4',
+      title: 'İstifadəçilər',
+      isCollapsable: false,
+      icon: BiUser,
+      url: '/users',
+      canShow: 'admin'
     }
   ];
 

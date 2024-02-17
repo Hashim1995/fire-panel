@@ -11,6 +11,7 @@ import VisaPage from '@/views/visa/pages';
 import CountryPage from '@/views/country/pages';
 import UsersPage from '@/views/users/pages';
 import VisaAdmin from '@/views/visaAdmin/components/visa';
+import ClientsPage from '@/views/clients/pages';
 import Login from './login/login';
 import ChichkenLoader from './suspense/chicken-loader';
 import NotFound from './404/404';
@@ -138,6 +139,17 @@ const routes = [
           <Navigate to="/no-permission" />
         ),
         permission: ['usersRoute']
+      },
+      {
+        path: 'clients',
+        element: checkPermission(['clientsRoute']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <ClientsPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['clientsRoute']
       },
       {
         path: 'info',

@@ -40,6 +40,7 @@ import { NavLink } from 'react-router-dom';
 
 import { AppealServices } from '@/services/appeal-services/appeal-services';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
+import { noText } from '@/utils/constants/texts';
 import { IAppealFilter, IAppealItem, IAppealListResponse } from '../models';
 import AppealViewModal from '../modals/appeal-view-modal';
 
@@ -230,7 +231,7 @@ function Appeal() {
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={1} fontWeight="medium">
-          CƏDVƏL
+          CƏDVƏL ({appealData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>

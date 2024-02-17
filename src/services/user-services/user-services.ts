@@ -45,6 +45,14 @@ export class UsersServies {
     return res;
   }
 
+  public async getClients(
+    params: IHTTPSParams[],
+    onError?: ErrorCallBack
+  ): Promise<IGetUsersResponse> {
+    const res = await HttpUtil.get('/admin/user/clients', params, false, onError);
+    return res;
+  }
+
   public async getBranches(
     onError?: ErrorCallBack
   ): Promise<IGetBranchResponse> {

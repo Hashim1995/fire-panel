@@ -46,6 +46,7 @@ import NoData from '@/components/feedback/no-data/no-data';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
 import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { AxiosError } from 'axios';
+import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import {
   IVisaApplicationItem,
@@ -291,7 +292,7 @@ function VisaAdmin() {
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={1} fontWeight="medium">
-          CƏDVƏL
+          CƏDVƏL ({visaData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>

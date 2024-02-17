@@ -33,7 +33,7 @@ import {
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { addBtn, inputPlaceholderText, noText } from '@/utils/constants/texts';
+import { inputPlaceholderText, noText } from '@/utils/constants/texts';
 import { IHTTPSParams } from '@/services/config';
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
@@ -46,8 +46,6 @@ import { convertFormDataToQueryParams } from '@/utils/functions/functions';
 import Pagination from '@/components/display/pagination/pagination';
 import NoData from '@/components/feedback/no-data/no-data';
 import UsersViewModal from '../modals/user-view-modal';
-import UserAddModal from '../modals/user-add-modal';
-import UserEditModal from '../modals/user-edit-modal';
 
 interface IUsersFilter {
   firstname: string;
@@ -56,7 +54,7 @@ interface IUsersFilter {
   email: string;
 }
 
-function Users() {
+function Clients() {
   const { handleSubmit, setValue, control } = useForm<IUsersFilter>({
     mode: 'onChange',
     defaultValues: {
@@ -68,8 +66,6 @@ function Users() {
   });
   const toast = useToast();
   const viewModal = useDisclosure();
-  const addModal = useDisclosure();
-  const editModal = useDisclosure();
   const [page, setCurrentPage] = useState<number>(1);
   const [selectedItem, setSelectedItem] = useState<IUserItem | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -93,10 +89,11 @@ function Users() {
     setLoading(true);
 
     try {
-      const res: IGetUsersResponse = await UsersServies.getInstance().getUsers([
-        ...queryParams,
-        { name: 'page', value: page }
-      ]);
+      const res: IGetUsersResponse =
+        await UsersServies.getInstance().getClients([
+          ...queryParams,
+          { name: 'page', value: page }
+        ]);
       setUsersData(res);
       setLoading(false);
     } catch (error: unknown) {
@@ -159,7 +156,7 @@ function Users() {
               <BreadcrumbSeparator />
 
               <BreadcrumbLink isCurrentPage as={NavLink} to="/users">
-                İstifadəçilər
+                Müştərilər
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
@@ -170,7 +167,6 @@ function Users() {
           <Heading fontWeight="medium" mb={1} size="xs">
             FİLTR
           </Heading>
-          <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box>
@@ -295,15 +291,6 @@ function Users() {
                           />
                           <MenuList>
                             <MenuItem
-                              onClick={e => {
-                                e.preventDefault();
-                                setSelectedItem(z);
-                                editModal.onOpen();
-                              }}
-                            >
-                              Düzəliş et
-                            </MenuItem>
-                            <MenuItem
                               onClick={() => {
                                 setSelectedItem(z);
                                 viewModal.onOpen();
@@ -373,37 +360,8 @@ function Users() {
           onClose={viewModal.onClose}
         />
       </Modal>
-      <Modal
-        scrollBehavior="inside"
-        isOpen={addModal.isOpen}
-        size="xl"
-        variant="big"
-        isCentered
-        onClose={addModal.onClose}
-      >
-        <ModalOverlay />
-        <UserAddModal
-          setRefreshComponent={setRefreshComponent}
-          onClose={addModal.onClose}
-        />
-      </Modal>
-      <Modal
-        scrollBehavior="inside"
-        isOpen={editModal.isOpen}
-        size="xl"
-        variant="big"
-        isCentered
-        onClose={editModal.onClose}
-      >
-        <ModalOverlay />
-        <UserEditModal
-          selectedItem={selectedItem}
-          setRefreshComponent={setRefreshComponent}
-          onClose={editModal.onClose}
-        />
-      </Modal>
     </>
   );
 }
 
-export default Users;
+export default Clients;

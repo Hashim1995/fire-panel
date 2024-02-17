@@ -50,7 +50,7 @@ import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
 import { ICategoryItem } from '@/models/category';
 import { selectOption } from '@/models/common';
-import { addBtn, selectPlaceholderText } from '@/utils/constants/texts';
+import { addBtn, noText, selectPlaceholderText } from '@/utils/constants/texts';
 import { languageOptions, statusOptions } from '@/utils/constants/options';
 import { BlogServices } from '@/services/blog-services/blog-service';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
@@ -318,7 +318,7 @@ function Blog() {
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={1} fontWeight="medium">
-          CƏDVƏL
+          CƏDVƏL ({blogData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>

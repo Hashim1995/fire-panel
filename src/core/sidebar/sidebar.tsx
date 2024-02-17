@@ -31,7 +31,8 @@ import {
   BiWorld,
   BiMessage,
   BiGitPullRequest,
-  BiCog
+  BiCog,
+  BiUserCircle
 } from 'react-icons/bi';
 import { useLocalStorage } from 'usehooks-ts';
 import Logo from '@assets/logo/logo.png';
@@ -145,6 +146,14 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiUser,
       url: '/users',
+      canShow: 'admin'
+    },
+    {
+      id: 'element-4',
+      title: 'Müştərilər',
+      isCollapsable: false,
+      icon: BiUserCircle,
+      url: '/clients',
       canShow: 'admin'
     }
   ];

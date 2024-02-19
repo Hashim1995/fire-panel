@@ -1,6 +1,5 @@
 /* eslint-disable prefer-rest-params */
 
-import { MouseEvent, useRef } from 'react';
 import {
   Box,
   Breadcrumb,
@@ -14,32 +13,12 @@ import {
   Stack
 } from '@chakra-ui/react';
 import { NavLink } from 'react-router-dom';
-import travel from '@assets/images/travel.svg';
+import Stats from './stats';
 
 // import PieChart from '../charts/pie-chart';
 // import PieChart from '../charts/pie-chart';
 
 function Main() {
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
-    const box = imageRef?.current?.getBoundingClientRect();
-    if (!box) return;
-    const mouseX = event.clientX - box.left;
-    const mouseY = event.clientY - box.top;
-    const newX = (mouseX / box.width) * 20;
-    const newY = (mouseY / box.height) * 20;
-    if (imageRef.current) {
-      imageRef.current.style.transform = `translate(${newX}px, ${newY}px)`;
-    }
-  };
-
-  const handleMouseLeave = () => {
-    if (imageRef.current) {
-      imageRef.current!.style.transform = 'translate(0, 0)';
-    }
-  };
-
   return (
     <>
       <Box
@@ -67,30 +46,11 @@ function Main() {
         mt={5}
         overflow="hidden"
         shadow="lg"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
         bg="white"
         borderRadius={6}
         w="100%"
         p={4}
       >
-        <img
-          ref={imageRef}
-          draggable="false"
-          style={{
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            overflow: 'hidden !important',
-            left: 0,
-            width: '100%',
-            right: 0,
-            height: '100%',
-            opacity: '0.8'
-          }}
-          alt=""
-          src={travel}
-        />
         <Stack
           textAlign="center"
           align="center"
@@ -121,19 +81,8 @@ function Main() {
               admin panelinə xoş gəlmisiniz{' '}
             </Heading>
           </Flex>
-          <span
-            style={{
-              zIndex: '99'
-            }}
-            color="gray.500"
-          >
-            Never miss a meeting. Never be late for one too. Keep track of your
-            meetings and receive smart reminders in appropriate times. Read your
-            smart “Daily Agenda” every morning.
-          </span>
-
-          <Flex height={{ sm: '24rem', lg: '20rem' }} w="full" />
         </Stack>
+        <Stats />
       </Box>
     </>
   );

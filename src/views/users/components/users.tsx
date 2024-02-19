@@ -28,7 +28,8 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Switch
 } from '@chakra-ui/react';
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
@@ -48,6 +49,7 @@ import NoData from '@/components/feedback/no-data/no-data';
 import UsersViewModal from '../modals/user-view-modal';
 import UserAddModal from '../modals/user-add-modal';
 import UserEditModal from '../modals/user-edit-modal';
+import UserChangePasswordModal from '../modals/user-password-modal';
 
 interface IUsersFilter {
   firstname: string;
@@ -70,13 +72,14 @@ function Users() {
   const viewModal = useDisclosure();
   const addModal = useDisclosure();
   const editModal = useDisclosure();
+  const passwordModal = useDisclosure();
   const [page, setCurrentPage] = useState<number>(1);
   const [selectedItem, setSelectedItem] = useState<IUserItem | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [usersData, setUsersData] = useState<IGetUsersResponse>();
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [queryParams, setQueryParams] = useState<IHTTPSParams[]>([]);
-  // const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
+  const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
 
   const resetForm = (): void => {
     setValue('firstname', '');
@@ -139,6 +142,33 @@ function Users() {
   useEffect(() => {
     fetchData();
   }, [page, refreshComponent]);
+
+  const changeCategoryItemStatus = async (id: string) => {
+    setDisableSwitch(true);
+    try {
+      const res = await UsersServies.getInstance().changeItemStatus(id);
+      if (res?.succeeded) {
+        setRefreshComponent(z => !z);
+        // const obj: any = {
+        //   ...blogData,
+        //   datas: {
+        //     ...blogData?.datas,
+        //     datas: blogData?.datas?.map(item => {
+        //       if (item?.id === id) {
+        //         return { ...item, isActive: !item.isActive };
+        //       }
+        //       return item;
+        //     })
+        //   }
+        // };
+        // setBlogData(obj);
+      }
+      setDisableSwitch(false);
+    } catch {
+      setDisableSwitch(false);
+    }
+  };
+
   return (
     <>
       <Box
@@ -274,6 +304,8 @@ function Users() {
 
                   <Th textTransform="initial">EMAİL </Th>
                   <Th textTransform="initial">TELEFON</Th>
+                  <Th textTransform="initial">STATUS</Th>
+
                   <Th />
                 </Tr>
               </Thead>
@@ -285,6 +317,20 @@ function Users() {
                       <Td>{z?.lastname ?? noText}</Td>
                       <Td>{z?.email ?? noText}</Td>
                       <Td>{z?.phoneNumber ?? noText}</Td>
+                      <Td>
+                        <FormControl display="flex" alignItems="center">
+                          <Switch
+                            isDisabled={disableSwitch}
+                            colorScheme="brand"
+                            onChange={() => {
+                              setSelectedItem(z);
+                              changeCategoryItemStatus(z?.id || '');
+                            }}
+                            isChecked={!z?.isBlocked}
+                            id="email-alerts"
+                          />
+                        </FormControl>
+                      </Td>
                       <Td textAlign="right">
                         <Menu>
                           <MenuButton
@@ -302,6 +348,15 @@ function Users() {
                               }}
                             >
                               Düzəliş et
+                            </MenuItem>
+                            <MenuItem
+                              onClick={e => {
+                                e.preventDefault();
+                                setSelectedItem(z);
+                                passwordModal.onOpen();
+                              }}
+                            >
+                              Şifrəni dəyiş
                             </MenuItem>
                             <MenuItem
                               onClick={() => {
@@ -400,6 +455,21 @@ function Users() {
           selectedItem={selectedItem}
           setRefreshComponent={setRefreshComponent}
           onClose={editModal.onClose}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={passwordModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={passwordModal.onClose}
+      >
+        <ModalOverlay />
+        <UserChangePasswordModal
+          selectedItem={selectedItem}
+          setRefreshComponent={setRefreshComponent}
+          onClose={passwordModal.onClose}
         />
       </Modal>
     </>

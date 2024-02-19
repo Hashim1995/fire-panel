@@ -70,8 +70,7 @@ function UserEditModal({
       lastname: data?.lastname,
       phoneNumber: data?.phoneNumber,
       role: data?.role?.value,
-      password: data?.password,
-      userId: selectedItem?.userId || ''
+      id: selectedItem?.id || ''
     };
     try {
       const res = await UsersServies.getInstance().updateUser(payload);
@@ -294,56 +293,6 @@ function UserEditModal({
                         value={value}
                         type="text"
                         placeholder={inputPlaceholderText('Telefon')}
-                      />
-                    </Tooltip>
-                  </FormControl>
-                )}
-              />
-              <Controller
-                control={control}
-                name="password"
-                rules={{
-                  required: {
-                    value: true,
-                    message: inputValidationText('Şifrə')
-                  },
-                  minLength: {
-                    value: 8,
-                    message: 'Şifrə ən azı 8 simvol olmalıdır'
-                  },
-                  validate: {
-                    RequireDigit: (value: any) =>
-                      /[0-9]/.test(value) || 'Şifrəda ən azı 1 rəqəm olmalıdır',
-                    RequireLowercase: (value: any) =>
-                      /[a-z]/.test(value) ||
-                      'Şifrədə ən az 1 kiçik hərf olmalıdır',
-                    RequireUppercase: (value: any) =>
-                      /[A-Z]/.test(value) ||
-                      'Şifrədə ən az 1 böyük hərf olmalıdır',
-                    RequireSpecialCharacter: (value: any) =>
-                      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(value) ||
-                      'Şifrədə ən az 1 xüsusi simvol  olmalıdır'
-                  }
-                }}
-                render={({ field: { onChange, value } }) => (
-                  <FormControl
-                    isInvalid={Boolean(errors.password)}
-                    id="password"
-                    isRequired
-                  >
-                    <FormLabel fontSize="sm" mb={1}>
-                      Şifrə
-                    </FormLabel>
-                    <Tooltip
-                      hasArrow
-                      placement="top-end"
-                      label={errors.password ? errors.password.message : ''}
-                    >
-                      <Input
-                        onChange={onChange}
-                        value={value}
-                        type="text"
-                        placeholder={inputPlaceholderText('Şifrə')}
                       />
                     </Tooltip>
                   </FormControl>

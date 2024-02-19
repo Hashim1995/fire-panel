@@ -1,7 +1,7 @@
 /* eslint-disable no-empty-function */
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
-import { IBranches, IUserItem, } from '@/models/users';
+import { IBranches, IUserChangePassword, IUserItem, } from '@/models/users';
 import { IGlobalResponse } from '@/models/common';
 import { ErrorCallBack, HttpUtil, IHTTPSParams } from '../config';
 
@@ -16,11 +16,54 @@ export interface IGetBranchResponse extends IGlobalResponse {
   datas: IBranches[];
 }
 
+export interface IHomeStats {
+  fullVisaLevelStatistics: {
+    inProgress: number,
+    pendingForDocument: number,
+    inInspection: number,
+    documentsConfirmed: number,
+    cancelled: number,
+    pendingForDocumentRecovery: number,
+    pendingForPayment: number,
+    totalCount: number,
+  },
+  monthlyVisaLevelStatistics: {
+    inProgress: number,
+    pendingForDocument: number,
+    inInspection: number,
+    documentsConfirmed: number,
+    cancelled: number,
+    pendingForDocumentRecovery: number,
+    pendingForPayment: number,
+    totalCount: number,
+  },
+  fullPaymentStatistics: number
+  monthlyPaymentStatistics: number
+}
+
+export interface IHomeStatsReponse extends IGlobalResponse {
+  data: IHomeStats
+}
+
 export class UsersServies {
   // eslint-disable-next-line no-use-before-define
   private static instance: UsersServies | null;
 
   private constructor() { }
+
+  public async getHomePagestats(
+    onError?: ErrorCallBack
+  ): Promise<IHomeStatsReponse> {
+    const res = await HttpUtil.get(
+      '/admin/statistics',
+      null,
+      false,
+      onError
+    );
+    return res;
+  }
+
+
 
   public static getInstance(): UsersServies {
     if (!this.instance) {
@@ -80,6 +123,27 @@ export class UsersServies {
     const res = await HttpUtil.put('/admin/user', payload, onError);
     return res;
   }
+
+  public async changePassword(
+    payload: IUserChangePassword,
+    onError?: ErrorCallBack
+  ): Promise<IGlobalResponse> {
+    const res = await HttpUtil.put('/admin/user/change-password', payload, onError);
+    return res;
+  }
+
+  public async changeItemStatus(
+    id: string,
+    onError?: ErrorCallBack
+  ): Promise<IGlobalResponse> {
+    const res = await HttpUtil.put(
+      `/admin/user/status/${id}`,
+      null,
+      onError
+    );
+    return res;
+  }
+
 
 
 }

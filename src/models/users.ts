@@ -5,9 +5,12 @@ interface IUserItem {
   lastname: string,
   phoneNumber: string,
   role: any,
-  password?: string,
-  userId?: string
-
+  id?: string
+  isBlocked?: boolean,
+}
+interface IUserChangePassword {
+  password: string,
+  id?: string,
 }
 
 interface IUserPayload {
@@ -28,4 +31,4 @@ interface IBranches {
   readonly name: string;
 }
 
-export type { IUserItem, IUserPayload, IBranches };
+export type { IUserItem, IUserPayload, IBranches, IUserChangePassword };

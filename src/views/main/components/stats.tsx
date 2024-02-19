@@ -101,12 +101,6 @@ function Stats() {
                 {data?.monthlyVisaLevelStatistics?.inInspection ?? noText}
               </StatNumber>
             </Stat>
-            <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Təsdiqlənmiş</StatLabel>
-              <StatNumber fontSize={'md'}>
-                {data?.monthlyVisaLevelStatistics?.documentsConfirmed ?? noText}
-              </StatNumber>
-            </Stat>
           </StatGroup>
           <StatGroup mb={5} gap={3}>
             <Stat borderRadius={12} p={2} bg={'blue.100'}>
@@ -123,15 +117,9 @@ function Stats() {
               </StatNumber>
             </Stat>
             <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Ödəniş gözləyən</StatLabel>
+              <StatLabel fontSize={'xs'}>Təsdiqlənmiş</StatLabel>
               <StatNumber fontSize={'md'}>
-                {data?.monthlyVisaLevelStatistics?.pendingForPayment ?? noText}
-              </StatNumber>
-            </Stat>
-            <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Yekun say</StatLabel>
-              <StatNumber fontSize={'md'}>
-                {data?.monthlyVisaLevelStatistics?.totalCount ?? noText}
+                {data?.monthlyVisaLevelStatistics?.documentsConfirmed ?? noText}
               </StatNumber>
             </Stat>
           </StatGroup>
@@ -162,12 +150,6 @@ function Stats() {
                 {data?.fullVisaLevelStatistics?.inInspection ?? noText}
               </StatNumber>
             </Stat>
-            <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Təsdiqlənmiş</StatLabel>
-              <StatNumber fontSize={'md'}>
-                {data?.fullVisaLevelStatistics?.documentsConfirmed ?? noText}
-              </StatNumber>
-            </Stat>
           </StatGroup>
           <StatGroup mb={5} gap={3}>
             <Stat borderRadius={12} p={2} bg={'blue.100'}>
@@ -184,15 +166,9 @@ function Stats() {
               </StatNumber>
             </Stat>
             <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Ödəniş gözləyən</StatLabel>
+              <StatLabel fontSize={'xs'}>Təsdiqlənmiş</StatLabel>
               <StatNumber fontSize={'md'}>
-                {data?.fullVisaLevelStatistics?.pendingForPayment ?? noText}
-              </StatNumber>
-            </Stat>
-            <Stat borderRadius={12} p={2} bg={'blue.100'}>
-              <StatLabel fontSize={'xs'}>Yekun say</StatLabel>
-              <StatNumber fontSize={'md'}>
-                {data?.fullVisaLevelStatistics?.totalCount ?? noText}
+                {data?.fullVisaLevelStatistics?.documentsConfirmed ?? noText}
               </StatNumber>
             </Stat>
           </StatGroup>

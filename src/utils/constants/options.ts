@@ -25,13 +25,13 @@ function LANG_ENUM_OPTIONS() {
 }
 
 const languageOptions: selectOption[] = LANG_ENUM_OPTIONS();
-const statusOptions: selectOption[] = [
+const statusOptions: any[] = [
   {
-    value: '1',
+    value: 2,
     label: 'Aktiv'
   },
   {
-    value: '2',
+    value: 1,
     label: 'Deaktiv'
   }
 ];

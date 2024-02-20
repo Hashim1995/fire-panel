@@ -62,10 +62,8 @@ function Appeal() {
       ...queryParams,
       { name: 'page', value: page }
     ]);
-    if (res?.succeeded) {
-      setAppealData(res?.data);
-      setLoading(false);
-    }
+    setAppealData(res?.data);
+    setLoading(false);
   };
 
   const onSubmit: SubmitHandler<IAppealFilter> = async (
@@ -151,7 +149,7 @@ function Appeal() {
                       <Input
                         onChange={onChange}
                         value={value}
-                        placeholder={'Başlıq'}
+                        placeholder={'Email'}
                       />
                     </FormControl>
                   )}
@@ -170,7 +168,7 @@ function Appeal() {
                       <Input
                         onChange={onChange}
                         value={value}
-                        placeholder={'Başlıq'}
+                        placeholder={'Telefon'}
                       />
                     </FormControl>
                   )}
@@ -208,7 +206,7 @@ function Appeal() {
                       <Input
                         onChange={onChange}
                         value={value}
-                        placeholder={'Başlıq'}
+                        placeholder={'Ad'}
                       />
                     </FormControl>
                   )}

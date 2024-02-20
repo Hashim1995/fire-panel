@@ -85,12 +85,8 @@ function Blog() {
       ...queryParams,
       { name: 'page', value: page }
     ]);
-    if (res.succeeded) {
-      setBlogData(res.data);
-      setLoading(false);
-    } else {
-      setLoading(false);
-    }
+    setBlogData(res.data);
+    setLoading(false);
   };
 
   const onSubmit: SubmitHandler<IBlogFilter> = async (data: IBlogFilter) => {

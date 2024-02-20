@@ -86,10 +86,8 @@ function Country() {
       ...queryParams,
       { name: 'page', value: page }
     ]);
-    if (res?.succeeded) {
-      setCountryData(res?.data);
-      setLoading(false);
-    }
+    setCountryData(res?.data);
+    setLoading(false);
   };
 
   const onSubmit: SubmitHandler<ICountryFilter> = async (
@@ -115,7 +113,6 @@ function Country() {
     setValue('status', null);
     setValue('Language', null);
     setValue('title', '');
-
     setCurrentPage(1);
     setQueryParams([]);
     setRefreshComponent(r => !r);

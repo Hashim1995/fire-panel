@@ -86,9 +86,7 @@ function VisaAdmin() {
         ...queryParams,
         { name: 'page', value: page }
       ]);
-    if (res?.succeeded) {
-      setVisaData(res?.data);
-    }
+    setVisaData(res?.data);
     setLoading(false);
   };
 

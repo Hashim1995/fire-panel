@@ -94,7 +94,7 @@ function Options() {
 
   useEffect(() => {
     fetchOptions();
-  }, [refreshComponent]);
+  }, [page, refreshComponent]);
 
   return (
     <>

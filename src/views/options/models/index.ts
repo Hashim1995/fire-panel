@@ -9,7 +9,10 @@ export interface IOptionItem {
 }
 
 export interface IOptionListResponse extends IGlobalResponse {
-    data: IOptionItem[]
+    data: {
+        data: IOptionItem[],
+        totalDataCount: number
+    }
 }
 
 export interface IOptionCreate {

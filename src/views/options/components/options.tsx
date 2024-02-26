@@ -32,17 +32,21 @@ import {
   Button
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import Pagination from '@/components/display/pagination/pagination';
 import { BiDotsVertical, BiHome } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
 import { OptionsServices } from '@/services/options-services/options-services';
-import { addBtn } from '@/utils/constants/texts';
+import { addBtn, noText } from '@/utils/constants/texts';
 import OptionEditModal from '../modals/option-edit-modal';
 import { IOptionItem, IOptionListResponse } from '../models';
 import OptionAddModal from '../modals/option-add-modal';
 
 function Options() {
-  const [options, setOptions] = useState<IOptionListResponse['data']>([]);
+  const [page, setCurrentPage] = useState<number>(1);
+  const [options, setOptions] = useState<IOptionListResponse['data'] | null>(
+    null
+  );
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedItem, setSelectedItem] = useState<IOptionItem>();
@@ -55,9 +59,9 @@ function Options() {
   const fetchOptions = async () => {
     setLoading(true);
 
-    const res: IOptionListResponse = await OptionsServices.getInstance().get(
-      []
-    );
+    const res: IOptionListResponse = await OptionsServices.getInstance().get([
+      { name: 'page', value: page }
+    ]);
     setOptions(res?.data);
     setLoading(false);
   };
@@ -126,7 +130,7 @@ function Options() {
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={1} fontWeight="medium">
-          CƏDVƏL
+          CƏDVƏL ({options?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>
@@ -142,9 +146,9 @@ function Options() {
                     <Th />
                   </Tr>
                 </Thead>
-                {options?.length > 0 ? (
+                {options?.data && options?.data?.length > 0 ? (
                   <Tbody textAlign="left">
-                    {options?.map((z: IOptionItem) => (
+                    {options?.data?.map((z: IOptionItem) => (
                       <Tr key={z?.id} textAlign="left">
                         <Td>{z?.title}</Td>
                         <Td>{z?.amount}</Td>
@@ -218,6 +222,16 @@ function Options() {
                 )}
               </Table>
             </TableContainer>
+            {options?.data && options?.data?.length > 0 ? (
+              <Flex mt={4} justify="flex-end">
+                <Pagination
+                  currentPage={page}
+                  totalCount={options?.totalDataCount}
+                  pageSize={10}
+                  onPageChange={(z: number) => setCurrentPage(z)}
+                />
+              </Flex>
+            ) : null}
           </Box>
         ) : (
           <Stack>

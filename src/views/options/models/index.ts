@@ -5,7 +5,8 @@ export interface IOptionItem {
     title: string,
     amount: number,
     isActive: boolean,
-    paymentType: any
+    paymentType: any,
+    key: any,
 }
 
 export interface IOptionListResponse extends IGlobalResponse {

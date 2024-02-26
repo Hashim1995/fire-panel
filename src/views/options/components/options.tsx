@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-restricted-syntax */
@@ -148,8 +149,8 @@ function Options() {
                 </Thead>
                 {options?.data && options?.data?.length > 0 ? (
                   <Tbody textAlign="left">
-                    {options?.data?.map((z: IOptionItem) => (
-                      <Tr key={z?.id} textAlign="left">
+                    {options?.data?.map((z: IOptionItem, index: number) => (
+                      <Tr key={z?.key || index} textAlign="left">
                         <Td>{z?.title}</Td>
                         <Td>{z?.amount}</Td>
                         <Td>

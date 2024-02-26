@@ -44,6 +44,13 @@ export const VisaTypes = [
     { value: 1, label: "Təkli viza" },
     { value: 2, label: "Çoxlu viza" },
 ];
+export const PaymentTypes = [
+    { value: 1, label: "Sadə" },
+    { value: 2, label: "Kompleks" },
+    { value: 3, label: "Hər ikisi" },
+];
+
+
 export const countriesStatic = [
     { value: 1, label: 'Albaniya' },
     { value: 2, label: 'Andorra' },

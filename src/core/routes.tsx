@@ -10,12 +10,13 @@ import AppealPage from '@/views/appeal/pages';
 import VisaPage from '@/views/visa/pages';
 import CountryPage from '@/views/country/pages';
 import UsersPage from '@/views/users/pages';
-import VisaAdmin from '@/views/visaAdmin/components/visa';
 import ClientsPage from '@/views/clients/pages';
+import VisaAdmin from '@/views/visaAdmin/components/visa';
+import OptionsPage from '@/views/options/pages';
+import NoPermission from './no-permission/no-permission';
 import Login from './login/login';
 import ChichkenLoader from './suspense/chicken-loader';
 import NotFound from './404/404';
-import NoPermission from './no-permission/no-permission';
 
 const MAIN_PAGE = lazy(() => import('@/views/main/pages'));
 const SERVICES_PAGE = lazy(() => import('@views/services'));
@@ -150,6 +151,17 @@ const routes = [
           <Navigate to="/no-permission" />
         ),
         permission: ['clientsRoute']
+      },
+      {
+        path: 'options',
+        element: checkPermission(['optionsRoute']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <OptionsPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['optionsRoute']
       },
       {
         path: 'info',

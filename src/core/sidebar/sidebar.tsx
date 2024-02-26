@@ -32,7 +32,8 @@ import {
   BiMessage,
   BiGitPullRequest,
   BiCog,
-  BiUserCircle
+  BiUserCircle,
+  BiMoneyWithdraw
 } from 'react-icons/bi';
 import { useLocalStorage } from 'usehooks-ts';
 import Logo from '@assets/logo/logo.png';
@@ -154,6 +155,14 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiUserCircle,
       url: '/clients',
+      canShow: 'admin'
+    },
+    {
+      id: 'element-4',
+      title: 'Opsiyalar',
+      isCollapsable: false,
+      icon: BiMoneyWithdraw,
+      url: '/options',
       canShow: 'admin'
     }
   ];

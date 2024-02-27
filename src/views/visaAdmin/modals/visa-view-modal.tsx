@@ -3,6 +3,7 @@
 import { modalClose } from '@/models/common';
 
 import { closeBtn, noText } from '@/utils/constants/texts';
+import { IVisaExtraOption } from '@/views/visa/models';
 import {
   ModalContent,
   ModalHeader,
@@ -24,7 +25,10 @@ import {
   Heading,
   Modal,
   ModalOverlay,
-  useDisclosure
+  useDisclosure,
+  Wrap,
+  WrapItem,
+  Badge
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { IVisaApplicationItem, IVisaApplicant } from '../models';
@@ -135,6 +139,22 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                 </Text>
               </Box>
             </SimpleGrid>
+            {selectedId?.extraOptions?.length ? (
+              <SimpleGrid columns={2} spacing={1} py={2}>
+                <Box p={2} bg={'Highlight'} borderRadius={'base'}>
+                  <Text fontWeight="italic">Əlavə xidmətlər</Text>
+                </Box>
+                <Box borderRadius={'base'} textAlign="start" p={2}>
+                  <Wrap>
+                    {selectedId?.extraOptions?.map((z: IVisaExtraOption) => (
+                      <WrapItem key={z?.id}>
+                        <Badge>{z?.title || noText}</Badge>
+                      </WrapItem>
+                    ))}
+                  </Wrap>
+                </Box>
+              </SimpleGrid>
+            ) : null}
             <br />
             {selectedId?.visaApplicants?.length ? (
               <>

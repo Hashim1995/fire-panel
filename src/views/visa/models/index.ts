@@ -54,7 +54,10 @@ export interface IVisaApplicant {
         isConfirmed?: boolean
     }[];
 }
-
+export interface IVisaExtraOption {
+    title: string;
+    id: number;
+}
 export interface IVisaApplicationItem {
     id: number;
     visaCategory: number;
@@ -67,6 +70,7 @@ export interface IVisaApplicationItem {
     isDone: boolean;
     country: IIdTitleObj;
     operator: IOperator;
+    extraOptions: IVisaExtraOption[] | null,
     customer: {
         firstname: string,
         lastname: string,

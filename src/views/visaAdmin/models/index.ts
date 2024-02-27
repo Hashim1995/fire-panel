@@ -27,7 +27,10 @@ export interface IEuropeanFamilyMember {
     lastname: string;
     passportUri: string;
 }
-
+export interface IVisaExtraOption {
+    title: string;
+    id: number;
+}
 export interface IVisaApplicant {
     id: number;
     firstname: string;
@@ -66,6 +69,7 @@ export interface IVisaApplicationItem {
     visaStatus: number;
     isDone: boolean;
     country: IIdTitleObj;
+    extraOptions: IVisaExtraOption[] | null,
     operator: IOperator;
     customer: {
         firstname: string,

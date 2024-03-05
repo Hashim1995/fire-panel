@@ -26,7 +26,7 @@ export class AuthService {
     body: IAuthLogin,
     onError?: ErrorCallBack
   ): Promise<IAuthResponse | null> {
-    const res = await HttpUtil.post('/auth/login', body, onError);
+    const res = await HttpUtil.post('/admin/auth/login', body, onError);
     return res;
   }
 

@@ -83,7 +83,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiBookContent,
       url: '/about',
-      canShow: 'Admin'
+      canShow: 'Copywriter'
     },
     {
       id: 'element-103',
@@ -91,7 +91,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiPhone,
       url: '/contact',
-      canShow: 'Admin'
+      canShow: 'Copywriter'
     },
     {
       id: 'element-104',
@@ -99,7 +99,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiNews,
       url: '/blog',
-      canShow: 'Admin'
+      canShow: 'Copywriter'
     },
     {
       id: 'element-104',
@@ -115,7 +115,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiWorld,
       url: '/country',
-      canShow: 'Admin'
+      canShow: 'Copywriter'
     },
     {
       id: 'element-106',
@@ -139,7 +139,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiGitPullRequest,
       url: '/visa-admin',
-      canShow: 'admin'
+      canShow: 'Admin'
     },
     {
       id: 'element-4',
@@ -147,7 +147,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiUser,
       url: '/users',
-      canShow: 'admin'
+      canShow: 'Admin'
     },
     {
       id: 'element-4',
@@ -155,7 +155,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiUserCircle,
       url: '/clients',
-      canShow: 'admin'
+      canShow: 'Admin'
     },
     {
       id: 'element-4',
@@ -163,7 +163,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       isCollapsable: false,
       icon: BiMoneyWithdraw,
       url: '/options',
-      canShow: 'admin'
+      canShow: 'Admin'
     }
   ];
 

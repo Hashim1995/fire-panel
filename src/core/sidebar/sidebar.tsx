@@ -203,9 +203,17 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       >
         {' '}
         <Box p={2}>
-          <Link as={NavLink} to="/home">
-            <img src={Logo} alt="" />
-          </Link>
+          {!isMenuCollapsed && (
+            <Link as={NavLink} to="/home">
+              <img
+                style={{
+                  height: '60px'
+                }}
+                src={Logo}
+                alt=""
+              />
+            </Link>
+          )}
         </Box>
         <IconButton
           className="collapseBtn"

@@ -365,7 +365,7 @@ function BlogEditModal({
           <Uploader
             onChange={e => setPhoto(e[0])}
             limit={1}
-            accept={['image/png', 'image/jpg', 'image/jpeg']}
+            accept={['image/png', 'image/webp', 'image/jpg', 'image/jpeg']}
           />
           {!photo && (
             <Box mt={5}>

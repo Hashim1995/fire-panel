@@ -24,10 +24,10 @@ function Uploader({
     defaultValues || []
   );
 
- const validateAspectRatio = (file: File) => {
+  const validateAspectRatio = (file: File) => {
     if (!aspectRatio) return true;
 
-    return new Promise<boolean>((resolve) => {
+    return new Promise<boolean>(resolve => {
       const img = document.createElement('img');
       img.src = URL.createObjectURL(file);
 
@@ -60,8 +60,6 @@ function Uploader({
     return isValidType;
   };
   const onDrop = (acceptedFiles: File[]) => {
-    console.log(acceptedFiles, 'tofiq');
-
     const isValidFiles = acceptedFiles.filter(validateFile);
 
     if (aspectRatio) {
@@ -84,6 +82,8 @@ function Uploader({
     onDrop,
     accept: {
       'image/jpeg': [],
+      'image/webp': [],
+      'image/svg': [],
       'image/png': [],
       'image/jpg': [],
       'image/gif': [],

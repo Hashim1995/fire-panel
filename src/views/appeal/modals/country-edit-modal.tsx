@@ -233,7 +233,7 @@ function CountryEditModal({
           <Uploader
             onChange={e => setCoverPhoto(e[0])}
             limit={1}
-            accept={['image/png', 'image/jpg', 'image/jpeg']}
+            accept={['image/png', 'image/webp', 'image/jpg', 'image/jpeg']}
           />
           {!CoverPhoto && (
             <Box mt={5}>
@@ -255,7 +255,7 @@ function CountryEditModal({
           <Uploader
             onChange={e => setFlagPhoto(e[0])}
             limit={1}
-            accept={['image/png', 'image/jpg', 'image/jpeg']}
+            accept={['image/png', 'image/webp', 'image/jpg', 'image/jpeg']}
           />
           {!FlagPhoto && (
             <Box mt={5}>

@@ -171,7 +171,13 @@ function AboutItem({ data, setRefreshComponent }: IAboutItemProps) {
             <Uploader
               onChange={e => setPhoto(e[0])}
               limit={1}
-              accept={['image/png', 'image/jpg', 'image/jpeg']}
+              accept={[
+                'image/png',
+                'image/jpg',
+                'image/svg',
+                'image/webp',
+                'image/jpeg'
+              ]}
             />
             {!photo && (
               <Box mt={5}>

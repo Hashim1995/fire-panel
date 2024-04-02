@@ -251,7 +251,7 @@ function CountryAddModal({ onClose, setRefreshComponent }: modalClose) {
           <Uploader
             onChange={e => setCoverPhoto(e[0])}
             limit={1}
-            accept={['image/png', 'image/jpg', 'image/jpeg']}
+            accept={['image/png', 'image/webp', 'image/jpg', 'image/jpeg']}
           />
         </Box>
         <Box mt={5}>
@@ -259,7 +259,7 @@ function CountryAddModal({ onClose, setRefreshComponent }: modalClose) {
           <Uploader
             onChange={e => setFlagPhoto(e[0])}
             limit={1}
-            accept={['image/png', 'image/jpg', 'image/jpeg']}
+            accept={['image/png', 'image/webp', 'image/jpg', 'image/jpeg']}
           />
         </Box>
       </ModalBody>

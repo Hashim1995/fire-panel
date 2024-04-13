@@ -155,9 +155,9 @@ function Options() {
                         <Td>{z?.amount}</Td>
                         <Td>
                           {z?.paymentType === 1
-                            ? 'Sadə'
+                            ? 'Standart'
                             : z?.paymentType === 2
-                            ? 'Kompleks'
+                            ? 'VIP'
                             : z?.paymentType === 3
                             ? 'Hamısı'
                             : ''}

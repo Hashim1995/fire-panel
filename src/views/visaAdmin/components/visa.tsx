@@ -236,7 +236,7 @@ function VisaAdmin() {
                   render={({ field: { onChange, value } }) => (
                     <FormControl id="visaLevels">
                       <FormLabel fontSize="sm" mb={1}>
-                        Mərhələ statusu
+                        Müraciətin statusu
                       </FormLabel>
                       <Select
                         className="chakra-select"
@@ -245,7 +245,7 @@ function VisaAdmin() {
                         options={VisaLevels}
                         placeholder={
                           <div className="custom-select-placeholder">
-                            Mərhələ statusu
+                            Müraciətin statusu
                           </div>
                         }
                         isClearable
@@ -262,12 +262,12 @@ function VisaAdmin() {
                   render={({ field: { onChange, value } }) => (
                     <FormControl id="applicantName">
                       <FormLabel fontSize="sm" mb={1}>
-                        Müraciətçi
+                        Müraciət edən şəxs
                       </FormLabel>
                       <Input
                         onChange={onChange}
                         value={value}
-                        placeholder={'Müraciətçi'}
+                        placeholder={'Müraciət edən şəxs'}
                       />
                     </FormControl>
                   )}
@@ -303,7 +303,7 @@ function VisaAdmin() {
                     <Th textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
                     <Th textTransform="initial">GEDİŞ TARİXİ</Th>
                     <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
-                    <Th textTransform="initial">MƏRHƏLƏ STATUSU</Th>
+                    <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
                     <Th />
                   </Tr>
                 </Thead>

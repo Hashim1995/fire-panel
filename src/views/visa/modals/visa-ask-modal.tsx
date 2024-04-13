@@ -202,14 +202,14 @@ function VisaAskModal({
                             isRequired
                             id="DateOfPublish"
                           >
-                            <FormLabel fontSize="sm">Görüş tarixi</FormLabel>
+                            <FormLabel fontSize="sm">Randevu tarixi</FormLabel>
                             <Tooltip
                               hasArrow
                               placement="top-end"
                               // @ts-ignore
                               label={
                                 errors[`applicants.${index}.date`]
-                                  ? 'Görüş tarixi xanasını daxil eidlməsi məcburidir'
+                                  ? 'Randevu tarixi xanasını daxil eidlməsi məcburidir'
                                   : ''
                               }
                             >

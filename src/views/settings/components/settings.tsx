@@ -55,7 +55,7 @@ function Settings() {
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Flex justifyContent="left">
           <Heading fontWeight="medium" mb={5} size="md">
-            Ödəniş növü qiymətləri
+            Viza dəstək növü qiymətləri
           </Heading>
         </Flex>
         <PaymentTypePrice />

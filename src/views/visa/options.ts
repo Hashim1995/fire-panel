@@ -41,12 +41,12 @@ export const VisaStatuses = [
 
 
 export const VisaTypes = [
-    { value: 1, label: "Təkli viza" },
-    { value: 2, label: "Çoxlu viza" },
+    { value: 1, label: "Tək girişli" },
+    { value: 2, label: "Çox girişli" },
 ];
 export const PaymentTypes = [
-    { value: 1, label: "Sadə" },
-    { value: 2, label: "Kompleks" },
+    { value: 1, label: "Standart" },
+    { value: 2, label: "VIP" },
     { value: 3, label: "Hər ikisi" },
 ];
 

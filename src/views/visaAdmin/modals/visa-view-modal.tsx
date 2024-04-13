@@ -61,7 +61,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
-                  {getEnumLabel(VisaCategories, 3) || noText}
+                  {getEnumLabel(VisaCategories, 1) || noText}
                 </Text>
               </Box>
             </SimpleGrid>
@@ -108,7 +108,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={2} spacing={1} py={2}>
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Viza mərhələ statusu</Text>
+                <Text fontWeight="italic">Müraciətin statusu</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
@@ -131,7 +131,7 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={2} spacing={1} py={2}>
               <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Müraciət edən şəxs email</Text>
+                <Text fontWeight="italic">Elektron poçt ünvanı</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontWeight="medium">
@@ -169,8 +169,8 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                         <Th>Soyadı</Th>
                         <Th>Email</Th>
                         <Th>Telefon Nömrəsi</Th>
-                        <Th>Pasport Nömrəsi</Th>
-                        <Th>FİN KOD</Th>
+                        <Th>Pasport no</Th>
+                        <Th>FİN</Th>
                         <Th>Doğum Tarixi</Th>
                       </Tr>
                     </Thead>

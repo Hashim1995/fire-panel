@@ -116,7 +116,7 @@ function OptionAddModal({ onClose, setRefreshComponent }: modalClose) {
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText('Ödəniş növü')
+                    message: inputValidationText('Viza dəstək növü')
                   }
                 }}
                 render={({ field: { onChange, value } }) => (
@@ -126,7 +126,7 @@ function OptionAddModal({ onClose, setRefreshComponent }: modalClose) {
                     isRequired
                   >
                     <FormLabel fontSize="sm" mb={1}>
-                      Ödəniş növü
+                      Viza dəstək növü
                     </FormLabel>
                     <Tooltip
                       hasArrow
@@ -141,7 +141,9 @@ function OptionAddModal({ onClose, setRefreshComponent }: modalClose) {
                           onChange={onChange}
                           value={value}
                           options={PaymentTypes}
-                          placeholder={selectPlaceholderText('Ödəniş növü')}
+                          placeholder={selectPlaceholderText(
+                            'Viza dəstək növü'
+                          )}
                           isClearable
                         />
                       </div>

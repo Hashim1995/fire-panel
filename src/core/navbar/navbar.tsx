@@ -10,14 +10,10 @@ import {
   VStack,
   Modal,
   ModalOverlay,
-  useDisclosure,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList
+  useDisclosure
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { BiLogOut, BiMenu } from 'react-icons/bi';
+import { BiLogOut } from 'react-icons/bi';
 import { FiMenu } from 'react-icons/fi';
 import { useSelector } from 'react-redux';
 import { useLocalStorage } from 'usehooks-ts';
@@ -92,32 +88,13 @@ function Navbar({ onOpen, ...rest }: NavbarProps) {
                 {user?.role ?? noText}
               </Text>
             </VStack>
-            <Menu>
-              <MenuButton
-                as={IconButton}
-                aria-label="Options"
-                icon={<BiMenu size={22} />}
-                variant="outline"
-              />
-              <MenuList>
-                {/* <MenuItem
-                  onClick={() => {
-                    passwordModal.onOpen();
-                  }}
-                  icon={<BiLockAlt />}
-                >
-                  Şifrəni dəyiş
-                </MenuItem> */}
-                <MenuItem
-                  onClick={() => {
-                    logOutModal.onOpen();
-                  }}
-                  icon={<BiLogOut />}
-                >
-                  Çıxış
-                </MenuItem>
-              </MenuList>
-            </Menu>
+            <BiLogOut
+              style={{ cursor: 'pointer' }}
+              size={24}
+              onClick={() => {
+                logOutModal.onOpen();
+              }}
+            />
           </HStack>
         </Flex>
       </HStack>

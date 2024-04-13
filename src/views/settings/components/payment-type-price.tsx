@@ -131,7 +131,7 @@ function PaymentTypePrice() {
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText('Sadə Ödəniş qiyməti')
+                    message: inputValidationText('Standart Ödəniş qiyməti')
                   }
                 }}
                 render={({ field: { onChange, value } }) => (
@@ -141,7 +141,7 @@ function PaymentTypePrice() {
                     id="simpleAmount"
                   >
                     <FormLabel fontSize="sm" mb={1}>
-                      Sadə Ödəniş qiyməti
+                      Standart Ödəniş qiyməti
                     </FormLabel>
                     <Tooltip
                       hasArrow
@@ -171,7 +171,7 @@ function PaymentTypePrice() {
                 rules={{
                   required: {
                     value: true,
-                    message: inputValidationText('Kompleks Ödəniş qiyməti')
+                    message: inputValidationText('VIP Ödəniş qiyməti')
                   }
                 }}
                 render={({ field: { onChange, value } }) => (
@@ -181,7 +181,7 @@ function PaymentTypePrice() {
                     id="complexAmount"
                   >
                     <FormLabel fontSize="sm" mb={1}>
-                      Kompleks Ödəniş qiyməti
+                      VIP Ödəniş qiyməti
                     </FormLabel>
                     <Tooltip
                       hasArrow

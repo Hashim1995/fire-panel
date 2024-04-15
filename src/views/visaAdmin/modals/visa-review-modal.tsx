@@ -56,6 +56,7 @@ import {
 import { Select } from 'chakra-react-select';
 import { languageOptions } from '@/utils/constants/options';
 import { AxiosError } from 'axios';
+import { BiDownload } from 'react-icons/bi';
 
 import { useState } from 'react';
 import Uploader from '@/components/forms/uploader/uploader';
@@ -162,23 +163,19 @@ function VisaReviewModal({
     }
   };
 
-  const downloadFile = async (url: string) => {
+  const downloadFile = async (param: string) => {
     try {
-      const res = await VisaServices.getInstance().download(url);
-      if (res.succeeded) {
-        if (res.succeeded) {
-          // Since response.data is already a blob, you don't need to convert it
-          const url = URL.createObjectURL(res.data);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = url; // Specify the filename here
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          URL.revokeObjectURL(url);
-          document.body.removeChild(a);
-        }
-      }
+      const res = await VisaServices.getInstance().download(param);
+      console.log(res);
+      const url = URL.createObjectURL(res);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = param; // Specify the filename here
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         if (error?.response?.data?.messages?.length) {
@@ -282,6 +279,8 @@ function VisaReviewModal({
                       <Table variant="simple">
                         <Thead>
                           <Tr>
+                            <Th> </Th>
+
                             <Th>Sənəd Tipi</Th>
                             <Th textAlign={'center'}>Status</Th>
                           </Tr>
@@ -289,6 +288,14 @@ function VisaReviewModal({
                         <Tbody>
                           {applicant?.visaDocuments.map((document: any) => (
                             <Tr key={document.id}>
+                              <Td
+                                onClick={() => downloadFile(document?.uri)}
+                                style={{
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <BiDownload />
+                              </Td>
                               <Td
                                 onClick={() => downloadFile(document?.uri)}
                                 style={{

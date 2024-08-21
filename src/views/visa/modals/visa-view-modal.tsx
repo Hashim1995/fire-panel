@@ -27,9 +27,12 @@ import {
   useDisclosure,
   Badge,
   Wrap,
-  WrapItem
+  WrapItem,
+  IconButton,
+  useToast
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { FaCopy } from 'react-icons/fa';
 import {
   IVisaApplicationItem,
   IVisaApplicant,
@@ -47,8 +50,35 @@ interface IVisaViewModal extends modalClose {
   selectedId: IVisaApplicationItem;
 }
 function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
+  const toast = useToast();
+
   const detailedViewModal = useDisclosure();
   const [selectedPerson, setSelectedPerson] = useState<IVisaApplicant>();
+
+  const copyToClipboard = (value: string) => {
+    const textToCopy = value || noText;
+
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        toast({
+          title: 'Kopyalandı',
+          description: `${textToCopy} müvəffəqiyyətlə kopyalandı.`,
+          status: 'success',
+          duration: 2000,
+          isClosable: true
+        });
+      })
+      .catch(() => {
+        toast({
+          title: 'Xəta baş verdi',
+          description: 'Mətn kopyalana bilmədi.',
+          status: 'error',
+          duration: 2000,
+          isClosable: true
+        });
+      });
+  };
 
   return (
     <ModalContent>
@@ -58,94 +88,191 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
       <ModalBody>
         {selectedId ? (
           <>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box bg={'Highlight'} borderRadius={'base'} p={2}>
-                <Text fontWeight="italic">Viza kateqoriyası</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Viza kateqoriyası
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(VisaCategories, 1) || noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Giriş ediləcək ölkə</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Visa Category"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() =>
+                    copyToClipboard(getEnumLabel(VisaCategories, 1))
+                  }
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Giriş ediləcək ölkə
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(countriesStatic, selectedId?.entryCountry) ||
                     noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediləcək ölkə</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Entry Country"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() =>
+                    copyToClipboard(
+                      getEnumLabel(countriesStatic, selectedId?.entryCountry)
+                    )
+                  }
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Gediləcək ölkə
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.country?.title || noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediş tarixi</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Departure Country"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() => copyToClipboard(selectedId?.country?.title)}
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Gediş tarixi
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.departureDate || noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediş tarixi</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Departure Date"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() => copyToClipboard(selectedId?.departureDate)}
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Gediş tarixi
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.returnDate || noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Viza Müraciətin statusu</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Return Date"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() => copyToClipboard(selectedId?.returnDate)}
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Viza Müraciətin statusu
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(VisaLevels, selectedId?.visaLevel) || noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Müraciət edən şəxs</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Visa Status"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() =>
+                    copyToClipboard(
+                      getEnumLabel(VisaLevels, selectedId?.visaLevel)
+                    )
+                  }
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Müraciət edən şəxs
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.customer?.firstname
                     ? `${selectedId?.customer?.firstname} ${selectedId?.customer?.lastname}`
                     : noText}
                 </Text>
               </Box>
-            </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Elektron poçt ünvanı</Text>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Applicant Name"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() =>
+                    copyToClipboard(
+                      `${selectedId?.customer?.firstname} ${selectedId?.customer?.lastname}`
+                    )
+                  }
+                />
+              </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Elektron poçt ünvanı
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.customer?.email || noText}
                 </Text>
               </Box>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                <IconButton
+                  aria-label="Copy Email"
+                  icon={<FaCopy />}
+                  size="sm"
+                  variant="ghost"
+                  colorScheme="blue"
+                  onClick={() => copyToClipboard(selectedId?.customer?.email)}
+                />
+              </Box>
             </SimpleGrid>
             {selectedId?.extraOptions?.length ? (
-              <SimpleGrid columns={2} spacing={1} py={2}>
-                <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                  <Text fontWeight="italic">Əlavə xidmətlər</Text>
+              <SimpleGrid columns={3} spacing={1} py={2}>
+                <Box borderRadius={'base'} p={2}>
+                  <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                    Əlavə xidmətlər
+                  </Text>
                 </Box>
                 <Box borderRadius={'base'} textAlign="start" p={2}>
                   <Wrap>
@@ -158,6 +285,8 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                 </Box>
               </SimpleGrid>
             ) : null}
+
+       
 
             <br />
             {selectedId?.visaApplicants?.length ? (

@@ -35,12 +35,17 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Input
+  Input,
+  TabList,
+  Tabs,
+  Tab,
+  Collapse
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Select } from 'chakra-react-select';
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
@@ -62,6 +67,11 @@ import VisaReviewModal from '../modals/visa-review-modal';
 function Visa() {
   const [page, setCurrentPage] = useState<number>(1);
   const [takeDocumentLoading, setTakeDocumentLoading] = useState(false);
+  const [isOpenFilter, setIsOpeFilter] = useState(false);
+
+  const toggleCollapse = () => {
+    setIsOpeFilter(!isOpenFilter);
+  };
 
   const [visaData, setVisaData] = useState<
     IVisaApplicationListResponse['data'] | null
@@ -103,7 +113,7 @@ function Visa() {
   const { handleSubmit, setValue, control } = useForm<IVisaFilter>({
     mode: 'onChange',
     defaultValues: {
-      visaLevels: null,
+      visaLevels: VisaLevels[0],
       visaTypes: null,
       applicantName: ''
     }
@@ -121,7 +131,7 @@ function Visa() {
 
   useEffect(() => {
     fetchVisaList();
-  }, [page, refreshComponent]);
+  }, [page, refreshComponent, queryParams]);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -224,7 +234,7 @@ function Visa() {
         borderRadius={6}
         transition=".4s ease"
       >
-        <Flex align="center">
+        <Flex justify="space-between" align="center">
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink as={NavLink} to="/home">
@@ -237,104 +247,145 @@ function Visa() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-        </Flex>
-      </Box>
-      <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Flex alignItems="center" justifyContent="space-between">
-          <Heading fontWeight="medium" mb={1} size="xs">
-            FİLTR
-          </Heading>
+
           <Button isLoading={takeDocumentLoading} onClick={takeDocument}>
             Sənəd götür
           </Button>
         </Flex>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box>
-            <Grid templateColumns="repeat(3, 1fr)" py={1} gap={1}>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="visaTypes"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="visaTypes">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Viza növü
-                      </FormLabel>
-                      <Select
-                        onChange={onChange}
-                        value={value}
-                        options={VisaTypes}
-                        placeholder={
-                          <div className="custom-select-placeholder">
-                            Viza növü
-                          </div>
-                        }
-                        isClearable
-                      />
-                    </FormControl>
-                  )}
+      </Box>
+      <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          onClick={toggleCollapse}
+          cursor="pointer"
+        >
+          <Heading fontWeight="medium" mb={1} size="xs">
+            FİLTR
+          </Heading>
+          <IconButton
+            aria-label="Toggle Filters"
+            icon={isOpenFilter ? <IoIosArrowUp /> : <IoIosArrowDown />}
+            onClick={toggleCollapse}
+            variant="unstyled"
+            size="sm"
+            _hover={{ backgroundColor: 'transparent' }}
+            _focus={{ boxShadow: 'none' }}
+          />
+        </Flex>
+        <Collapse in={isOpenFilter} animateOpacity>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <Grid templateColumns="repeat(3, 1fr)" py={1} gap={1}>
+                <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="visaTypes"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="visaTypes">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Viza növü
+                        </FormLabel>
+                        <Select
+                          onChange={onChange}
+                          value={value}
+                          menuPortalTarget={document.body}
+                          options={VisaTypes}
+                          placeholder={
+                            <div className="custom-select-placeholder">
+                              Viza növü
+                            </div>
+                          }
+                          isClearable
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem>
+                {/* <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="visaLevels"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="visaLevels">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Müraciətin statusu
+                        </FormLabel>
+                        <Select
+                          className="chakra-select"
+                          onChange={onChange}
+                          value={value}
+                          options={VisaLevels}
+                          placeholder={
+                            <div className="custom-select-placeholder">
+                              Müraciətin statusu
+                            </div>
+                          }
+                          isClearable
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem> */}
+                <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="applicantName"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="applicantName">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Müraciət edən şəxs
+                        </FormLabel>
+                        <Input
+                          onChange={onChange}
+                          value={value}
+                          placeholder={'Müraciət edən şəxs'}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem>
+              </Grid>
+              <Flex mt={2} justify="flex-end">
+                <IconButton
+                  variant="outline"
+                  onClick={resetForm}
+                  aria-label="Show password"
+                  icon={<BiReset size={22} />}
                 />
-              </GridItem>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="visaLevels"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="visaLevels">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Müraciətin statusu
-                      </FormLabel>
-                      <Select
-                        className="chakra-select"
-                        onChange={onChange}
-                        value={value}
-                        options={VisaLevels}
-                        placeholder={
-                          <div className="custom-select-placeholder">
-                            Müraciətin statusu
-                          </div>
-                        }
-                        isClearable
-                      />
-                    </FormControl>
-                  )}
-                />
-              </GridItem>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="applicantName"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="applicantName">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Müraciət edən şəxs
-                      </FormLabel>
-                      <Input
-                        onChange={onChange}
-                        value={value}
-                        placeholder={'Müraciət edən şəxs'}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </GridItem>
-            </Grid>
-            <Flex mt={2} justify="flex-end">
-              <IconButton
-                variant="outline"
-                onClick={resetForm}
-                aria-label="Show password"
-                icon={<BiReset size={22} />}
-              />
-              <Button type="submit" ml={2} variant="solid">
-                Axtar
-              </Button>
-            </Flex>
-          </Box>
-        </form>
+                <Button type="submit" ml={2} variant="solid">
+                  Axtar
+                </Button>
+              </Flex>
+            </Box>
+          </form>
+        </Collapse>
+      </Box>
+      <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
+        <Tabs
+          variant="soft-rounded"
+          colorScheme="blue"
+          onChange={index => {
+            const selectedLevel = VisaLevels[index].value;
+            setValue('visaLevels', {
+              value: selectedLevel,
+              label: VisaLevels[index].label
+            });
+            setQueryParams(prevParams => [
+              ...prevParams.filter(param => param.name !== 'visaLevels'),
+              { name: 'visaLevels', value: selectedLevel }
+            ]);
+          }}
+        >
+          <TabList>
+            {VisaLevels.map(level => (
+              <Tab key={level.value}>{level.label}</Tab>
+            ))}
+          </TabList>
+        </Tabs>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={1} fontWeight="medium">

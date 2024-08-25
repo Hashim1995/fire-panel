@@ -82,6 +82,7 @@ function Visa() {
   const [selectedItem, setSelectedItem] = useState<IVisaApplicationItem>();
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
+  const [selectedTab, setSelectedTab] = useState<number>(0);
 
   const askModal = useDisclosure();
   const reviewModal = useDisclosure();
@@ -95,7 +96,8 @@ function Visa() {
     const res: IVisaApplicationListResponse =
       await VisaServices.getInstance().get([
         ...queryParams,
-        { name: 'page', value: page }
+        { name: 'page', value: page },
+        { name: 'visaLevels', value: selectedTab + 1 } 
       ]);
     setVisaData(res?.data);
 
@@ -113,14 +115,14 @@ function Visa() {
   const { handleSubmit, setValue, control } = useForm<IVisaFilter>({
     mode: 'onChange',
     defaultValues: {
-      visaLevels: VisaLevels[0],
+      // visaLevels: VisaLevels[0],
       visaTypes: null,
       applicantName: ''
     }
   });
 
   const resetForm = (): void => {
-    setValue('visaLevels', null);
+    // setValue('visaLevels', null);
     setValue('visaTypes', null);
     setValue('applicantName', '');
 
@@ -131,7 +133,7 @@ function Visa() {
 
   useEffect(() => {
     fetchVisaList();
-  }, [page, refreshComponent, queryParams]);
+  }, [page, refreshComponent, queryParams, selectedTab]);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -192,6 +194,7 @@ function Visa() {
           duration: 3000,
           isClosable: true
         });
+        setSelectedTab(1) // for activate Icrada
         setRefreshComponent(!refreshComponent);
       }
     } catch (error: unknown) {
@@ -368,16 +371,9 @@ function Visa() {
         <Tabs
           variant="soft-rounded"
           colorScheme="blue"
-          onChange={index => {
-            const selectedLevel = VisaLevels[index].value;
-            setValue('visaLevels', {
-              value: selectedLevel,
-              label: VisaLevels[index].label
-            });
-            setQueryParams(prevParams => [
-              ...prevParams.filter(param => param.name !== 'visaLevels'),
-              { name: 'visaLevels', value: selectedLevel }
-            ]);
+          index={selectedTab} 
+          onChange={(index) => {
+            setSelectedTab(index); 
           }}
         >
           <TabList>

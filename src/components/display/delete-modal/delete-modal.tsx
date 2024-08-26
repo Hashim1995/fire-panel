@@ -56,7 +56,7 @@ function DeleteModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button colorScheme="blue" mr={3} onClick={onClose}>
+        <Button variant="ghost" colorScheme="blue" mr={3} onClick={onClose}>
           {closeBtn}
         </Button>
         <Button
@@ -64,7 +64,7 @@ function DeleteModal({
           isDisabled={deleteModalButtonLoading}
           isLoading={deleteModalButtonLoading}
           onClick={event}
-          variant="ghost"
+          // variant="ghost" 
         >
           {eventText ?? 'Sil'}
         </Button>

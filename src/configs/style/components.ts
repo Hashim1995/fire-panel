@@ -6,7 +6,7 @@ export default {
         outline: {
           field: {
             _focus: {
-              borderColor: 'black',
+              borderColor: '#3498db',
               boxShadow: '0 0 0 1px black'
             },
             _invalid: {
@@ -16,6 +16,17 @@ export default {
           }
         }
       }
+    },
+    Select: {
+      variants: {
+        outline: {
+          field: {
+            _focus: {
+              borderColor: '#3498db',
+            },
+          },
+        },
+      },
     },
     Button: {
       sizes: {},

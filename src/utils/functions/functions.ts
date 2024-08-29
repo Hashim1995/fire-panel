@@ -16,4 +16,15 @@ function convertFormDataToQueryParams<T>(formData: T): IHTTPSParams[] {
   return z;
 }
 
-export { convertFormDataToQueryParams };
+const truncateText = (text: string, maxLength = 30) => {
+  if (text.length > maxLength) {
+    return `${text.substring(0, maxLength)}...`;
+  }
+  return text;
+};
+
+export { convertFormDataToQueryParams,truncateText };
+
+
+
+

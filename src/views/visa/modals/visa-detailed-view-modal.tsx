@@ -4,6 +4,7 @@ import { modalClose } from '@/models/common';
 import { VisaServices } from '@/services/visa-services/visa-services';
 
 import { closeBtn, noText } from '@/utils/constants/texts';
+import { truncateText } from '@/utils/functions/functions';
 import {
   ModalContent,
   ModalHeader,
@@ -24,7 +25,8 @@ import {
   Tbody,
   Heading,
   useToast,
-  IconButton
+  IconButton,
+  Tooltip
 } from '@chakra-ui/react';
 import { AxiosError } from 'axios';
 import { FaCopy } from 'react-icons/fa';
@@ -741,16 +743,24 @@ function VisaDetailedViewModal({
 
                           <Td>
                             {item?.uri ? (
-                              <p
-                                aria-hidden
-                                style={{
-                                  cursor: 'pointer',
-                                  color: 'blue'
-                                }}
-                                onClick={() => downloadFile(item?.uri)}
+                              <Tooltip
+                                hasArrow
+                                placement="top-end"
+                                label={item?.uri}
                               >
-                                {item?.uri}
-                              </p>
+                                <Text
+                                  as="p"
+                                  cursor="pointer"
+                                  color="blue.500"
+                                  whiteSpace="nowrap"
+                                  overflow="hidden"
+                                  textOverflow="ellipsis"
+                                  maxWidth="150px"
+                                  onClick={() => downloadFile(item?.uri)}
+                                >
+                                  {truncateText(item?.uri)}
+                                </Text>
+                              </Tooltip>
                             ) : (
                               '-'
                             )}

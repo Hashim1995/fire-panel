@@ -98,11 +98,11 @@ export default function Layout() {
           >
             <Navbar onOpen={onOpen} />
           </Flex>
-          <Box mt={10} transition=".4s ease" w="100%" minHeight="70vh">
+          <Box mt={5} transition=".4s ease" w="100%" minHeight="70vh">
             <Outlet />
           </Box>
           <Box
-            my={6}
+            my={5}
             p={4}
             shadow="lg"
             borderRadius={6}

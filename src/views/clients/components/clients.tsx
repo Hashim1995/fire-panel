@@ -255,12 +255,12 @@ function Clients() {
         </form>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({usersData?.data?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box overflowX="auto">
-            <Table overflowX="auto" size="sm" variant="striped">
+            <Table overflowX="auto" size="sm" variant="unstyled">
               <Thead textAlign="left">
                 <Tr>
                   <Th textAlign="left" textTransform="initial">

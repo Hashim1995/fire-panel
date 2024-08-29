@@ -7,6 +7,7 @@ interface IUserItem {
   role: any,
   id?: string
   isBlocked?: boolean,
+  password?: string,
 }
 interface IUserChangePassword {
   password: string,

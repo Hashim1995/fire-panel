@@ -50,22 +50,22 @@ export default {
         },
         outline: {
           color: 'blue.500',
-          borderColor: 'blue.500',
+          borderColor: '#3498db',
           _focus: {
-            bg: 'blue.500',
-            color: 'white'
+            bg: 'transparent',
+            // color: 'white'
           },
-          _focusWithin: {
-            bg: 'blue.500',
-            color: 'white'
-          },
-          _active: {
-            bg: 'blue.500',
-            color: 'white'
-          },
+          // _focusWithin: {
+          //   bg: 'blue.500',
+          //   color: 'white'
+          // },
+          // _active: {
+          //   bg: 'blue.500',
+          //   color: 'white'
+          // },
           _hover: {
-            bg: 'blue.500',
-            color: 'white'
+            bg: '#ECF9F8',
+            // color: 'white'
           }
         },
         gray: {
@@ -98,22 +98,33 @@ export default {
         outline: {
           color: 'white',
           bg: 'blue.500',
-          _focus: {
-            bg: 'blue.400'
-          },
-          _focusWithin: {
-            bg: 'blue.500'
-          },
-          _active: {
-            bg: 'blue.400'
-          },
+          // _focus: {
+          //   bg: 'blue.400'
+          // },
+          // _focusWithin: {
+          //   bg: 'blue.500'
+          // },
+          // _active: {
+          //   bg: 'blue.400'
+          // },
           _hover: {
-            bg: 'blue.400'
+            bg: 'blue.100'
           }
         }
       }
     },
     Modal: {
+      baseStyle: {
+        header: {
+          bg: "#3498db",
+          color: "white", 
+          pb: 2, 
+        },
+        closeButton: {
+          color: "white", 
+        
+        },
+      },
       variants: {
         big: {
           dialog: {
@@ -126,6 +137,30 @@ export default {
           }
         }
       }
+    },
+    Table: {
+      variants: {
+        simple: {
+       
+          th: {
+            bg: 'blue.500',
+            color: 'white',
+            py: 4,
+          },
+        }, 
+        unstyled: {
+          thead: {
+            bg: 'blue.500',
+            color: 'white',
+            py: 4,
+          },
+          th: {
+            bg: 'blue.500',
+            color: 'white',
+            py: 4,
+          },
+        }
+      },
     }
   }
 };

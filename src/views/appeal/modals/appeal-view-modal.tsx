@@ -29,7 +29,7 @@ function AppealViewModal({ onClose, selectedId }: IAppealViewModal) {
       <ModalBody>
         {selectedId ? (
           <Flex>
-            <Stack p={3} bg="gray.100" spacing={2}>
+            <Stack p={3} spacing={2} bg="#94bce4" minW="200px">
               <Text fontSize="sm">AD: </Text>
               <Text fontSize="sm">BAŞLIQ: </Text>
               <Text fontSize="sm">EMAİL: </Text>
@@ -52,7 +52,7 @@ function AppealViewModal({ onClose, selectedId }: IAppealViewModal) {
       </ModalBody>
 
       <ModalFooter>
-        <Button mr={3} variant="gray" onClick={onClose}>
+        <Button mr={3} variant="outline" onClick={onClose}>
           {closeBtn}
         </Button>
       </ModalFooter>

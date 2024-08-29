@@ -28,7 +28,8 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItem
+  MenuItem,
+  Switch
 } from '@chakra-ui/react';
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
 import { NavLink } from 'react-router-dom';
@@ -72,7 +73,7 @@ function Clients() {
   const [usersData, setUsersData] = useState<IGetUsersResponse>();
   const [refreshComponent, setRefreshComponent] = useState<boolean>(false);
   const [queryParams, setQueryParams] = useState<IHTTPSParams[]>([]);
-  // const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
+  const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
 
   const resetForm = (): void => {
     setValue('firstname', '');
@@ -131,6 +132,19 @@ function Clients() {
       convertFormDataToQueryParams<IUsersFilter>(data);
     setQueryParams(queryParamsData);
     setRefreshComponent(!refreshComponent);
+  };
+
+  const changeItemStatusBlocked = async (id?: string) => {
+    setDisableSwitch(true);
+    try {
+      const res = await UsersServies.getInstance().changeItemStatusBlock(id);
+      if (res?.succeeded) {
+        setRefreshComponent(z => !z);
+      }
+      setDisableSwitch(false);
+    } catch {
+      setDisableSwitch(false);
+    }
   };
 
   useEffect(() => {
@@ -270,6 +284,7 @@ function Clients() {
 
                   <Th textTransform="initial">EMAİL </Th>
                   <Th textTransform="initial">TELEFON</Th>
+                  <Th textTransform="initial">STATUS</Th>
                   <Th />
                 </Tr>
               </Thead>
@@ -281,6 +296,20 @@ function Clients() {
                       <Td>{z?.lastname ?? noText}</Td>
                       <Td>{z?.email ?? noText}</Td>
                       <Td>{z?.phoneNumber ?? noText}</Td>
+                      <Td>
+                        <FormControl display="flex" alignItems="center">
+                          <Switch
+                            isDisabled={disableSwitch}
+                            colorScheme="brand"
+                            onChange={() => {
+                              setSelectedItem(z);
+                              changeItemStatusBlocked(z?.id);
+                            }}
+                            isChecked={z?.isBlocked}
+                            id="email-alerts"
+                          />
+                        </FormControl>
+                      </Td>
                       <Td textAlign="right">
                         <Menu>
                           <MenuButton

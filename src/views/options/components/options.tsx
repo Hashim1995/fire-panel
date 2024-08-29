@@ -30,6 +30,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useToast,
   Button
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -39,9 +40,12 @@ import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
 import { OptionsServices } from '@/services/options-services/options-services';
 import { addBtn, noText } from '@/utils/constants/texts';
+import DeleteModal from '@/components/display/delete-modal/delete-modal';
+import { AxiosError } from 'axios';
 import OptionEditModal from '../modals/option-edit-modal';
 import { IOptionItem, IOptionListResponse } from '../models';
 import OptionAddModal from '../modals/option-add-modal';
+
 
 function Options() {
   const [page, setCurrentPage] = useState<number>(1);
@@ -52,10 +56,13 @@ function Options() {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedItem, setSelectedItem] = useState<IOptionItem>();
   const [disableSwitch, setDisableSwitch] = useState<boolean>(false);
+  const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
+  useState<boolean>(false);
 
   const editModal = useDisclosure();
   const addModal = useDisclosure();
   const deleteModal = useDisclosure();
+  const toast = useToast();
 
   const fetchOptions = async () => {
     setLoading(true);
@@ -90,6 +97,53 @@ function Options() {
       setDisableSwitch(false);
     } catch {
       setDisableSwitch(false);
+    }
+  };
+
+  const deleteItem = async () => {
+    setDeleteModalButtonLoading(true);
+    try {
+      const res = await OptionsServices.getInstance().deleteItem(
+        selectedItem?.id || 0
+      );
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+      }
+
+      setDeleteModalButtonLoading(false);
+      deleteModal.onClose();
+      setRefreshComponent((prev: boolean) => !prev);
+    } catch (error: unknown) {
+      setDeleteModalButtonLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
     }
   };
 
@@ -277,6 +331,21 @@ function Options() {
         <OptionAddModal
           setRefreshComponent={setRefreshComponent}
           onClose={addModal.onClose}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={deleteModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={deleteModal.onClose}
+      >
+        <ModalOverlay />
+        <DeleteModal
+          deleteModalButtonLoading={deleteModalButtonLoading}
+          event={deleteItem}
+          onClose={deleteModal.onClose}
         />
       </Modal>
     </>

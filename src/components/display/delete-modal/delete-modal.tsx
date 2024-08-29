@@ -40,7 +40,7 @@ function DeleteModal({
         <Flex>
           <Box mr={5}>
             <FiAlertCircle
-              color="blue.500"
+              color="red"
               className="sidebar-item-icon"
               fontSize={90}
             />

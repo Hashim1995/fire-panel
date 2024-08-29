@@ -144,6 +144,18 @@ export class UsersServies {
     return res;
   }
 
+  public async changeItemStatusBlock(
+    id?: string,
+    onError?: ErrorCallBack
+  ): Promise<IGlobalResponse> {
+    const res = await HttpUtil.put(
+      `/admin/user/block/${id}`,
+      null,
+      onError
+    );
+    return res;
+  }
+
 
 
 }

@@ -289,13 +289,13 @@ function VisaAdmin() {
         </form>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({visaData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>
             <TableContainer>
-              <Table size="sm" variant="striped">
+              <Table size="sm" variant="unstyled">
                 <Thead textAlign="left">
                   <Tr>
                     <Th textTransform="initial">MÜRACİƏTÇİ</Th>

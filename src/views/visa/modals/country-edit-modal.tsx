@@ -43,10 +43,10 @@ import Uploader from '@/components/forms/uploader/uploader';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { IProductItem } from '@/models/product';
 import { CountryServices } from '@/services/country-services/country-services';
-import { ICountryCreate, ICountryItem, ICountryUpdate } from '../models';
+import { ICountryCreate, ICountryUpdate } from '../models';
 
 interface ICountryEditModal extends modalClose {
-  selectedItem: ICountryItem | undefined;
+  selectedItem: any | undefined;
 }
 
 function CountryEditModal({
@@ -275,7 +275,7 @@ function CountryEditModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button mr={3} variant="gray" onClick={onClose}>
+        <Button mr={3} variant="outline" onClick={onClose}>
           {closeBtn}
         </Button>
         <Button

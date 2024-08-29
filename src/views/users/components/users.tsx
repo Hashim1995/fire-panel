@@ -180,7 +180,7 @@ function Users() {
         borderRadius={6}
         transition=".4s ease"
       >
-        <Flex align="center">
+        <Flex align="center" justify="space-between">
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink as={NavLink} to="/home">
@@ -193,6 +193,7 @@ function Users() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
+          <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
@@ -200,7 +201,6 @@ function Users() {
           <Heading fontWeight="medium" mb={1} size="xs">
             FİLTR
           </Heading>
-          <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box>
@@ -289,12 +289,12 @@ function Users() {
         </form>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({usersData?.data?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box overflowX="auto">
-            <Table overflowX="auto" size="sm" variant="striped">
+            <Table overflowX="auto" size="sm" variant="unstyled">
               <Thead textAlign="left">
                 <Tr>
                   <Th textAlign="left" textTransform="initial">

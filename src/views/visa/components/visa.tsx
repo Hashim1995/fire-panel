@@ -357,6 +357,7 @@ function Visa() {
                   variant="outline"
                   onClick={resetForm}
                   aria-label="Show password"
+                  colorScheme="blue"
                   icon={<BiReset size={22} />}
                 />
                 <Button type="submit" ml={2} variant="solid">
@@ -384,21 +385,21 @@ function Visa() {
         </Tabs>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({visaData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>
             <TableContainer>
-              <Table size="sm" variant="striped">
+              <Table size="sm" variant="unstyled">
                 <Thead textAlign="left">
                   <Tr>
-                    <Th textTransform="initial">MÜRACİƏTÇİ</Th>
+                    <Th  textTransform="initial">MÜRACİƏTÇİ</Th>
 
-                    <Th textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
-                    <Th textTransform="initial">GEDİŞ TARİXİ</Th>
-                    <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
-                    <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
+                    <Th  textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
+                    <Th  textTransform="initial">GEDİŞ TARİXİ</Th>
+                    <Th  textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
+                    <Th  textTransform="initial">MÜRACİƏTİN STATUSU</Th>
                     <Th />
                   </Tr>
                 </Thead>

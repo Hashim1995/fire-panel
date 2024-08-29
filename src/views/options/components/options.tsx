@@ -108,7 +108,7 @@ function Options() {
         borderRadius={6}
         transition=".4s ease"
       >
-        <Flex align="center">
+        <Flex align="center" justify="space-between">
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink as={NavLink} to="/home">
@@ -121,24 +121,25 @@ function Options() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
+          <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
       </Box>
-      <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
+      {/* <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Flex alignItems="center" justifyContent="space-between">
           <Box />
           <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
-      </Box>
+      </Box> */}
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({options?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>
             <TableContainer>
-              <Table size="sm" variant="striped">
-                <Thead textAlign="left">
-                  <Tr>
+              <Table size="sm" variant="unstyled">
+                <Thead textAlign="left" >
+                  <Tr paddingY="-10">
                     <Th textTransform="initial">BAŞLIQ</Th>
                     <Th textTransform="initial">MƏBLƏĞ</Th>
                     <Th textTransform="initial">NÖVÜ</Th>

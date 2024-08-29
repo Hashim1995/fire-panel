@@ -206,7 +206,7 @@ function Country() {
         borderRadius={6}
         transition=".4s ease"
       >
-        <Flex align="center">
+        <Flex align="center" justify="space-between">
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink as={NavLink} to="/home">
@@ -219,6 +219,7 @@ function Country() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
+          <Button onClick={addModal.onOpen}>{addBtn}</Button>
         </Flex>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
@@ -226,7 +227,7 @@ function Country() {
           <Heading fontWeight="medium" mb={1} size="xs">
             FİLTR
           </Heading>
-          <Button onClick={addModal.onOpen}>{addBtn}</Button>
+         
         </Flex>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box>
@@ -315,13 +316,13 @@ function Country() {
         </form>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Heading size="xs" mb={1} fontWeight="medium">
+        <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({countryData?.totalDataCount || noText})
         </Heading>
         {!loading ? (
           <Box>
             <TableContainer>
-              <Table size="sm" variant="striped">
+              <Table size="sm" variant="unstyled">
                 <Thead textAlign="left">
                   <Tr>
                     <Th textTransform="initial">BAŞLIQ</Th>

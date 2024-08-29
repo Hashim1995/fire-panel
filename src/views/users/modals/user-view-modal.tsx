@@ -25,7 +25,7 @@ function UsersViewModal({ onClose, selectedItem }: IUsersViewModal) {
       <ModalCloseButton />
       <ModalBody>
         <Flex>
-          <Stack p={3} bg="gray.100" spacing={2}>
+          <Stack p={3} bg="#94bce4" minW="200px" spacing={2}>
             <Text fontSize="sm">AD: </Text>
             <Text fontSize="sm">SOYAD: </Text>
             <Text fontSize="sm">TELEFON: </Text>
@@ -41,7 +41,7 @@ function UsersViewModal({ onClose, selectedItem }: IUsersViewModal) {
       </ModalBody>
 
       <ModalFooter>
-        <Button mr={3} variant="gray" onClick={onClose}>
+        <Button mr={3} variant="outline" onClick={onClose}>
           {closeBtn}
         </Button>
       </ModalFooter>

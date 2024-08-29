@@ -56,7 +56,7 @@ function DeleteModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button variant="ghost" colorScheme="blue" mr={3} onClick={onClose}>
+        <Button variant="outline" colorScheme="blue" mr={3} onClick={onClose}>
           {closeBtn}
         </Button>
         <Button

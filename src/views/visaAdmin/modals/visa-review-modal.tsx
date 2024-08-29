@@ -377,7 +377,7 @@ function VisaReviewModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button mr={3} variant="gray" onClick={onClose}>
+        <Button mr={3} variant="outline" onClick={onClose}>
           {closeBtn}
         </Button>
         <Button

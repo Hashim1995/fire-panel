@@ -46,8 +46,6 @@ function DeleteModal({
             />
           </Box>
           <Box
-            // py={5}
-            // textAlign="center"
             display="flex"
             flexDirection="column"
             justifyContent="center"

@@ -171,7 +171,7 @@ function Options() {
 
               <BreadcrumbSeparator />
               <BreadcrumbLink isCurrentPage href="/options">
-                Əlavə opsiyalar
+                Əlavə xidmətlər
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>

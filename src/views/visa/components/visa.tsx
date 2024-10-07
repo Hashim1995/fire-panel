@@ -54,13 +54,15 @@ import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import {
+  IGetVisaLevelsResposne,
   IVisaApplicationItem,
   IVisaApplicationListResponse,
-  IVisaFilter
+  IVisaFilter,
+  IVisaLevels
 } from '../models';
 
 import VisaViewModal from '../modals/visa-view-modal';
-import { getEnumLabel, VisaLevels, VisaTypes } from '../options';
+import { getEnumLabel, VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
@@ -83,12 +85,25 @@ function Visa() {
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
   const [selectedTab, setSelectedTab] = useState<number>(0);
+  const [visaLevels, setVisaLevels] = useState<IVisaLevels[]>();
 
   const askModal = useDisclosure();
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
   const toast = useToast();
+
+  const fetchVisaLevels = async () => {
+    try {
+      const res: IGetVisaLevelsResposne =
+        await VisaServices?.getInstance().getVisaLevels();
+      if (res?.succeeded) {
+        setVisaLevels(res?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchVisaList = async () => {
     setLoading(true);
@@ -97,7 +112,7 @@ function Visa() {
       await VisaServices.getInstance().get([
         ...queryParams,
         { name: 'page', value: page },
-        { name: 'visaLevels', value: selectedTab + 1 } 
+        { name: 'visaLevels', value: selectedTab + 1 }
       ]);
     setVisaData(res?.data);
 
@@ -133,6 +148,7 @@ function Visa() {
 
   useEffect(() => {
     fetchVisaList();
+    fetchVisaLevels();
   }, [page, refreshComponent, queryParams, selectedTab]);
 
   const deleteItem = async () => {
@@ -194,7 +210,7 @@ function Visa() {
           duration: 3000,
           isClosable: true
         });
-        setSelectedTab(1) // for activate Icrada
+        setSelectedTab(1); // for activate Icrada
         setRefreshComponent(!refreshComponent);
       }
     } catch (error: unknown) {
@@ -372,16 +388,33 @@ function Visa() {
         <Tabs
           variant="soft-rounded"
           colorScheme="blue"
-          index={selectedTab} 
-          onChange={(index) => {
-            setSelectedTab(index); 
+          index={selectedTab}
+          onChange={index => {
+            setSelectedTab(index);
           }}
         >
-          <TabList>
-            {VisaLevels.map(level => (
-              <Tab key={level.value}>{level.label}</Tab>
-            ))}
-          </TabList>
+          {visaLevels ? (
+            <TabList>
+              {visaLevels.map(level => (
+                <Tab
+                  key={level.value}
+                >{`${level.label} (${level?.count})`}</Tab>
+              ))}
+            </TabList>
+          ) : (
+            <TabList gap={8}>
+              {Array(8)
+                .fill('')
+                .map(() => (
+                  <Skeleton
+                    key={Math.random().toString(16).slice(2)}
+                    height="40px"
+                    width="100px"
+                    borderRadius="3xl"
+                  />
+                ))}
+            </TabList>
+          )}
         </Tabs>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
@@ -394,12 +427,12 @@ function Visa() {
               <Table size="sm" variant="unstyled">
                 <Thead textAlign="left">
                   <Tr>
-                    <Th  textTransform="initial">MÜRACİƏTÇİ</Th>
+                    <Th textTransform="initial">MÜRACİƏTÇİ</Th>
 
-                    <Th  textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
-                    <Th  textTransform="initial">GEDİŞ TARİXİ</Th>
-                    <Th  textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
-                    <Th  textTransform="initial">MÜRACİƏTİN STATUSU</Th>
+                    <Th textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
+                    <Th textTransform="initial">GEDİŞ TARİXİ</Th>
+                    <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
+                    <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
                     <Th />
                   </Tr>
                 </Thead>
@@ -417,7 +450,9 @@ function Visa() {
                         <Td>{z?.departureDate || '-'}</Td>
                         <Td>{z?.returnDate || '-'}</Td>
 
-                        <Td>{getEnumLabel(VisaLevels, z?.visaLevel) || '-'}</Td>
+                        <Td>
+                          {getEnumLabel(visaLevels || [], z?.visaLevel) || '-'}
+                        </Td>
                         <Td textAlign="right">
                           <Menu>
                             <MenuButton

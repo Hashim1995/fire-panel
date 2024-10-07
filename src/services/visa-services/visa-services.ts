@@ -3,7 +3,7 @@
 /* eslint-disable no-useless-constructor */
 /* eslint-disable class-methods-use-this */
 import { IGlobalResponse } from '@/models/common';
-import { IVisaApplicationListResponse } from '@/views/visa/models';
+import { IGetVisaLevelsResposne, IVisaApplicationListResponse } from '@/views/visa/models';
 import { ErrorCallBack, HttpUtil, IHTTPSParams, } from '../config';
 
 
@@ -24,6 +24,13 @@ export class VisaServices {
         onError?: ErrorCallBack
     ): Promise<IVisaApplicationListResponse> {
         const res = await HttpUtil.get('/admin/Visa/operator', params, false, onError);
+        return res;
+    }
+
+    public async getVisaLevels(
+        onError?: ErrorCallBack
+    ): Promise<IGetVisaLevelsResposne> {
+        const res = await HttpUtil.get('/admin/Visa/visa-levels', null, false, onError);
         return res;
     }
 

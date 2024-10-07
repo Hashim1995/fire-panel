@@ -111,6 +111,17 @@ export interface IVisaFilter {
     visaLevels: any
 }
 
+export interface IVisaLevels {
+   count: number;
+   label: string;
+   value : number;
+}
+
+export interface IGetVisaLevelsResposne extends IGlobalResponse {
+  data : IVisaLevels[];
+ }
+ 
+
 
 
 // export interface IBlogSelectedItem {

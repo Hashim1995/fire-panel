@@ -36,21 +36,22 @@ function DeleteModal({
     <ModalContent>
       <ModalHeader>{modalTitle ?? 'Xəbərdarlıq'}</ModalHeader>
       <ModalCloseButton />
-      <ModalBody>
+      <ModalBody py={5}>
         <Flex>
           <Box mr={5}>
             <FiAlertCircle
-              color="blue.500"
+              color="red"
               className="sidebar-item-icon"
               fontSize={90}
             />
           </Box>
-          <Box>
-            <Heading size="lg">
-              {header ??
-                'Məlumat Silinəcək, davam etmək istədiyinizə əminsinizmi?'}
-            </Heading>
-            <Text>{text ?? 'Məlumatlar silinəcək!'}</Text>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+          >
+            <Heading size="lg">{header ?? 'Məlumat Silinəcək!'}</Heading>
+            <Text>{text ?? 'Davam etmək istədiyinizə əminsinizmi?'}</Text>
           </Box>
         </Flex>
       </ModalBody>
@@ -64,7 +65,7 @@ function DeleteModal({
           isDisabled={deleteModalButtonLoading}
           isLoading={deleteModalButtonLoading}
           onClick={event}
-          // variant="ghost" 
+          // variant="ghost"
         >
           {eventText ?? 'Sil'}
         </Button>

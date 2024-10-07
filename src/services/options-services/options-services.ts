@@ -40,7 +40,7 @@ export class OptionsServices {
     }
 
     public async deleteItem(id: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
-        const res = await HttpUtil.delete(`/admin/country/${id}`, null, onError);
+        const res = await HttpUtil.delete(`/admin/settings/extra-option/${id}`, null, onError);
         return res;
     }
 

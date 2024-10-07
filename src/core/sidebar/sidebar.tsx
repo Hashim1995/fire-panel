@@ -159,7 +159,7 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
     },
     {
       id: 'element-4',
-      title: 'Opsiyalar',
+      title: 'Xidmətlər',
       isCollapsable: false,
       icon: BiMoneyWithdraw,
       url: '/options',

@@ -63,6 +63,7 @@ export interface IVisaApplicationItem {
     visaCategory: number;
     entryCountry: number;
     visaType: number;
+    travelDocumentType: string;
     departureDate: string;
     returnDate: string;
     visaLevel: number;

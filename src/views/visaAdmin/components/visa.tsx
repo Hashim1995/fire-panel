@@ -303,6 +303,7 @@ function VisaAdmin() {
                     <Th textTransform="initial">GEDİLƏCƏK ÖLKƏ</Th>
                     <Th textTransform="initial">GEDİŞ TARİXİ</Th>
                     <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
+                    <Th textTransform="initial">PASSPORTUN NÖVÜ</Th>
                     <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
                     <Th />
                   </Tr>
@@ -320,7 +321,7 @@ function VisaAdmin() {
                         <Td>{z?.country?.title || '-'}</Td>
                         <Td>{z?.departureDate || '-'}</Td>
                         <Td>{z?.returnDate || '-'}</Td>
-
+                        <Td>{z?.travelDocumentType || '-'}</Td>
                         <Td>{getEnumLabel(VisaLevels, z?.visaLevel) || '-'}</Td>
                         <Td textAlign="right">
                           <Menu>

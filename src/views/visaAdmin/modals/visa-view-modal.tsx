@@ -55,94 +55,94 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
       <ModalBody>
         {selectedId ? (
           <>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box bg={'Highlight'} borderRadius={'base'} p={2}>
-                <Text fontWeight="italic">Viza kateqoriyası</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+            <Box borderRadius={'base'} p={2}>
+            <Text fontSize="md" fontWeight="semibold" color="gray.600">Viza kateqoriyası</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(VisaCategories, 1) || noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Giriş ediləcək ölkə</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Giriş ediləcək ölkə</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(countriesStatic, selectedId?.entryCountry) ||
                     noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediləcək ölkə</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Gediləcək ölkə</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.country?.title || noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediş tarixi</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Gediş tarixi</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.departureDate || noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Gediş tarixi</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Geri dönüş tarixi</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.returnDate || noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Müraciətin statusu</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Müraciətin statusu</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {getEnumLabel(VisaLevels, selectedId?.visaLevel) || noText}
                 </Text>
               </Box>
             </SimpleGrid>
 
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Müraciət edən şəxs</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Müraciət edən şəxs</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.customer?.firstname
                     ? `${selectedId?.customer?.firstname} ${selectedId?.customer?.lastname}`
                     : noText}
                 </Text>
               </Box>
             </SimpleGrid>
-            <SimpleGrid columns={2} spacing={1} py={2}>
-              <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                <Text fontWeight="italic">Elektron poçt ünvanı</Text>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">Elektron poçt ünvanı</Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
-                <Text fontWeight="medium">
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
                   {selectedId?.customer?.email || noText}
                 </Text>
               </Box>
             </SimpleGrid>
             {selectedId?.extraOptions?.length ? (
-              <SimpleGrid columns={2} spacing={1} py={2}>
-                <Box p={2} bg={'Highlight'} borderRadius={'base'}>
-                  <Text fontWeight="italic">Əlavə xidmətlər</Text>
+              <SimpleGrid columns={3} spacing={1} py={2}>
+                <Box borderRadius={'base'} p={2}>
+                  <Text fontSize="md" fontWeight="semibold" color="gray.600">Əlavə xidmətlər</Text>
                 </Box>
                 <Box borderRadius={'base'} textAlign="start" p={2}>
                   <Wrap>

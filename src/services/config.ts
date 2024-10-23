@@ -145,9 +145,9 @@ export class HttpUtil {
     return null;
   }
 
-  static async put(url: string, body: any, onError?: ErrorCallBack) {
+  static async put(url: string, body: any, onError?: ErrorCallBack, config?: any) {
     try {
-      const result = await axios.put(url, body).then(responseBody);
+      const result = await axios.put(url, body, config).then(responseBody);
       return result;
     } catch (e: any) {
       const error = new HttpError(e.response.status, axiosErrorHandler(e));

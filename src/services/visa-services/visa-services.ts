@@ -92,6 +92,10 @@ export class VisaServices {
         return res;
     }
 
+    public async makeAppointment(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/reservation', null, onError, body);
+        return res;
+    }
 
 
 }

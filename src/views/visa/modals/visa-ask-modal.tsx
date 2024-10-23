@@ -188,18 +188,18 @@ function VisaAskModal({
                       <Controller
                         control={control}
                         name={`applicants.${index}.date`}
-                        rules={{
-                          required: {
-                            value: true,
-                            message: inputValidationText('Tarix')
-                          }
-                        }}
+                        // rules={{
+                        //   required: {
+                        //     value: true,
+                        //     message: inputValidationText('Tarix')
+                        //   }
+                        // }}
                         render={({ field: { onChange, value, ref } }) => (
                           <FormControl
                             isInvalid={Boolean(
                               errors[`applicants.${index}.date`]
                             )}
-                            isRequired
+                            // isRequired
                             id="DateOfPublish"
                           >
                             <FormLabel fontSize="sm">Randevu tarixi</FormLabel>

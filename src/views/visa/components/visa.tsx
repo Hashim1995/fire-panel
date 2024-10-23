@@ -53,6 +53,7 @@ import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
+import VisaMakeAppointmentModal from '@/views/visa/modals/visa-make-appointment';
 import {
   IGetVisaLevelsResposne,
   IVisaApplicationItem,
@@ -91,6 +92,7 @@ function Visa() {
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
+  const makeAppointmentModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaLevels = async () => {
@@ -394,22 +396,23 @@ function Visa() {
           }}
         >
           {visaLevels ? (
-            <TabList>
+            <TabList flexWrap="wrap">
               {visaLevels.map(level => (
                 <Tab
+                  minW={150}
                   key={level.value}
                 >{`${level.label} (${level?.count})`}</Tab>
               ))}
             </TabList>
           ) : (
-            <TabList gap={8}>
-              {Array(8)
+            <TabList flexWrap="wrap" gap={8}>
+              {Array(11)
                 .fill('')
                 .map(() => (
                   <Skeleton
                     key={Math.random().toString(16).slice(2)}
                     height="40px"
-                    width="100px"
+                    width="150px"
                     borderRadius="3xl"
                   />
                 ))}
@@ -464,14 +467,24 @@ function Visa() {
                             />
                             <MenuList>
                               {z?.visaLevel === 2 && (
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    askModal.onOpen();
-                                  }}
-                                >
-                                  Sənəd tələb et
-                                </MenuItem>
+                                <>
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      askModal.onOpen();
+                                    }}
+                                  >
+                                    Sənəd tələb et
+                                  </MenuItem>
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      makeAppointmentModal.onOpen();
+                                    }}
+                                  >
+                                    Randevu təyin et
+                                  </MenuItem>
+                                </>
                               )}
                               {z?.visaLevel === 4 && (
                                 <MenuItem
@@ -582,6 +595,21 @@ function Visa() {
         <VisaAskModal
           setRefreshComponent={setRefreshComponent}
           onClose={askModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={makeAppointmentModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={makeAppointmentModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaMakeAppointmentModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={makeAppointmentModal.onClose}
           selectedId={selectedItem!}
         />
       </Modal>

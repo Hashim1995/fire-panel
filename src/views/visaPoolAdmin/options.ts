@@ -1,5 +1,4 @@
 import { noText } from "@/utils/constants/texts";
-import { IVisaLevels } from "@/views/visa/models";
 
 export const DocumentTypes = [
     { value: 1, label: "Əvvəlki Şengen vizalarının və ölkəyə giriş/çıxış möhürləri" },
@@ -42,9 +41,16 @@ export const VisaStatuses = [
 
 
 export const VisaTypes = [
-    { value: 1, label: "Təkli viza" },
-    { value: 2, label: "Çoxlu viza" },
+    { value: 1, label: "Tək girişli" },
+    { value: 2, label: "Çox girişli" },
 ];
+export const PaymentTypes = [
+    { value: 1, label: "Standart" },
+    { value: 2, label: "VIP" },
+    { value: 3, label: "Hər ikisi" },
+];
+
+
 export const countriesStatic = [
     { value: 1, label: 'Albaniya' },
     { value: 2, label: 'Andorra' },
@@ -95,7 +101,7 @@ export const countriesStatic = [
     { value: 47, label: 'Birləşmiş Krallıq' },
     { value: 48, label: 'Vatikan' }
 ];
-export function getEnumLabel(targetArray: { value: number | string, label: string }[] | IVisaLevels[] , id: number | string) {
+export function getEnumLabel(targetArray: { value: number | string, label: string }[], id: number | string) {
     const foundItem = targetArray?.find(item => item?.value === id);
     return foundItem ? foundItem.label : noText;
 }

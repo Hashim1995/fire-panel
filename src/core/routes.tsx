@@ -12,6 +12,8 @@ import CountryPage from '@/views/country/pages';
 import UsersPage from '@/views/users/pages';
 import ClientsPage from '@/views/clients/pages';
 import VisaAdmin from '@/views/visaAdmin/components/visa';
+import VisaPoolAdminPage from '@/views/visaPoolAdmin/pages';
+import VisaPoolPage from '@/views/visaPool/pages';
 import OptionsPage from '@/views/options/pages';
 import NoPermission from './no-permission/no-permission';
 import Login from './login/login';
@@ -117,6 +119,29 @@ const routes = [
           <Navigate to="/no-permission" />
         ),
         permission: ['visa-admin']
+      },
+      {
+        path: 'pool-admin',
+        element: checkPermission(['pool-admin']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <VisaPoolAdminPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['pool-admin']
+      },
+
+      {
+        path: 'pool',
+        element: checkPermission(['pool']) ? (
+          <Suspense fallback={<ChichkenLoader />}>
+            <VisaPoolPage />
+          </Suspense>
+        ) : (
+          <Navigate to="/no-permission" />
+        ),
+        permission: ['pool']
       },
 
       {

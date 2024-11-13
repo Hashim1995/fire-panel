@@ -31,6 +31,7 @@ import {
   BiWorld,
   BiMessage,
   BiGitPullRequest,
+  BiLayer,
   BiCog,
   BiUserCircle,
   BiMoneyWithdraw
@@ -140,6 +141,22 @@ function Sidebar({ onClose, isOpen, ...rest }: SidebarProps) {
       icon: BiGitPullRequest,
       url: '/visa-admin',
       canShow: 'Admin'
+    },
+    {
+      id: 'element-106',
+      title: 'Hovuz',
+      isCollapsable: false,
+      icon: BiLayer,
+      url: '/pool-admin',
+      canShow: 'Admin'
+    },
+    {
+      id: 'element-106',
+      title: 'Hovuz',
+      isCollapsable: false,
+      icon: BiLayer,
+      url: '/pool',
+      canShow: 'Operator'
     },
     {
       id: 'element-4',

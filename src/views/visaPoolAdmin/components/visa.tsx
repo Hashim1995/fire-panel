@@ -35,12 +35,14 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Input
+  Input,
+  Collapse
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { Select } from 'chakra-react-select';
 import { BiDotsVertical, BiHome, BiReset } from 'react-icons/bi';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 import { NavLink } from 'react-router-dom';
 import NoData from '@/components/feedback/no-data/no-data';
 import { convertFormDataToQueryParams } from '@/utils/functions/functions';
@@ -48,20 +50,27 @@ import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
-import { IGetVisaLevelsResposne, IVisaLevels } from '@/views/visa/models';
+import VisaMakeAppointmentModal from '@/views/visa/modals/visa-make-appointment';
 import {
+  IGetVisaLevelsResposne,
   IVisaApplicationItem,
   IVisaApplicationListResponse,
-  IVisaFilter
+  IVisaFilter,
+  IVisaLevels
 } from '../models';
 
 import VisaViewModal from '../modals/visa-view-modal';
-import { VisaTypes } from '../options';
+import { getEnumLabel, VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
-function VisaAdmin() {
+function Visa() {
   const [page, setCurrentPage] = useState<number>(1);
+  const [isOpenFilter, setIsOpeFilter] = useState(false);
+
+  const toggleCollapse = () => {
+    setIsOpeFilter(!isOpenFilter);
+  };
 
   const [visaData, setVisaData] = useState<
     IVisaApplicationListResponse['data'] | null
@@ -73,23 +82,37 @@ function VisaAdmin() {
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
   const [visaLevels, setVisaLevels] = useState<IVisaLevels[]>();
-  const [takeDocumentLoading, setTakeDocumentLoading] = useState(false);
 
   const askModal = useDisclosure();
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
+  const makeAppointmentModal = useDisclosure();
   const toast = useToast();
+
+  const fetchVisaLevels = async () => {
+    try {
+      const res: IGetVisaLevelsResposne =
+        await VisaServices?.getInstance().getVisaLevels();
+      if (res?.succeeded) {
+        setVisaLevels(res?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const fetchVisaList = async () => {
     setLoading(true);
 
     const res: IVisaApplicationListResponse =
-      await VisaServices.getInstance().getAdmin([
+      await VisaServices.getInstance().get([
         ...queryParams,
-        { name: 'page', value: page }
+        { name: 'page', value: page },
+        { name: 'visaLevels', value: 11 }
       ]);
     setVisaData(res?.data);
+
     setLoading(false);
   };
 
@@ -104,14 +127,14 @@ function VisaAdmin() {
   const { handleSubmit, setValue, control } = useForm<IVisaFilter>({
     mode: 'onChange',
     defaultValues: {
-      visaLevels: null,
+      // visaLevels: VisaLevels[0],
       visaTypes: null,
       applicantName: ''
     }
   });
 
   const resetForm = (): void => {
-    setValue('visaLevels', null);
+    // setValue('visaLevels', null);
     setValue('visaTypes', null);
     setValue('applicantName', '');
 
@@ -120,22 +143,10 @@ function VisaAdmin() {
     setRefreshComponent(r => !r);
   };
 
-  const fetchVisaLevels = async () => {
-    try {
-      const res: IGetVisaLevelsResposne =
-        await VisaServices?.getInstance().getVisaLevels();
-      if (res?.succeeded) {
-        setVisaLevels(res?.data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
-    fetchVisaLevels();
     fetchVisaList();
-  }, [page, refreshComponent]);
+    fetchVisaLevels();
+  }, [page, refreshComponent, queryParams]);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -184,49 +195,6 @@ function VisaAdmin() {
     }
   };
 
-  const takeDocument = async () => {
-    setTakeDocumentLoading(true);
-    try {
-      const res = await VisaServices.getInstance().takeDocument();
-      if (res.succeeded) {
-        toast({
-          title: 'Əməliyyat uğurla icra olundu',
-          status: 'success',
-          position: 'top-right',
-          duration: 3000,
-          isClosable: true
-        });
-        setRefreshComponent(!refreshComponent);
-      }
-    } catch (error: unknown) {
-      setTakeDocumentLoading(false);
-      if (error instanceof AxiosError) {
-        if (error?.response?.data?.messages?.length) {
-          error.response.data.messages?.map((z: string) =>
-            toast({
-              title: 'Xəta baş verdi',
-              description: z,
-              status: 'error',
-              position: 'top-right',
-              duration: 3000,
-              isClosable: true
-            })
-          );
-        } else {
-          toast({
-            title: 'Xəta baş verdi',
-
-            status: 'error',
-            position: 'top-right',
-            duration: 3000,
-            isClosable: true
-          });
-        }
-      }
-    }
-    setTakeDocumentLoading(false);
-  };
-
   return (
     <>
       <Box
@@ -247,109 +215,123 @@ function VisaAdmin() {
 
               <BreadcrumbSeparator />
               <BreadcrumbLink isCurrentPage href="/visa">
-                Viza Müraciətləri
+                Hovuz
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-
-          <Button isLoading={takeDocumentLoading} onClick={takeDocument}>
-            Sənəd götür
-          </Button>
         </Flex>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Flex alignItems="center" justifyContent="space-between">
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          onClick={toggleCollapse}
+          cursor="pointer"
+        >
           <Heading fontWeight="medium" mb={1} size="xs">
             FİLTR
           </Heading>
+          <IconButton
+            aria-label="Toggle Filters"
+            icon={isOpenFilter ? <IoIosArrowUp /> : <IoIosArrowDown />}
+            onClick={toggleCollapse}
+            variant="unstyled"
+            size="sm"
+            _hover={{ backgroundColor: 'transparent' }}
+            _focus={{ boxShadow: 'none' }}
+          />
         </Flex>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box>
-            <Grid templateColumns="repeat(3, 1fr)" py={1} gap={1}>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="visaTypes"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="visaTypes">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Viza növü
-                      </FormLabel>
-                      <Select
-                        onChange={onChange}
-                        value={value}
-                        options={VisaTypes}
-                        placeholder={
-                          <div className="custom-select-placeholder">
-                            Viza növü
-                          </div>
-                        }
-                        isClearable
-                      />
-                    </FormControl>
-                  )}
+        <Collapse in={isOpenFilter} animateOpacity>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Box>
+              <Grid templateColumns="repeat(3, 1fr)" py={1} gap={1}>
+                <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="visaTypes"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="visaTypes">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Viza növü
+                        </FormLabel>
+                        <Select
+                          onChange={onChange}
+                          value={value}
+                          menuPortalTarget={document.body}
+                          options={VisaTypes}
+                          placeholder={
+                            <div className="custom-select-placeholder">
+                              Viza növü
+                            </div>
+                          }
+                          isClearable
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem>
+                {/* <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="visaLevels"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="visaLevels">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Müraciətin statusu
+                        </FormLabel>
+                        <Select
+                          className="chakra-select"
+                          onChange={onChange}
+                          value={value}
+                          options={VisaLevels}
+                          placeholder={
+                            <div className="custom-select-placeholder">
+                              Müraciətin statusu
+                            </div>
+                          }
+                          isClearable
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem> */}
+                <GridItem width={'80%'}>
+                  <Controller
+                    control={control}
+                    name="applicantName"
+                    rules={{ required: false }}
+                    render={({ field: { onChange, value } }) => (
+                      <FormControl id="applicantName">
+                        <FormLabel fontSize="sm" mb={1}>
+                          Müraciət edən şəxs
+                        </FormLabel>
+                        <Input
+                          onChange={onChange}
+                          value={value}
+                          placeholder={'Müraciət edən şəxs'}
+                        />
+                      </FormControl>
+                    )}
+                  />
+                </GridItem>
+              </Grid>
+              <Flex mt={2} justify="flex-end">
+                <IconButton
+                  variant="outline"
+                  onClick={resetForm}
+                  aria-label="Show password"
+                  colorScheme="blue"
+                  icon={<BiReset size={22} />}
                 />
-              </GridItem>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="visaLevels"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="visaLevels">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Müraciətin statusu
-                      </FormLabel>
-                      <Select
-                        className="chakra-select"
-                        onChange={onChange}
-                        value={value}
-                        options={visaLevels}
-                        placeholder={
-                          <div className="custom-select-placeholder">
-                            Müraciətin statusu
-                          </div>
-                        }
-                        isClearable
-                      />
-                    </FormControl>
-                  )}
-                />
-              </GridItem>
-              <GridItem width={'80%'}>
-                <Controller
-                  control={control}
-                  name="applicantName"
-                  rules={{ required: false }}
-                  render={({ field: { onChange, value } }) => (
-                    <FormControl id="applicantName">
-                      <FormLabel fontSize="sm" mb={1}>
-                        Müraciət edən şəxs
-                      </FormLabel>
-                      <Input
-                        onChange={onChange}
-                        value={value}
-                        placeholder={'Müraciət edən şəxs'}
-                      />
-                    </FormControl>
-                  )}
-                />
-              </GridItem>
-            </Grid>
-            <Flex mt={2} justify="flex-end">
-              <IconButton
-                variant="outline"
-                onClick={resetForm}
-                aria-label="Show password"
-                icon={<BiReset size={22} />}
-              />
-              <Button type="submit" ml={2} variant="solid">
-                Axtar
-              </Button>
-            </Flex>
-          </Box>
-        </form>
+                <Button type="submit" ml={2} variant="solid">
+                  Axtar
+                </Button>
+              </Flex>
+            </Box>
+          </form>
+        </Collapse>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={3} fontWeight="medium">
@@ -368,7 +350,6 @@ function VisaAdmin() {
                     <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
                     <Th textTransform="initial">PASSPORTUN NÖVÜ</Th>
                     <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
-                    <Th textTransform="initial">OPERATOR</Th>
                     <Th />
                   </Tr>
                 </Thead>
@@ -386,11 +367,8 @@ function VisaAdmin() {
                         <Td>{z?.departureDate || '-'}</Td>
                         <Td>{z?.returnDate || '-'}</Td>
                         <Td>{z?.travelDocumentType || '-'}</Td>
-                        <Td>{z?.visaLevelText || '-'}</Td>
                         <Td>
-                          {z?.operator
-                            ? `${z?.operator?.firstname} ${z?.operator?.lastname}`
-                            : 'Operator yoxdur'}
+                          {getEnumLabel(visaLevels || [], z?.visaLevel) || '-'}
                         </Td>
                         <Td textAlign="right">
                           <Menu>
@@ -401,6 +379,36 @@ function VisaAdmin() {
                               variant="outline"
                             />
                             <MenuList>
+                              {z?.visaLevel === 2 && (
+                                <>
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      askModal.onOpen();
+                                    }}
+                                  >
+                                    Sənəd tələb et
+                                  </MenuItem>
+                                  <MenuItem
+                                    onClick={() => {
+                                      setSelectedItem(z);
+                                      makeAppointmentModal.onOpen();
+                                    }}
+                                  >
+                                    Randevu təyin et
+                                  </MenuItem>
+                                </>
+                              )}
+                              {z?.visaLevel === 4 && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    reviewModal.onOpen();
+                                  }}
+                                >
+                                  Sənədlərə bax və geri dönüş et
+                                </MenuItem>
+                              )}
                               <MenuItem
                                 onClick={() => {
                                   setSelectedItem(z);
@@ -417,6 +425,14 @@ function VisaAdmin() {
                                 >
                                   Təsdiqlə
                                 </MenuItem> */}
+                              <MenuItem
+                                onClick={() => {
+                                  setSelectedItem(z);
+                                  deleteModal.onOpen();
+                                }}
+                              >
+                                Ləğv et
+                              </MenuItem>
                             </MenuList>
                           </Menu>
                         </Td>
@@ -497,6 +513,21 @@ function VisaAdmin() {
       </Modal>
       <Modal
         scrollBehavior="inside"
+        isOpen={makeAppointmentModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={makeAppointmentModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaMakeAppointmentModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={makeAppointmentModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
         isOpen={viewModal.isOpen}
         size="6xl"
         isCentered
@@ -526,4 +557,4 @@ function VisaAdmin() {
   );
 }
 
-export default VisaAdmin;
+export default Visa;

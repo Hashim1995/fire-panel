@@ -67,6 +67,7 @@ export interface IVisaApplicationItem {
     departureDate: string;
     returnDate: string;
     visaLevel: number;
+    visaLevelText: string;
     visaStatus: number;
     isDone: boolean;
     country: IIdTitleObj;

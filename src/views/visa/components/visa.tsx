@@ -54,6 +54,7 @@ import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import VisaMakeAppointmentModal from '@/views/visa/modals/visa-make-appointment';
+import VisaAddExpenseModal from '@/views/visa/modals/visa-add-expense';
 import {
   IGetVisaLevelsResposne,
   IVisaApplicationItem,
@@ -93,6 +94,7 @@ function Visa() {
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
   const makeAppointmentModal = useDisclosure();
+  const addExpenseModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaLevels = async () => {
@@ -504,6 +506,16 @@ function Visa() {
                               >
                                 Ümumumi məlumata baxış
                               </MenuItem>
+                              {z?.canEnterExpense && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    addExpenseModal.onOpen();
+                                  }}
+                                >
+                                  Xərc əlavə et
+                                </MenuItem>
+                              )}
                               {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -610,6 +622,21 @@ function Visa() {
         <VisaMakeAppointmentModal
           setRefreshComponent={setRefreshComponent}
           onClose={makeAppointmentModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={addExpenseModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={addExpenseModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaAddExpenseModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={addExpenseModal.onClose}
           selectedId={selectedItem!}
         />
       </Modal>

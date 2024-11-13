@@ -49,6 +49,7 @@ import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import { IGetVisaLevelsResposne, IVisaLevels } from '@/views/visa/models';
+import VisaAddExpenseModal from '@/views/visa/modals/visa-add-expense';
 import {
   IVisaApplicationItem,
   IVisaApplicationListResponse,
@@ -79,6 +80,7 @@ function VisaAdmin() {
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
+  const addExpenseModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaList = async () => {
@@ -409,6 +411,16 @@ function VisaAdmin() {
                               >
                                 Ümumumi məlumata baxış
                               </MenuItem>
+                              {z?.canEnterExpense && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    addExpenseModal.onOpen();
+                                  }}
+                                >
+                                  Xərc əlavə et
+                                </MenuItem>
+                              )}
                               {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -504,6 +516,21 @@ function VisaAdmin() {
       >
         <ModalOverlay />
         <VisaViewModal onClose={viewModal.onClose} selectedId={selectedItem!} />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={addExpenseModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={addExpenseModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaAddExpenseModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={addExpenseModal.onClose}
+          selectedId={selectedItem!}
+        />
       </Modal>
       <Modal
         scrollBehavior="inside"

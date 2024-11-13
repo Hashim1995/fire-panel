@@ -85,8 +85,6 @@ export class VisaServices {
         return res;
     }
 
-
-
     public async takeDocument(onError?: ErrorCallBack): Promise<IGlobalResponse> {
         const res = await HttpUtil.put('/admin/visa/appointment/take', null, onError);
         return res;
@@ -97,5 +95,9 @@ export class VisaServices {
         return res;
     }
 
+    public async addExpense(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/appointment/expense', body, onError);
+        return res;
+    }
 
 }

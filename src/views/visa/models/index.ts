@@ -70,6 +70,7 @@ export interface IVisaApplicationItem {
     visaLevelText: string;
     visaStatus: number;
     isDone: boolean;
+    canEnterExpense: boolean;
     country: IIdTitleObj;
     operator: IOperator;
     extraOptions: IVisaExtraOption[] | null,

@@ -1,5 +1,18 @@
 import { IGlobalResponse } from "@/models/common"
 
+export interface ICountryItem {
+    id: number,
+    title: string,
+    createdAt: string,
+    createdBy: string,
+    updatedAt: string | null,
+    description: string,
+    language: any,
+    isActive: true,
+    coverUrl: any,
+    flagUrl: any,
+}
+
 export interface IIdTitleObj {
     id: number;
     title: string;
@@ -71,6 +84,7 @@ export interface IVisaApplicationItem {
     visaStatus: number;
     isDone: boolean;
     country: IIdTitleObj;
+    canEnterExpense: boolean;
     extraOptions: IVisaExtraOption[] | null,
     operator: IOperator;
     customer: {

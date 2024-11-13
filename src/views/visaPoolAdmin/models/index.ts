@@ -72,7 +72,6 @@ export interface IVisaApplicationItem {
     isDone: boolean;
     country: IIdTitleObj;
     operator: IOperator;
-    canEnterExpense: boolean;
     extraOptions: IVisaExtraOption[] | null,
     customer: {
         firstname: string,

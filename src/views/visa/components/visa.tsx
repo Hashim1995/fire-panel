@@ -55,6 +55,7 @@ import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import VisaMakeAppointmentModal from '@/views/visa/modals/visa-make-appointment';
 import VisaAddExpenseModal from '@/views/visa/modals/visa-add-expense';
+import VisaRefundModal from '@/views/visa/modals/visa-refund';
 import {
   IGetVisaLevelsResposne,
   IVisaApplicationItem,
@@ -95,6 +96,7 @@ function Visa() {
   const viewModal = useDisclosure();
   const makeAppointmentModal = useDisclosure();
   const addExpenseModal = useDisclosure();
+  const refundModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaLevels = async () => {
@@ -516,6 +518,16 @@ function Visa() {
                                   Xərc əlavə et
                                 </MenuItem>
                               )}
+                              {z?.canRefund && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    refundModal.onOpen();
+                                  }}
+                                >
+                                  Ödənişi geri qaytar
+                                </MenuItem>
+                              )}
                               {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -637,6 +649,21 @@ function Visa() {
         <VisaAddExpenseModal
           setRefreshComponent={setRefreshComponent}
           onClose={addExpenseModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={refundModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={refundModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaRefundModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={refundModal.onClose}
           selectedId={selectedItem!}
         />
       </Modal>

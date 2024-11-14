@@ -56,8 +56,10 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
         {selectedId ? (
           <>
             <SimpleGrid columns={3} spacing={1} py={2}>
-            <Box borderRadius={'base'} p={2}>
-            <Text fontSize="md" fontWeight="semibold" color="gray.600">Viza kateqoriyası</Text>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Viza kateqoriyası
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -67,7 +69,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Giriş ediləcək ölkə</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Giriş ediləcək ölkə
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -78,7 +82,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Gediləcək ölkə</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Gediləcək ölkə
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -88,7 +94,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Gediş tarixi</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Gediş tarixi
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -98,7 +106,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Geri dönüş tarixi</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Geri dönüş tarixi
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -108,7 +118,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Müraciətin statusu</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Müraciətin statusu
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -119,7 +131,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
 
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Müraciət edən şəxs</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Müraciət edən şəxs
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -131,7 +145,9 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
             </SimpleGrid>
             <SimpleGrid columns={3} spacing={1} py={2}>
               <Box borderRadius={'base'} p={2}>
-                <Text fontSize="md" fontWeight="semibold" color="gray.600">Elektron poçt ünvanı</Text>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Elektron poçt ünvanı
+                </Text>
               </Box>
               <Box borderRadius={'base'} textAlign="start" p={2}>
                 <Text fontSize="md" fontWeight="medium" color="gray.800">
@@ -139,10 +155,40 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                 </Text>
               </Box>
             </SimpleGrid>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Müştəri tərəfindən ödənilən
+                </Text>
+              </Box>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
+                  {selectedId?.totalAmount
+                    ? `${selectedId?.totalAmount} AZN`
+                    : 'Ödəniş olunmayıb'}
+                </Text>
+              </Box>
+            </SimpleGrid>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Geri qaytarılmış məbləğ
+                </Text>
+              </Box>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
+                  {selectedId?.refundAmount
+                    ? `${selectedId?.refundAmount} AZN`
+                    : 'Ödəniş olunmayıb'}
+                </Text>
+              </Box>
+            </SimpleGrid>
             {selectedId?.extraOptions?.length ? (
               <SimpleGrid columns={3} spacing={1} py={2}>
                 <Box borderRadius={'base'} p={2}>
-                  <Text fontSize="md" fontWeight="semibold" color="gray.600">Əlavə xidmətlər</Text>
+                  <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                    Əlavə xidmətlər
+                  </Text>
                 </Box>
                 <Box borderRadius={'base'} textAlign="start" p={2}>
                   <Wrap>

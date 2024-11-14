@@ -72,7 +72,10 @@ export interface IVisaApplicationItem {
     isDone: boolean;
     canEnterExpense: boolean;
     country: IIdTitleObj;
+    totalAmount: number;
+    refundAmount: number;
     operator: IOperator;
+    canRefund: boolean;
     extraOptions: IVisaExtraOption[] | null,
     customer: {
         firstname: string,

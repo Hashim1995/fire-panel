@@ -100,4 +100,10 @@ export class VisaServices {
         return res;
     }
 
+
+    public async refund(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/appointment/refund', body, onError);
+        return res;
+    }
+
 }

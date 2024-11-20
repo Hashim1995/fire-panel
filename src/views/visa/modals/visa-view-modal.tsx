@@ -318,6 +318,28 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                   />
                 )}
               </Box>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Xərc
+                </Text>
+              </Box>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
+                  {selectedId?.expense ? `${selectedId?.expense} AZN` : noText}
+                </Text>
+              </Box>
+              <Box borderRadius={'base'} p={2} textAlign="end">
+                {selectedId?.expense && (
+                  <IconButton
+                    aria-label="Copy expense"
+                    icon={<FaCopy />}
+                    size="sm"
+                    variant="ghost"
+                    colorScheme="blue"
+                    onClick={() => copyToClipboard(String(selectedId?.expense))}
+                  />
+                )}
+              </Box>
             </SimpleGrid>
             {selectedId?.extraOptions?.length ? (
               <SimpleGrid columns={3} spacing={1} py={2}>

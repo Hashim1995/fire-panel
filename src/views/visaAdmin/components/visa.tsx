@@ -136,10 +136,56 @@ function VisaAdmin() {
     }
   };
 
+  const approveDocument = async (id:number) => {
+    setLoading(true);
+    try {
+      const res = await VisaServices.getInstance().approve(id);
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+        setRefreshComponent(!refreshComponent);
+      }
+    } catch (error: unknown) {
+      setLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    fetchVisaLevels();
     fetchVisaList();
   }, [page, refreshComponent]);
+
+  useEffect(() => {
+    fetchVisaLevels();
+  }, []);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -421,6 +467,15 @@ function VisaAdmin() {
                                   }}
                                 >
                                   Xərc əlavə et
+                                </MenuItem>
+                              )}
+                              {z?.canConfirm && (
+                                <MenuItem
+                                  onClick={() => {
+                                    approveDocument(z?.id)
+                                  }}
+                                >
+                                  Təsdiqlə
                                 </MenuItem>
                               )}
                               {z?.canRefund && (

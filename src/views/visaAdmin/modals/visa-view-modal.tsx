@@ -183,6 +183,20 @@ function VisaViewModal({ onClose, selectedId }: IVisaViewModal) {
                 </Text>
               </Box>
             </SimpleGrid>
+            <SimpleGrid columns={3} spacing={1} py={2}>
+              <Box borderRadius={'base'} p={2}>
+                <Text fontSize="md" fontWeight="semibold" color="gray.600">
+                  Xərc
+                </Text>
+              </Box>
+              <Box borderRadius={'base'} textAlign="start" p={2}>
+                <Text fontSize="md" fontWeight="medium" color="gray.800">
+                  {selectedId?.expense
+                    ? `${selectedId?.expense} AZN`
+                    : 'Xərc daxil olunmayıb'}
+                </Text>
+              </Box>
+            </SimpleGrid>
             {selectedId?.extraOptions?.length ? (
               <SimpleGrid columns={3} spacing={1} py={2}>
                 <Box borderRadius={'base'} p={2}>

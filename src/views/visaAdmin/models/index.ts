@@ -88,6 +88,8 @@ export interface IVisaApplicationItem {
     totalAmount: number;
     refundAmount: number;
     canRefund: boolean;
+    expense: number;
+    canConfirm: boolean;
     extraOptions: IVisaExtraOption[] | null,
     operator: IOperator;
     customer: {

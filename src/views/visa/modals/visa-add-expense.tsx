@@ -79,7 +79,7 @@ function VisaAddExpenseModal({
     formState: { errors, isValid, isDirty, isSubmitting }
   } = useForm<any>({
     defaultValues: {
-      expenseAmount: null
+      expenseAmount: selectedId?.expense ?? null
     }
   });
 

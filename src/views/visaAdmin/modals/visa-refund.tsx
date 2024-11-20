@@ -139,7 +139,7 @@ function VisaRefundModal({
       <ModalHeader> Ödənişi geri qaytar</ModalHeader>
       <ModalCloseButton />
       <ModalBody>
-        <SimpleGrid columns={3} spacing={1} py={2} alignItems='center'>
+        <SimpleGrid columns={3} spacing={1} py={2} alignItems="center">
           <Box borderRadius={'base'}>
             <Text fontSize="md" fontWeight="semibold" color="gray.600">
               Xərcin məbləği
@@ -147,7 +147,9 @@ function VisaRefundModal({
           </Box>
           <Box borderRadius={'base'} textAlign="start" p={2}>
             <Text fontSize="md" fontWeight="medium" color="gray.800">
-              {selectedId?.totalAmount ? `${selectedId?.totalAmount} AZN` : noText}
+              {selectedId?.totalAmount
+                ? `${selectedId?.totalAmount} AZN`
+                : noText}
             </Text>
           </Box>
         </SimpleGrid>
@@ -179,6 +181,9 @@ function VisaRefundModal({
                     placeholder={'Məbləğ'}
                     type="number"
                   />
+                  <Text fontSize="sm" color="gray.500" mt={1}>
+                    Müştərinin ödədiyi məbləğdən artıq geri qaytarmaq olmaz.
+                  </Text>
                 </FormControl>
               )}
             />

@@ -106,4 +106,9 @@ export class VisaServices {
         return res;
     }
 
+    public async approve(id: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put(`/admin/visa/approve/${id}`, null, onError);
+        return res;
+    }
+
 }

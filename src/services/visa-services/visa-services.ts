@@ -85,13 +85,30 @@ export class VisaServices {
         return res;
     }
 
-
-
     public async takeDocument(onError?: ErrorCallBack): Promise<IGlobalResponse> {
         const res = await HttpUtil.put('/admin/visa/appointment/take', null, onError);
         return res;
     }
 
+    public async makeAppointment(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/reservation', null, onError, body);
+        return res;
+    }
 
+    public async addExpense(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/appointment/expense', body, onError);
+        return res;
+    }
+
+
+    public async refund(body: any, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put('/admin/visa/appointment/refund', body, onError);
+        return res;
+    }
+
+    public async approve(id: number, onError?: ErrorCallBack): Promise<IGlobalResponse> {
+        const res = await HttpUtil.put(`/admin/visa/approve/${id}`, null, onError);
+        return res;
+    }
 
 }

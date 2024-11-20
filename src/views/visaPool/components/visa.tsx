@@ -36,9 +36,6 @@ import {
   MenuItem,
   MenuList,
   Input,
-  TabList,
-  Tabs,
-  Tab,
   Collapse
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
@@ -54,8 +51,6 @@ import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
 import VisaMakeAppointmentModal from '@/views/visa/modals/visa-make-appointment';
-import VisaAddExpenseModal from '@/views/visa/modals/visa-add-expense';
-import VisaRefundModal from '@/views/visa/modals/visa-refund';
 import {
   IGetVisaLevelsResposne,
   IVisaApplicationItem,
@@ -69,9 +64,8 @@ import { getEnumLabel, VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
-function Visa() {
+function VisaPool() {
   const [page, setCurrentPage] = useState<number>(1);
-  const [takeDocumentLoading, setTakeDocumentLoading] = useState(false);
   const [isOpenFilter, setIsOpeFilter] = useState(false);
 
   const toggleCollapse = () => {
@@ -87,7 +81,6 @@ function Visa() {
   const [selectedItem, setSelectedItem] = useState<IVisaApplicationItem>();
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
-  const [selectedTab, setSelectedTab] = useState<number>(0);
   const [visaLevels, setVisaLevels] = useState<IVisaLevels[]>();
 
   const askModal = useDisclosure();
@@ -95,8 +88,6 @@ function Visa() {
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
   const makeAppointmentModal = useDisclosure();
-  const addExpenseModal = useDisclosure();
-  const refundModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaLevels = async () => {
@@ -118,7 +109,7 @@ function Visa() {
       await VisaServices.getInstance().get([
         ...queryParams,
         { name: 'page', value: page },
-        { name: 'visaLevels', value: selectedTab + 1 }
+        { name: 'visaLevels', value: 11}
       ]);
     setVisaData(res?.data);
 
@@ -154,11 +145,8 @@ function Visa() {
 
   useEffect(() => {
     fetchVisaList();
-  }, [page, refreshComponent, queryParams, selectedTab]);
-
-  useEffect(() => {
     fetchVisaLevels();
-  }, [refreshComponent]);
+  }, [page, refreshComponent, queryParams]);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -207,93 +195,6 @@ function Visa() {
     }
   };
 
-  const takeDocument = async () => {
-    setTakeDocumentLoading(true);
-    try {
-      const res = await VisaServices.getInstance().takeDocument();
-      if (res.succeeded) {
-        toast({
-          title: 'Əməliyyat uğurla icra olundu',
-          status: 'success',
-          position: 'top-right',
-          duration: 3000,
-          isClosable: true
-        });
-        setSelectedTab(1); // for activate Icrada
-        setRefreshComponent(!refreshComponent);
-      }
-    } catch (error: unknown) {
-      setTakeDocumentLoading(false);
-      if (error instanceof AxiosError) {
-        if (error?.response?.data?.messages?.length) {
-          error.response.data.messages?.map((z: string) =>
-            toast({
-              title: 'Xəta baş verdi',
-              description: z,
-              status: 'error',
-              position: 'top-right',
-              duration: 3000,
-              isClosable: true
-            })
-          );
-        } else {
-          toast({
-            title: 'Xəta baş verdi',
-
-            status: 'error',
-            position: 'top-right',
-            duration: 3000,
-            isClosable: true
-          });
-        }
-      }
-    }
-    setTakeDocumentLoading(false);
-  };
-
-  const approveDocument = async (id:number) => {
-    setLoading(true);
-    try {
-      const res = await VisaServices.getInstance().approve(id);
-      if (res.succeeded) {
-        toast({
-          title: 'Əməliyyat uğurla icra olundu',
-          status: 'success',
-          position: 'top-right',
-          duration: 3000,
-          isClosable: true
-        });
-        setRefreshComponent(!refreshComponent);
-      }
-    } catch (error: unknown) {
-      setLoading(false);
-      if (error instanceof AxiosError) {
-        if (error?.response?.data?.messages?.length) {
-          error.response.data.messages?.map((z: string) =>
-            toast({
-              title: 'Xəta baş verdi',
-              description: z,
-              status: 'error',
-              position: 'top-right',
-              duration: 3000,
-              isClosable: true
-            })
-          );
-        } else {
-          toast({
-            title: 'Xəta baş verdi',
-
-            status: 'error',
-            position: 'top-right',
-            duration: 3000,
-            isClosable: true
-          });
-        }
-      }
-    }
-    setLoading(false);
-  };
-
   return (
     <>
       <Box
@@ -314,14 +215,10 @@ function Visa() {
 
               <BreadcrumbSeparator />
               <BreadcrumbLink isCurrentPage href="/visa">
-                Viza Müraciətləri
+                Hovuz
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-
-          <Button isLoading={takeDocumentLoading} onClick={takeDocument}>
-            Sənəd götür
-          </Button>
         </Flex>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
@@ -437,40 +334,6 @@ function Visa() {
         </Collapse>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
-        <Tabs
-          variant="soft-rounded"
-          colorScheme="blue"
-          index={selectedTab}
-          onChange={index => {
-            setSelectedTab(index);
-          }}
-        >
-          {visaLevels ? (
-            <TabList flexWrap="wrap">
-              {visaLevels.map(level => (
-                <Tab
-                  minW={150}
-                  key={level.value}
-                >{`${level.label} (${level?.count})`}</Tab>
-              ))}
-            </TabList>
-          ) : (
-            <TabList flexWrap="wrap" gap={8}>
-              {Array(11)
-                .fill('')
-                .map(() => (
-                  <Skeleton
-                    key={Math.random().toString(16).slice(2)}
-                    height="40px"
-                    width="150px"
-                    borderRadius="3xl"
-                  />
-                ))}
-            </TabList>
-          )}
-        </Tabs>
-      </Box>
-      <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
         <Heading size="xs" mb={3} fontWeight="medium">
           CƏDVƏL ({visaData?.totalDataCount || noText})
         </Heading>
@@ -554,35 +417,6 @@ function Visa() {
                               >
                                 Ümumumi məlumata baxış
                               </MenuItem>
-                              {z?.canEnterExpense && (
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    addExpenseModal.onOpen();
-                                  }}
-                                >
-                                  Xərc əlavə et
-                                </MenuItem>
-                              )}
-                                       {z?.canConfirm && (
-                                <MenuItem
-                                  onClick={() => {
-                                    approveDocument(z?.id)
-                                  }}
-                                >
-                                  Təsdiqlə
-                                </MenuItem>
-                              )}
-                              {z?.canRefund && (
-                                <MenuItem
-                                  onClick={() => {
-                                    setSelectedItem(z);
-                                    refundModal.onOpen();
-                                  }}
-                                >
-                                  Ödənişi geri qaytar
-                                </MenuItem>
-                              )}
                               {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -694,36 +528,6 @@ function Visa() {
       </Modal>
       <Modal
         scrollBehavior="inside"
-        isOpen={addExpenseModal.isOpen}
-        size="xl"
-        variant="big"
-        isCentered
-        onClose={addExpenseModal.onClose}
-      >
-        <ModalOverlay />
-        <VisaAddExpenseModal
-          setRefreshComponent={setRefreshComponent}
-          onClose={addExpenseModal.onClose}
-          selectedId={selectedItem!}
-        />
-      </Modal>
-      <Modal
-        scrollBehavior="inside"
-        isOpen={refundModal.isOpen}
-        size="xl"
-        variant="big"
-        isCentered
-        onClose={refundModal.onClose}
-      >
-        <ModalOverlay />
-        <VisaRefundModal
-          setRefreshComponent={setRefreshComponent}
-          onClose={refundModal.onClose}
-          selectedId={selectedItem!}
-        />
-      </Modal>
-      <Modal
-        scrollBehavior="inside"
         isOpen={viewModal.isOpen}
         size="6xl"
         isCentered
@@ -753,4 +557,4 @@ function Visa() {
   );
 }
 
-export default Visa;
+export default VisaPool;

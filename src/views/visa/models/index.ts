@@ -67,10 +67,17 @@ export interface IVisaApplicationItem {
     departureDate: string;
     returnDate: string;
     visaLevel: number;
+    visaLevelText: string;
+    expense: number;
     visaStatus: number;
     isDone: boolean;
+    canEnterExpense: boolean;
     country: IIdTitleObj;
+    totalAmount: number;
+    refundAmount: number;
     operator: IOperator;
+    canRefund: boolean;
+    canConfirm: boolean;
     extraOptions: IVisaExtraOption[] | null,
     customer: {
         firstname: string,

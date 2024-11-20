@@ -48,6 +48,9 @@ import DeleteModal from '@/components/display/delete-modal/delete-modal';
 import { AxiosError } from 'axios';
 import { noText } from '@/utils/constants/texts';
 import { VisaServices } from '@/services/visa-services/visa-services';
+import { IGetVisaLevelsResposne, IVisaLevels } from '@/views/visa/models';
+import VisaAddExpenseModal from '@/views/visa/modals/visa-add-expense';
+import VisaRefundModal from '@/views/visaAdmin/modals/visa-refund';
 import {
   IVisaApplicationItem,
   IVisaApplicationListResponse,
@@ -55,7 +58,7 @@ import {
 } from '../models';
 
 import VisaViewModal from '../modals/visa-view-modal';
-import { getEnumLabel, VisaLevels, VisaTypes } from '../options';
+import { VisaTypes } from '../options';
 import VisaAskModal from '../modals/visa-ask-modal';
 import VisaReviewModal from '../modals/visa-review-modal';
 
@@ -71,11 +74,15 @@ function VisaAdmin() {
   const [selectedItem, setSelectedItem] = useState<IVisaApplicationItem>();
   const [deleteModalButtonLoading, setDeleteModalButtonLoading] =
     useState<boolean>(false);
+  const [visaLevels, setVisaLevels] = useState<IVisaLevels[]>();
+  const [takeDocumentLoading, setTakeDocumentLoading] = useState(false);
 
   const askModal = useDisclosure();
   const reviewModal = useDisclosure();
   const deleteModal = useDisclosure();
   const viewModal = useDisclosure();
+  const addExpenseModal = useDisclosure();
+  const refundModal = useDisclosure();
   const toast = useToast();
 
   const fetchVisaList = async () => {
@@ -117,9 +124,68 @@ function VisaAdmin() {
     setRefreshComponent(r => !r);
   };
 
+  const fetchVisaLevels = async () => {
+    try {
+      const res: IGetVisaLevelsResposne =
+        await VisaServices?.getInstance().getVisaLevels();
+      if (res?.succeeded) {
+        setVisaLevels(res?.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const approveDocument = async (id:number) => {
+    setLoading(true);
+    try {
+      const res = await VisaServices.getInstance().approve(id);
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+        setRefreshComponent(!refreshComponent);
+      }
+    } catch (error: unknown) {
+      setLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     fetchVisaList();
   }, [page, refreshComponent]);
+
+  useEffect(() => {
+    fetchVisaLevels();
+  }, []);
 
   const deleteItem = async () => {
     setDeleteModalButtonLoading(true);
@@ -168,6 +234,49 @@ function VisaAdmin() {
     }
   };
 
+  const takeDocument = async () => {
+    setTakeDocumentLoading(true);
+    try {
+      const res = await VisaServices.getInstance().takeDocument();
+      if (res.succeeded) {
+        toast({
+          title: 'Əməliyyat uğurla icra olundu',
+          status: 'success',
+          position: 'top-right',
+          duration: 3000,
+          isClosable: true
+        });
+        setRefreshComponent(!refreshComponent);
+      }
+    } catch (error: unknown) {
+      setTakeDocumentLoading(false);
+      if (error instanceof AxiosError) {
+        if (error?.response?.data?.messages?.length) {
+          error.response.data.messages?.map((z: string) =>
+            toast({
+              title: 'Xəta baş verdi',
+              description: z,
+              status: 'error',
+              position: 'top-right',
+              duration: 3000,
+              isClosable: true
+            })
+          );
+        } else {
+          toast({
+            title: 'Xəta baş verdi',
+
+            status: 'error',
+            position: 'top-right',
+            duration: 3000,
+            isClosable: true
+          });
+        }
+      }
+    }
+    setTakeDocumentLoading(false);
+  };
+
   return (
     <>
       <Box
@@ -179,7 +288,7 @@ function VisaAdmin() {
         borderRadius={6}
         transition=".4s ease"
       >
-        <Flex align="center">
+        <Flex justify="space-between" align="center">
           <Breadcrumb>
             <BreadcrumbItem>
               <BreadcrumbLink as={NavLink} to="/home">
@@ -192,6 +301,10 @@ function VisaAdmin() {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
+
+          <Button isLoading={takeDocumentLoading} onClick={takeDocument}>
+            Sənəd götür
+          </Button>
         </Flex>
       </Box>
       <Box mt={5} shadow="lg" bg="white" borderRadius={6} w="100%" p={4}>
@@ -242,7 +355,7 @@ function VisaAdmin() {
                         className="chakra-select"
                         onChange={onChange}
                         value={value}
-                        options={VisaLevels}
+                        options={visaLevels}
                         placeholder={
                           <div className="custom-select-placeholder">
                             Müraciətin statusu
@@ -305,6 +418,7 @@ function VisaAdmin() {
                     <Th textTransform="initial">GERİ DÖNÜŞ TARİXİ</Th>
                     <Th textTransform="initial">PASSPORTUN NÖVÜ</Th>
                     <Th textTransform="initial">MÜRACİƏTİN STATUSU</Th>
+                    <Th textTransform="initial">OPERATOR</Th>
                     <Th />
                   </Tr>
                 </Thead>
@@ -322,7 +436,12 @@ function VisaAdmin() {
                         <Td>{z?.departureDate || '-'}</Td>
                         <Td>{z?.returnDate || '-'}</Td>
                         <Td>{z?.travelDocumentType || '-'}</Td>
-                        <Td>{getEnumLabel(VisaLevels, z?.visaLevel) || '-'}</Td>
+                        <Td>{z?.visaLevelText || '-'}</Td>
+                        <Td>
+                          {z?.operator
+                            ? `${z?.operator?.firstname} ${z?.operator?.lastname}`
+                            : 'Operator yoxdur'}
+                        </Td>
                         <Td textAlign="right">
                           <Menu>
                             <MenuButton
@@ -340,6 +459,35 @@ function VisaAdmin() {
                               >
                                 Ümumumi məlumata baxış
                               </MenuItem>
+                              {z?.canEnterExpense && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    addExpenseModal.onOpen();
+                                  }}
+                                >
+                                  Xərc əlavə et
+                                </MenuItem>
+                              )}
+                              {z?.canConfirm && (
+                                <MenuItem
+                                  onClick={() => {
+                                    approveDocument(z?.id)
+                                  }}
+                                >
+                                  Təsdiqlə
+                                </MenuItem>
+                              )}
+                              {z?.canRefund && (
+                                <MenuItem
+                                  onClick={() => {
+                                    setSelectedItem(z);
+                                    refundModal.onOpen();
+                                  }}
+                                >
+                                  Ödənişi geri qaytar
+                                </MenuItem>
+                              )}
                               {/* <MenuItem
                                   onClick={() => {
                                     setSelectedItem(z);
@@ -435,6 +583,36 @@ function VisaAdmin() {
       >
         <ModalOverlay />
         <VisaViewModal onClose={viewModal.onClose} selectedId={selectedItem!} />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={addExpenseModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={addExpenseModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaAddExpenseModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={addExpenseModal.onClose}
+          selectedId={selectedItem!}
+        />
+      </Modal>
+      <Modal
+        scrollBehavior="inside"
+        isOpen={refundModal.isOpen}
+        size="xl"
+        variant="big"
+        isCentered
+        onClose={refundModal.onClose}
+      >
+        <ModalOverlay />
+        <VisaRefundModal
+          setRefreshComponent={setRefreshComponent}
+          onClose={refundModal.onClose}
+          selectedId={selectedItem!}
+        />
       </Modal>
       <Modal
         scrollBehavior="inside"

@@ -1,18 +1,5 @@
 import { IGlobalResponse } from "@/models/common"
 
-export interface ICountryItem {
-    id: number,
-    title: string,
-    createdAt: string,
-    createdBy: string,
-    updatedAt: string | null,
-    description: string,
-    language: any,
-    isActive: true,
-    coverUrl: any,
-    flagUrl: any,
-}
-
 export interface IIdTitleObj {
     id: number;
     title: string;
@@ -40,10 +27,7 @@ export interface IEuropeanFamilyMember {
     lastname: string;
     passportUri: string;
 }
-export interface IVisaExtraOption {
-    title: string;
-    id: number;
-}
+
 export interface IVisaApplicant {
     id: number;
     firstname: string;
@@ -70,7 +54,10 @@ export interface IVisaApplicant {
         isConfirmed?: boolean
     }[];
 }
-
+export interface IVisaExtraOption {
+    title: string;
+    id: number;
+}
 export interface IVisaApplicationItem {
     id: number;
     visaCategory: number;
@@ -84,14 +71,8 @@ export interface IVisaApplicationItem {
     visaStatus: number;
     isDone: boolean;
     country: IIdTitleObj;
-    canEnterExpense: boolean;
-    totalAmount: number;
-    refundAmount: number;
-    canRefund: boolean;
-    expense: number;
-    canConfirm: boolean;
-    extraOptions: IVisaExtraOption[] | null,
     operator: IOperator;
+    extraOptions: IVisaExtraOption[] | null,
     customer: {
         firstname: string,
         lastname: string,
@@ -131,6 +112,17 @@ export interface IVisaFilter {
     visaTypes: any
     visaLevels: any
 }
+
+export interface IVisaLevels {
+   count: number;
+   label: string;
+   value : number;
+}
+
+export interface IGetVisaLevelsResposne extends IGlobalResponse {
+  data : IVisaLevels[];
+ }
+ 
 
 
 
